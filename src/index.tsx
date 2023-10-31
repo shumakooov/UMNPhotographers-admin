@@ -7,7 +7,6 @@ import {
     createBrowserRouter,
     RouterProvider,
 } from "react-router-dom";
-import Root from "./routes/root";
 import ErrorPage from "./pages/errorPage/error-page.jsx";
 import LoginPage from "./pages/loginPage/login-page.jsx";
 import ChangePassPage from "./pages/changePassPage/change-pass-page";
@@ -27,7 +26,7 @@ import EventProfilePage from "./pages/events/eventProfilePage/event-profile-page
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <Root />,
+        element: <App />,
         errorElement: <ErrorPage />,
         children: [
             {
