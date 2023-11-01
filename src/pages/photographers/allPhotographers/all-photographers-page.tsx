@@ -10,7 +10,8 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import Snackbar from '@mui/material/Snackbar';
 import Button from '@mui/material/Button';
-import {useSearchParams} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
+import {useEffect, useState} from "react";
 
 interface Photographer {
     id: number;
@@ -21,7 +22,7 @@ interface Photographer {
     vkontakte: string;
     mail: string;
     technic: string;
-    intern: string;
+    intern: boolean;
     statusPhoto: string;
     statusUser: string;
     lvl: number;
@@ -29,7 +30,7 @@ interface Photographer {
 
 const columns: GridColDef[] = [
     {field: 'id', headerName: 'ID', width: 30},
-    {field: 'lastName', headerName: 'Фамилия', width: 150, editable: true},
+    {field: 'lastName', headerName: 'Фамилия', width: 150},
     {field: 'firstName', headerName: 'Имя', width: 110, editable: true},
     {field: 'contact', headerName: 'Номер телефона', width: 110,},
     {field: 'telegram', headerName: 'ВКонтакте', width: 110,},
@@ -52,7 +53,7 @@ const rows: GridRowsProp = [
         vkontakte: 'asdasasdda',
         mail: 'zhopa@yandex.ru',
         technic: 'link',
-        intern: 'Да',
+        intern: true,
         statusPhoto: 'Норм чел',
         statusUser: 'Активный',
         lvl: '70'
@@ -66,7 +67,7 @@ const rows: GridRowsProp = [
         vkontakte: 'asdasasdda',
         mail: 'zhopa@yandex.ru',
         technic: 'link',
-        intern: 'Да',
+        intern: true,
         statusPhoto: 'Норм чел',
         statusUser: 'Активный',
         lvl: '70'
@@ -80,7 +81,7 @@ const rows: GridRowsProp = [
         vkontakte: 'asdasasdda',
         mail: 'zhopa@yandex.ru',
         technic: 'link',
-        intern: 'Да',
+        intern: true,
         statusPhoto: 'Норм чел',
         statusUser: 'Активный',
         lvl: '70'
@@ -94,7 +95,7 @@ const rows: GridRowsProp = [
         vkontakte: 'asdasasdda',
         mail: 'zhopa@yandex.ru',
         technic: 'link',
-        intern: 'Да',
+        intern: true,
         statusPhoto: 'Норм чел',
         statusUser: 'Активный',
         lvl: '70'
@@ -118,9 +119,6 @@ const useFakeMutation = () => {
 };
 
 function computeMutation(newRow: GridRowModel, oldRow: GridRowModel) {
-    if (newRow.lastName !== oldRow.lastName) {
-        return `Last name from '${oldRow.lastName}' to '${newRow.lastName}'`;
-    }
     if (newRow.firstName !== oldRow.firstName) {
         return `First name from '${oldRow.firstName}' to '${newRow.firstName}'`;
     }
@@ -202,9 +200,24 @@ export default function AllPhotographersPage() {
         );
     };
 
+    const navigate = useNavigate();
+    const useHandleRowClick = (params: any) => {
+        console.log(params.id)
+        navigate(`/photographers/${params.id}` )
+    };
+
+    const [photographers, photographersChange] = useState([]);
+
+    useEffect(() => {
+        fetch("http://158.160.32.142:8080/admin/photograpger/all")
+            .then((response) => response.json())
+            .then((value) => {
+                photographersChange(value)
+            });
+    }, [])
+
     return (
         <div>
-            <p>All Photographers page</p>
             <ModalCED name={'Добавить фотографа'}>
                 <Box
                     component="form"
@@ -232,6 +245,7 @@ export default function AllPhotographersPage() {
                           slots={{
                               toolbar: GridToolbar,
                           }}
+                          onRowClick={useHandleRowClick}
                 />
                 {!!snackbar && (
                     <Snackbar open onClose={handleCloseSnackbar} autoHideDuration={6000}>
@@ -239,7 +253,6 @@ export default function AllPhotographersPage() {
                     </Snackbar>
                 )}
             </div>
-            <a href={`/profile-photographer`}>profile photographer</a>
         </div>
     );
 }

@@ -17,7 +17,7 @@ function App() {
                   <a href={`/change-pass`}>change pass</a>
                 </li>
                 <li>
-                  <a href={`/all-photographers`}>all photographers</a>
+                  <a href={`/photographers`}>all photographers</a>
                 </li>
                 <li>
                   <a href={`/profile-photographer`}>profile photographer</a>

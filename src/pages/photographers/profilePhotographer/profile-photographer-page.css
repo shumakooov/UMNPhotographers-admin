@@ -1,3 +1,8 @@
+.wrapper_profile {
+    display: flex;
+    flex-direction: row;
+}
+
 .profile_name {
     display: flex;
     flex-direction: column;

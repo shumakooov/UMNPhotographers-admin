@@ -38,11 +38,11 @@ const router = createBrowserRouter([
                 element: <ChangePassPage />
             },
             {
-                path: "/all-photographers",
+                path: "/photographers",
                 element: <AllPhotographersPage />
             },
             {
-                path: "/profile-photographer",
+                path: "/photographers/:id",
                 element: <ProfilePhotographerPage />
             },
             {
