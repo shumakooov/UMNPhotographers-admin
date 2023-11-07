@@ -1,14 +1,3 @@
 .wrapper_root {
   display: flex;
 }
-
-.main {
-  width: 100%;
-  height: 100vh;
-}
-
-.sideBar {
-  width: 25%;
-  height: 100vh;
-  background-color: #d7d7d7;
-}

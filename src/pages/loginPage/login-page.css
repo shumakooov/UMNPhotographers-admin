@@ -1,4 +1,8 @@
 .wrapper_login {
     font-size: 72px;
     height: 100%;
+    width: 250px;
+    display: flex;
+    flex-direction: column;
+
 }

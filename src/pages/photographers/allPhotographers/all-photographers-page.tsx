@@ -12,6 +12,7 @@ import Snackbar from '@mui/material/Snackbar';
 import Button from '@mui/material/Button';
 import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
+import axios from "axios";
 
 interface Photographer {
     id: number;
@@ -203,17 +204,26 @@ export default function AllPhotographersPage() {
     const navigate = useNavigate();
     const useHandleRowClick = (params: any) => {
         console.log(params.id)
-        navigate(`/photographers/${params.id}` )
+        navigate(`/photographers/${params.id}`)
     };
 
-    const [photographers, photographersChange] = useState([]);
+    const [photographers, setPhotographers] = useState([]);
 
     useEffect(() => {
-        fetch("http://158.160.32.142:8080/admin/photograpger/all")
-            .then((response) => response.json())
-            .then((value) => {
-                photographersChange(value)
-            });
+
+        const getData = async () => {
+
+            try {
+                const res = await fetch("http://158.160.32.142:8080/admin/photographer/all")
+                const {body} = res
+                console.log(body)
+
+            } catch (e) {
+                console.error(e)
+            }
+        }
+
+        getData()
     }, [])
 
     return (
