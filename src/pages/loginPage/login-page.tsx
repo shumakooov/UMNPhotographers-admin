@@ -15,7 +15,7 @@ export default function LoginPage({onLogin}: any) {
 
     const submit = async () => {
         if (login.length > 0 && password.length > 0) {
-            const response = await axios.post('http://158.160.32.142:8080/admin/auth/login', {
+            const response = await axios.post('http://158.160.32.142:8080/api/auth/login', {
                 email: login,
                 password: password
             })
