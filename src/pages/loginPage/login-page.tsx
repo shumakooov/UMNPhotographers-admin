@@ -5,6 +5,7 @@ import './login-page.css'
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
+import {useCookies} from "react-cookie";
 
 export default function LoginPage({onLogin}: any) {
     const [login, setLogin] = useState<string>("");
@@ -27,9 +28,9 @@ export default function LoginPage({onLogin}: any) {
             //     body: JSON.stringify({
             //         email: login,
             //         password: password,
-            //     }),
+            //     })
             // });
-            onLogin(response.data)
+            // onLogin(response.headers["Set-Cookie"])
             if (response.status === 200) {
                 navigate("/")
             }
