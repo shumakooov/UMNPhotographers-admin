@@ -4,26 +4,32 @@ import Button from '@mui/material/Button';
 import './login-page.css'
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
+import axios from "axios";
 
-export default function LoginPage() {
+export default function LoginPage({onLogin}: any) {
     const [login, setLogin] = useState<string>("");
     const [password, setPassword] = useState<string>("");
-
 
     const navigate = useNavigate();
 
     const submit = async () => {
         if (login.length > 0 && password.length > 0) {
-            const response = await fetch("http://158.160.32.142:8080/admin/auth/login", {
-                method: "POST",
-                headers: {
-                    "Content-type": "application/json",
-                },
-                body: JSON.stringify({
-                    email: login,
-                    password: password,
-                }),
-            });
+            const response = await axios.post('http://158.160.32.142:8080/admin/auth/login', {
+                email: login,
+                password: password
+            })
+
+            // const response = await fetch("http://158.160.32.142:8080/admin/auth/login", {
+            //     method: "POST",
+            //     headers: {
+            //         "Content-type": "application/json",
+            //     },
+            //     body: JSON.stringify({
+            //         email: login,
+            //         password: password,
+            //     }),
+            // });
+            onLogin(response.data)
             if (response.status === 200) {
                 navigate("/")
             }
