@@ -214,7 +214,7 @@ export default function AllPhotographersPage() {
         const getData = async () => {
 
             try {
-                const res = await fetch("http://158.160.32.142:8080/admin/photographer/all")
+                const res = await fetch(`${process.env.REACT_APP_API_URL}/admin/photographer/all`)
                 const {body} = res
                 console.log(body)
 

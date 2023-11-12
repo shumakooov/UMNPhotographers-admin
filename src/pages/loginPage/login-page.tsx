@@ -15,12 +15,16 @@ export default function LoginPage({onLogin}: any) {
 
     const submit = async () => {
         if (login.length > 0 && password.length > 0) {
-            const response = await axios.post('http://158.160.32.142:8080/api/auth/login', {
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/admin/auth/login`, {
                 email: login,
                 password: password
-            })
+            }, {withCredentials: true,
+                headers: {
+                    'Access-Control-Allow-Origin' : '*',
+                    'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+                },})
 
-            // const response = await fetch("http://158.160.32.142:8080/admin/auth/login", {
+            // const response = await fetch(`${process.env.REACT_APP_API_URL}/admin/auth/login`, {
             //     method: "POST",
             //     headers: {
             //         "Content-type": "application/json",
@@ -28,7 +32,8 @@ export default function LoginPage({onLogin}: any) {
             //     body: JSON.stringify({
             //         email: login,
             //         password: password,
-            //     })
+            //     }),
+            //     credentials: "include"
             // });
             // onLogin(response.headers["Set-Cookie"])
             if (response.status === 200) {
