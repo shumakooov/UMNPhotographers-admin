@@ -68,7 +68,7 @@ export default function AllPhotographersPage() {
         const getData = async () => {
             try {
                 const photosTemp: Photographer[] = []
-               const result = await axios.get(`${process.env.REACT_APP_API_URL}/admin/photographer/all`, {withCredentials: true})
+               const result = await axios.get(`https://photographersekb.ru:8080/admin/photographer/all`, {withCredentials: true})
                     .then((res) => {
                         console.log(res.data.list);
                         res.data.list.map((e: any) => photosTemp.push({

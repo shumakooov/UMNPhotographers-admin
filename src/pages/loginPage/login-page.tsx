@@ -27,7 +27,7 @@ export default function LoginPage({onLogin}: any) {
 
     const submit = async () => {
         if (login.length > 0 && password.length > 0) {
-            const response = await axios.post(`${process.env.REACT_APP_API_URL}/admin/auth/login`, {
+            const response = await axios.post(`https://photographersekb.ru:8080/admin/auth/login`, {
                 email: login,
                 password: password
             }, {withCredentials: true})
