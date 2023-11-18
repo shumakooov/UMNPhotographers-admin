@@ -6,10 +6,22 @@ import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
 import {useCookies} from "react-cookie";
+import FormControl from '@mui/material/FormControl';
+import {IconButton, InputAdornment, InputLabel, OutlinedInput} from '@mui/material';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 export default function LoginPage({onLogin}: any) {
     const [login, setLogin] = useState<string>("");
     const [password, setPassword] = useState<string>("");
+
+    const [showPassword, setShowPassword] = React.useState(false);
+
+    const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+    const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
+    };
 
     const navigate = useNavigate();
 
@@ -18,24 +30,9 @@ export default function LoginPage({onLogin}: any) {
             const response = await axios.post(`${process.env.REACT_APP_API_URL}/admin/auth/login`, {
                 email: login,
                 password: password
-            }, {withCredentials: true,
-                headers: {
-                    'Access-Control-Allow-Origin' : '*',
-                    'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-                },})
+            }, {withCredentials: true})
 
-            // const response = await fetch(`${process.env.REACT_APP_API_URL}/admin/auth/login`, {
-            //     method: "POST",
-            //     headers: {
-            //         "Content-type": "application/json",
-            //     },
-            //     body: JSON.stringify({
-            //         email: login,
-            //         password: password,
-            //     }),
-            //     credentials: "include"
-            // });
-            // onLogin(response.headers["Set-Cookie"])
+            onLogin(response.data.id)
             if (response.status === 200) {
                 navigate("/")
             }
@@ -50,12 +47,27 @@ export default function LoginPage({onLogin}: any) {
                 label="Логин"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setLogin(e.target.value)}
             />
-            <TextField
-                required
-                id="outlined-required"
-                label="Пароль"
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
-            />
+            <FormControl variant="outlined">
+                <InputLabel htmlFor="outlined-adornment-password">Пароль</InputLabel>
+                <OutlinedInput
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
+                    id="outlined-adornment-password"
+                    type={showPassword ? 'text' : 'password'}
+                    endAdornment={
+                        <InputAdornment position="end">
+                            <IconButton
+                                aria-label="toggle password visibility"
+                                onClick={handleClickShowPassword}
+                                onMouseDown={handleMouseDownPassword}
+                                edge="end"
+                            >
+                                {showPassword ? <VisibilityOff /> : <Visibility />}
+                            </IconButton>
+                        </InputAdornment>
+                    }
+                    label="Password"
+                />
+            </FormControl>
             <Button variant="contained" onClick={() => submit()}>Войти</Button>
         </div>
     );

@@ -21,17 +21,17 @@ import ErrorPage from "./pages/errorPage/error-page";
 import {CookiesProvider, useCookies} from "react-cookie";
 
 function App() {
-    // const [cookies, setCookies] = useCookies(['SESSION']);
-    //
-    // function handleLogin(user: any) {
-    //     setCookies("SESSION", user, {path: '/'})
-    // }
+    const [cookies, setCookies] = useCookies(['SESSION']);
+
+    function handleLogin(user: any) {
+        setCookies("SESSION", user, {path: '/'})
+    }
 
     return (
-        // <CookiesProvider>
+        <CookiesProvider>
             <div className={'wrapper_root'}>
-                {/*{cookies.SESSION ? (*/}
-                {/*    <>*/}
+                {cookies.SESSION ? (
+                    <>
                         <SideBar/>
                         <Routes>
                             <Route path={"*"} element={<ErrorPage/>}/>
@@ -42,6 +42,7 @@ function App() {
                             <Route path={"/photographers/:id"} element={<ProfilePhotographerPage/>}/>
                             <Route path={"/devices"} element={<DevicesPage/>}/>
                             <Route path={"/events"} element={<EventsPage/>}/>
+                            <Route path={"/events/:id"} element={<EventProfilePage/>}/>
                             <Route path={"/event-profile"} element={<EventProfilePage/>}/>
                             <Route path={"/priority-zones"} element={<PriorityZonesPage/>}/>
                             <Route path={"/work-photographers-calendar"} element={<WorkPhotographersCalendarPage/>}/>
@@ -49,12 +50,12 @@ function App() {
                             <Route path={"/photographers-distribution"} element={<PhotographersDistributionPage/>}/>
                             <Route path={"/rate-photographers"} element={<RatePhotographersPage/>}/>
                         </Routes>
-                {/*    </>*/}
-                {/*) : (*/}
-                {/*    <LoginPage onLogin={handleLogin}/>*/}
-                {/*)}*/}
+                    </>
+                ) : (
+                    <LoginPage onLogin={handleLogin}/>
+                )}
             </div>
-        // </CookiesProvider>
+        </CookiesProvider>
     );
 }
 
