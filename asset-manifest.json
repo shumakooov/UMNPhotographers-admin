@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/UMNPhotographers-admin/static/css/main.7782c525.css",
-    "main.js": "/UMNPhotographers-admin/static/js/main.1cd99416.js",
+    "main.js": "/UMNPhotographers-admin/static/js/main.cf3baa99.js",
     "static/js/787.f11294cf.chunk.js": "/UMNPhotographers-admin/static/js/787.f11294cf.chunk.js",
     "index.html": "/UMNPhotographers-admin/index.html",
     "main.7782c525.css.map": "/UMNPhotographers-admin/static/css/main.7782c525.css.map",
-    "main.1cd99416.js.map": "/UMNPhotographers-admin/static/js/main.1cd99416.js.map",
+    "main.cf3baa99.js.map": "/UMNPhotographers-admin/static/js/main.cf3baa99.js.map",
     "787.f11294cf.chunk.js.map": "/UMNPhotographers-admin/static/js/787.f11294cf.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.7782c525.css",
-    "static/js/main.1cd99416.js"
+    "static/js/main.cf3baa99.js"
   ]
 }
