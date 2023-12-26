@@ -1,0 +1,64 @@
+.root {
+    margin-top: 45px;
+}
+
+.wrapperZones {
+    display: flex;
+    flex-direction: row;
+}
+
+.gridWrapper {
+    display: grid;
+    grid-template-rows: repeat(48, 1fr);
+    grid-template-columns: 1fr;
+    width: 50px;
+    margin-top: 50px;
+}
+
+.timeItem {
+    background-color: white;
+}
+
+.zones {
+    background-color: gray;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.timeLine {
+    width: 200px;
+    border: solid rgba(0, 0, 0, 0.32);
+    border-width: 0 1px 0 0;
+    height: 100%;
+}
+
+.line {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.32);
+    height: 1px;
+    right: 0;
+    left: 300px;
+}
+
+.timeNow {
+    position: absolute;
+    height: 2px;
+    background-color: red;
+    z-index: 2;
+    right: 0;
+    left: 300px;
+}
+
+.modal {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    background-color: white;
+    padding: 20px;
+}

@@ -1,0 +1,14 @@
+.wrapper {
+    /*position: fixed;*/
+    /*z-index: 10;*/
+    background-color: dimgray;
+    /*width: 100%;*/
+}
+
+.zone {
+    height: 25px;
+}
+
+.place {
+    height: 25px;
+}

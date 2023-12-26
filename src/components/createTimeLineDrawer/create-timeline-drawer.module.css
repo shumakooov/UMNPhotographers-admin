@@ -1,0 +1,4 @@
+.createTimeLine {
+    display: flex;
+    flex-direction: column;
+}

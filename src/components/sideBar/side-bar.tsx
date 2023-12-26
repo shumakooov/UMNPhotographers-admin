@@ -1,8 +1,13 @@
 import {Link} from "react-router-dom";
 import React from "react";
 import './side-bar.css'
+import axios from "axios";
 
 export default function SideBar() {
+    const handleLogout = () => {
+        axios(`https://photographersekb.ru:8080/admin/auth/logout`, {withCredentials: true}).then(r => console.log(r))
+    }
+
     return (
         <div className='sideBar'>
             <nav>
@@ -42,6 +47,9 @@ export default function SideBar() {
                     </li>
                 </ul>
             </nav>
+            <div>
+                <button onClick={handleLogout}>Выйти</button>
+            </div>
         </div>
     )
 }

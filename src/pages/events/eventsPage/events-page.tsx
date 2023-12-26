@@ -17,18 +17,17 @@ import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Close';
 import EditIcon from '@mui/icons-material/Edit';
 
-const initialRows: GridRowsProp = [
-    {
-        id: 1,
-        eventName: 'мафия',
-        lvl: '7',
-        time: 'с 2 до 8',
-        place: 'общага'
-    },
-];
+interface Event {
+    id: number;
+    address: string | null;
+    startTime: string | null;
+    endTime: string | null;
+    name: string | null;
+    lvl: number | null;
+}
 
 export default function EventsPage() {
-    const [rows, setRows] = React.useState(initialRows);
+    const [events, setEvents] = useState<Event[]>([])
     const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>({});
 
     const handleRowEditStop: GridEventListener<'rowEditStop'> = (params, event) => {
@@ -46,7 +45,7 @@ export default function EventsPage() {
     };
 
     const handleDeleteClick = (id: GridRowId) => () => {
-        setRows(rows.filter((row) => row.id !== id));
+        setEvents(events.filter((row) => row.id !== id));
     };
 
     const handleCancelClick = (id: GridRowId) => () => {
@@ -55,15 +54,12 @@ export default function EventsPage() {
             [id]: {mode: GridRowModes.View, ignoreModifications: true},
         });
 
-        const editedRow = rows.find((row) => row.id === id);
-        if (editedRow!.isNew) {
-            setRows(rows.filter((row) => row.id !== id));
-        }
+        console.log('handle cancel click')
     };
 
     const processRowUpdate = (newRow: GridRowModel) => {
         const updatedRow = {...newRow, isNew: false};
-        setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
+        console.log('process row update')
         return updatedRow;
     };
 
@@ -73,10 +69,11 @@ export default function EventsPage() {
 
     const columns: GridColDef[] = [
         {field: 'id', headerName: 'ID', width: 30},
-        {field: 'eventName', headerName: 'Название мероприятия', width: 170, editable: true},
+        {field: 'name', headerName: 'Название мероприятия', width: 170, editable: true},
         {field: 'lvl', headerName: 'Важность мероприятия', width: 150, editable: true},
-        {field: 'time', headerName: 'Время начала и окончания', width: 200, editable: true},
-        {field: 'place', headerName: 'Место проведения', width: 170, editable: true},
+        {field: 'startTime', headerName: 'Время начала', width: 200, editable: true},
+        {field: 'endTime', headerName: 'Время окончания', width: 200, editable: true},
+        {field: 'address', headerName: 'Место проведения', width: 170, editable: true},
         {
             field: 'actions',
             type: 'actions',
@@ -129,14 +126,23 @@ export default function EventsPage() {
         navigate(`/events/${params.id}`)
     };
 
-    // const [photographers, setPhotographers] = useState([]);
-
     useEffect(() => {
 
         const getData = async () => {
             try {
-                const response = await axios.get(`${process.env.REACT_APP_API_URL}/admin/event/all`, {withCredentials: true})
-                console.log(response.data)
+                const eventsTemp: Event[] = []
+                await axios.get(`${process.env.REACT_APP_API_URL}/admin/event/all`, {withCredentials: true})
+                    .then((res) => {
+                        res.data.list.map((e: any) => eventsTemp.push({
+                            id: e.id,
+                            address: e.address,
+                            startTime: e.startTime,
+                            endTime: e.endTime,
+                            lvl: e.level,
+                            name: e.name
+                        }))
+                    })
+                setEvents(eventsTemp)
             } catch (e) {
                 console.error(e)
             }
@@ -166,7 +172,7 @@ export default function EventsPage() {
             </ModalCED>
 
             <div style={{height: 400, width: '100%'}}>
-                <DataGrid rows={rows}
+                <DataGrid rows={events}
                           columns={columns}
                           onRowClick={useHandleRowClick}
                           editMode="row"
@@ -175,7 +181,7 @@ export default function EventsPage() {
                           onRowEditStop={handleRowEditStop}
                           processRowUpdate={processRowUpdate}
                           slotProps={{
-                              toolbar: {setRows, setRowModesModel},
+                              toolbar: {setEvents, setRowModesModel},
                           }}
                 />
             </div>

@@ -16,6 +16,7 @@ interface Photographer {
     tg: string | null;
     email: string | null;
     technic: string | null;
+    portfolio: string | null;
     trainee: boolean | null;
     status: string | null;
     description: string | null;
@@ -31,33 +32,16 @@ const columns: GridColDef[] = [
     {field: 'tg', headerName: 'Телеграм', width: 110,},
     {field: 'email', headerName: 'Почта (Я. Диск)', width: 180,},
     {field: 'technic', headerName: 'Техника', width: 90,},
+    {field: 'portfolio', headerName: 'Портфолио', width: 100,},
     {field: 'trainee', headerName: 'Практикант', width: 60,},
     {field: 'status', headerName: 'Статус фотографа', width: 150,},
     {field: 'description', headerName: 'Статус пользователя', width: 150,},
     {field: 'score', headerName: 'Уровень', width: 70,},
 ];
 
-const rows = [
-    {
-        id: 1,
-        lastName: 'Шумаков',
-        firstName: 'Глеб',
-        contact: '89999999999',
-        telegram: 'asdasda',
-        vkontakte: 'asdasasdda',
-        mail: 'zhopa@yandex.ru',
-        technic: 'link',
-        intern: true,
-        statusPhoto: 'Норм чел',
-        statusUser: 'Активный',
-        lvl: '70'
-    },
-];
-
 export default function AllPhotographersPage() {
     const navigate = useNavigate();
     const useHandleRowClick = (params: any) => {
-        console.log(params.id)
         navigate(`/photographers/${params.id}`)
     };
 
@@ -70,7 +54,6 @@ export default function AllPhotographersPage() {
                 const photosTemp: Photographer[] = []
                const result = await axios.get(`https://photographersekb.ru:8080/admin/photographer/all`, {withCredentials: true})
                     .then((res) => {
-                        console.log(res.data.list);
                         res.data.list.map((e: any) => photosTemp.push({
                             id: e.id,
                             surname: e.surname,
@@ -79,7 +62,8 @@ export default function AllPhotographersPage() {
                             vk: e.contacts?.vk,
                             tg: e.contacts?.tg,
                             email: e.email,
-                            technic: "none",
+                            technic: e.technique_info_id,
+                            portfolio: e.portfolio,
                             trainee: e.trainee,
                             status: e.status,
                             description: e.description,
