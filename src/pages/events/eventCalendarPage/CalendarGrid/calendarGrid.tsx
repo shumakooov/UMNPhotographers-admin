@@ -135,9 +135,7 @@ export default function CalendarGrid() {
                             const tempActivitiesByLocation = activities.filter((activity) => activity.locationId === location.id)
 
                             return (
-                                <div key={location.id} className={styles.timeLine} onClick={(e) => {
-                                    handleOpenModal(e, location.id)
-                                }}
+                                <div key={location.id} className={styles.timeLine}
                                      // onDrop={dropHandler}
                                      // onDragOver={dragOverHandler}
                                 >
@@ -149,7 +147,8 @@ export default function CalendarGrid() {
                                     <PlaceGrid props={{
                                         locationId: location.id,
                                         startDate: location.startDate,
-                                        tempActivitiesByLocation: tempActivitiesByLocation
+                                        tempActivitiesByLocation: tempActivitiesByLocation,
+                                        handleOpenModal: handleOpenModal
                                     }}/>
                                 </div>
                             )

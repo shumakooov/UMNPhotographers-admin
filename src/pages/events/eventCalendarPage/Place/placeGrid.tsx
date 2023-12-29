@@ -133,6 +133,7 @@ export default function PlaceGrid({props}: any) {
                                      dropHandler(e, index)
                                  }}
                                  onDragOver={dragOverHandler}
+                                 onClick={(e) => props.handleOpenModal(e, props.locationId)}
                             >
                             </div>
                         );
