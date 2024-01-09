@@ -5,13 +5,14 @@ import "./login-page.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useCookies } from "react-cookie";
 import FormControl from "@mui/material/FormControl";
 import {
   IconButton,
   InputAdornment,
   InputLabel,
   OutlinedInput,
+  FormControlLabel,
+  Checkbox,
 } from "@mui/material";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
@@ -51,42 +52,47 @@ export default function LoginPage({ onLogin }: any) {
   };
 
   return (
-    <div className="wrapper_login">
-      LOGIN
-      <TextField
-        required
-        id="outlined-required"
-        label="Логин"
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-          setLogin(e.target.value)
-        }
-      />
-      <FormControl variant="outlined">
-        <InputLabel htmlFor="outlined-adornment-password">Пароль</InputLabel>
-        <OutlinedInput
+    <div className="wrapper">
+      <div className="form">
+        <TextField
+          id="outlined-required"
+          className="form__input"
+          label="Логин"
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            setPassword(e.target.value)
+            setLogin(e.target.value)
           }
-          id="outlined-adornment-password"
-          type={showPassword ? "text" : "password"}
-          endAdornment={
-            <InputAdornment position="end">
-              <IconButton
-                aria-label="toggle password visibility"
-                onClick={handleClickShowPassword}
-                onMouseDown={handleMouseDownPassword}
-                edge="end"
-              >
-                {showPassword ? <VisibilityOff /> : <Visibility />}
-              </IconButton>
-            </InputAdornment>
-          }
-          label="Password"
         />
-      </FormControl>
-      <Button variant="contained" onClick={() => submit()}>
-        Войти
-      </Button>
+        <FormControl variant="outlined">
+          <InputLabel htmlFor="outlined-adornment-password">Пароль</InputLabel>
+          <OutlinedInput
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setPassword(e.target.value)
+            }
+            id="outlined-adornment-password"
+            type={showPassword ? "text" : "password"}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                  edge="end"
+                >
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            }
+            label="Password"
+          />
+        </FormControl>
+        <FormControlLabel
+          control={<Checkbox sx={{ marginLeft: "9px" }} defaultChecked />}
+          label="Запомнить меня"
+        />
+        <Button className="form__button" variant="contained" onClick={submit}>
+          Войти
+        </Button>
+      </div>
     </div>
   );
 }
