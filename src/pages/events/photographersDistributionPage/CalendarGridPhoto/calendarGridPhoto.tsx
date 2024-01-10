@@ -1,26 +1,22 @@
-import React, {useEffect, useState} from 'react';
-import styles from "./calendarGrid.module.css";
-import PlaceGrid from "../Place/placeGrid";
-import PlaceHeader from "../PlaceHeader/placeHeader";
+import React, {useState} from 'react';
+import styles from "./calendarGridPhoto.module.css";
+import PlaceGridPhoto from "../PlacePhoto/placeGridPhoto";
+import PlaceHeaderPhoto from "../PlaceHeaderPhoto/placeHeaderPhoto";
 import axios from "axios";
-import {HALF_HOUR_HEIGHT, HOUR_MARGIN_TOP} from "../globals";
+import {HALF_HOUR_HEIGHT, HOUR_MARGIN_TOP} from "../../eventCalendarPage/globals";
 import moment, {Moment} from "moment";
-import {Box, Button, Drawer, MenuItem, Modal, TextField} from "@mui/material";
+import {Box, Button, MenuItem, Modal, TextField} from "@mui/material";
 import {DemoContainer} from '@mui/x-date-pickers/internals/demo';
 import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
-import {DatePicker} from '@mui/x-date-pickers/DatePicker';
 import {AdapterMoment} from "@mui/x-date-pickers/AdapterMoment";
 import {TimePicker} from "@mui/x-date-pickers";
 import 'moment/locale/de';
 import {useNavigate} from "react-router-dom";
-import {useSelector} from "react-redux";
-import {RootState} from "../../../../store/store";
 import {Location} from "../../../../store/locationSlice"
-import {Zone} from "../../../../store/zoneSlice";
 import {Activity} from "../../../../store/activitySlice";
 import CreateTimelineDrawer from "../../../../components/createTimeLineDrawer/create-timeline-drawer";
 
-export default function CalendarGrid({props}: any) {
+export default function CalendarGridPhoto({props}: any) {
     const time = [];
     for (let i = 0; i < 24; i++) {
         for (let j = 0; j < 2; j++) {
@@ -123,13 +119,13 @@ export default function CalendarGrid({props}: any) {
                             return (
                                 <div key={location.id} className={styles.timeLine}
                                 >
-                                    <PlaceHeader props={{
+                                    <PlaceHeaderPhoto props={{
                                         locationId: location.id,
                                         address: location.address,
                                         tempActivitiesByLocation: tempActivitiesByLocation,
                                         zones: props.zones,
                                     }}/>
-                                    <PlaceGrid props={{
+                                    <PlaceGridPhoto props={{
                                         locationId: location.id,
                                         startDate: location.startDate,
                                         tempActivitiesByLocation: tempActivitiesByLocation,

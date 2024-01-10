@@ -1,7 +1,6 @@
 import React from 'react';
-import styles from "./placeGrid.module.css";
-import Event from "../Event/event";
-import {HALF_HOUR_HEIGHT, HOUR_MARGIN_TOP} from "../globals";
+import styles from "./placeGridPhoto.module.css";
+import {HALF_HOUR_HEIGHT, HOUR_MARGIN_TOP} from "../../eventCalendarPage/globals";
 import moment, {Moment} from "moment";
 import axios from "axios";
 import Box from '@mui/material/Box';
@@ -15,7 +14,7 @@ import {Activity} from "../../../../store/activitySlice";
 import {Location} from "../../../../store/locationSlice";
 import {useNavigate} from "react-router-dom";
 
-export default function PlaceGrid({props}: any) {
+export default function PlaceGridPhoto({props}: any) {
 
     const [open, setOpen] = React.useState(false);
     const [locationIdForModal, setLocationIdForModal] = React.useState<number>()

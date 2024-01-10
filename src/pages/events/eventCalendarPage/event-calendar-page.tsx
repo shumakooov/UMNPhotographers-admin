@@ -4,10 +4,11 @@ import CalendarHeader from "./CalendarHeader/calendarHeader";
 import CalendarGrid from "./CalendarGrid/calendarGrid";
 import styles from './event-calendar-page.module.css'
 import axios from "axios";
-import {useDispatch} from 'react-redux'
-import {addLocation} from '../../../store/locationSlice'
-import {addZone} from "../../../store/zoneSlice";
-import {addActivity} from "../../../store/activitySlice";
+import {useDispatch, useSelector} from 'react-redux'
+import {addLocation, Location} from '../../../store/locationSlice'
+import {addZone, Zone} from "../../../store/zoneSlice";
+import {Activity, addActivity} from "../../../store/activitySlice";
+import {RootState} from "../../../store/store";
 
 
 export default function EventCalendarPage() {
@@ -27,6 +28,7 @@ export default function EventCalendarPage() {
                     })
                 axios.get(`https://photographersekb.ru:8080/admin/activity/short/all`, {withCredentials: true})
                     .then(res => {
+                        console.log(res)
                         dispatch(addActivity(res.data))
                         setIsLoading(false)
                     })
@@ -36,6 +38,10 @@ export default function EventCalendarPage() {
         }
         getDataLocation()
     }, [])
+
+    const locations: Location[] = useSelector((state: RootState) => state.locations.location);
+    const zones: Zone[] = useSelector((state: RootState) => state.zones.zone);
+    const activities: Activity[] = useSelector((state: RootState) => state.activities.activity);
 
     if (isLoading) {
         return (
@@ -48,10 +54,15 @@ export default function EventCalendarPage() {
     const startDay = moment().startOf('month').startOf('week');
     const endDay = moment().endOf('month').endOf('week');
 
+
     return (
         <div className={styles.wrapper}>
             <CalendarHeader></CalendarHeader>
-            <CalendarGrid></CalendarGrid>
+            <CalendarGrid props={{
+                locations: locations,
+                items: activities,
+                zones: zones,
+            }}></CalendarGrid>
         </div>
     );
 }

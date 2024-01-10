@@ -1,11 +1,9 @@
 import React from 'react';
-import styles from "./placeHeader.module.css";
-import {useSelector} from "react-redux";
-import {RootState} from "../../../../store/store";
+import styles from "./placeHeaderPhoto.module.css";
 import {Zone} from "../../../../store/zoneSlice";
 
 
-export default function PlaceHeader({props}: any) {
+export default function PlaceHeaderPhoto({props}: any) {
 
     const needZoneId = props.tempActivitiesByLocation[0].zoneId
     const zone = props.zones.find((zone: Zone) => zone.id === needZoneId)

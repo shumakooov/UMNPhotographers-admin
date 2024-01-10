@@ -5,11 +5,11 @@ export interface Activity {
     locationId: number;
     zoneId: number;
     eventId: number;
-    name?: string;
-    description?: string;
+    name: string;
+    description: string;
     startTime: string;
     endTime: string;
-    priority?: number;
+    priority: number;
 }
 
 export interface ActivityState {
