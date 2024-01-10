@@ -37,7 +37,7 @@ export default function CreateTimelineDrawer(props: any) {
                 startTime: timeFrom,
                 endTime: timeTo,
                 address: address,
-                manager: manager
+                manager: manager,
             }, {withCredentials: true})
 
             if (response.status === 200) {
@@ -48,7 +48,7 @@ export default function CreateTimelineDrawer(props: any) {
 
     return (
         <React.Fragment>
-            <Button onClick={toggleDrawer(true)} style={{background: "black",}}>Добавить</Button>
+            <Button onClick={toggleDrawer(true)} style={{background: "black"}}>Добавить</Button>
             <Drawer
                 anchor={"right"}
                 open={open}

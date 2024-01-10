@@ -124,8 +124,7 @@ export default function CalendarGrid({props}: any) {
                                 <div key={location.id} className={styles.timeLine}
                                 >
                                     <PlaceHeader props={{
-                                        locationId: location.id,
-                                        address: location.address,
+                                        location: location,
                                         tempActivitiesByLocation: tempActivitiesByLocation,
                                         zones: props.zones,
                                     }}/>

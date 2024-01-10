@@ -1,5 +1,5 @@
 .root {
-    margin-top: 45px;
+    /*margin-top: 45px;*/
 }
 
 .wrapperZones {
@@ -48,7 +48,7 @@
     background-color: red;
     z-index: 2;
     right: 0;
-    left: 300px;
+    left: 0;
 }
 
 .modal {

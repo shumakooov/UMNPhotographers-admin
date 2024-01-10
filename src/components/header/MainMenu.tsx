@@ -1,6 +1,6 @@
 import { useState, MouseEvent } from "react";
 import { useNavigate } from "react-router-dom";
-import "./index.css";
+import styles from "./index.module.css";
 import {
   IconButton,
   Box,

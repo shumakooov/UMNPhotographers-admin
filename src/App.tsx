@@ -27,7 +27,7 @@ function App() {
     <CookiesProvider>
       {cookies.SESSION ? (
         <>
-          <Header />
+          <Header/>
           <Routes>
             <Route path={"*"} element={<Navigate to="/events" replace />} />
             <Route path="/events/" element={<Outlet />}>

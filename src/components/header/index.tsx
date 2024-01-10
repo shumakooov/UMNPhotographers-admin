@@ -1,5 +1,5 @@
 import { useLocation } from "react-router-dom";
-import "./index.css";
+import styles from "./index.module.css";
 import { AppBar, Toolbar, Typography } from "@mui/material";
 import MainMenu from "./MainMenu";
 import NavList from "./NavList";
@@ -10,7 +10,7 @@ export default function Header() {
   const activeMainPage = location.pathname.split("/")[1];
 
   return (
-    <div className="sideBar">
+    <div >
       <AppBar position="static" color="transparent">
         <Toolbar>
           <MainMenu />
