@@ -13,7 +13,6 @@ import TextField from "@mui/material/TextField";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import "../profilePhotographer/profile-photographer-page.css";
 
 interface Photographer {
   id: number;

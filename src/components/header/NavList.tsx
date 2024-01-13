@@ -2,6 +2,7 @@ import { Box } from "@mui/material";
 import CustomLink from "../ui/customLink/CustomLink";
 import { useMatch } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
 
 const eventLinks = [
   { title: "Все", to: "/events" },
@@ -31,7 +32,9 @@ export default function NavList({
 }: {
   activeMainPage: string;
 }) {
-  
+  const photographerProfileInfo: any = useSelector<RootState>(
+    (state) => state.photographer.photographerProfileInfo
+  );
   const profileMatch = useMatch("/photographers/:id");
   if (activeMainPage === "events") {
     return (
@@ -60,7 +63,9 @@ export default function NavList({
         ))}
         {profileMatch && (
           <CustomLink
-            title={"Профиль".toUpperCase()}
+            title={`Профиль: ${photographerProfileInfo.surname ?? ""} ${
+              photographerProfileInfo.firstname ?? ""
+            }`.toUpperCase()}
             to="/photographers/:id"
             activeMainPage={activeMainPage}
             key="Профиль"

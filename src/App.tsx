@@ -4,7 +4,7 @@ import { Route, Routes, Navigate, Outlet } from "react-router-dom";
 import AllPhotographersPage from "./pages/photographers/allPhotographers/all-photographers-page";
 import LoginPage from "./pages/loginPage/login-page";
 import ChangePassPage from "./pages/changePassPage/change-pass-page";
-import ProfilePhotographerPage from "./pages/photographers/profilePhotographer/profile-photographer-page";
+import ProfilePhotographerPage from "./pages/photographers/profilePhotographer";
 import DevicesPage from "./pages/devices/devices-page";
 import EventsPage from "./pages/events/eventsPage/events-page";
 import EventProfilePage from "./pages/events/eventProfilePage/event-profile-page";
@@ -15,7 +15,6 @@ import PhotographersDistributionPage from "./pages/events/photographersDistribut
 import RatePhotographersPage from "./pages/events/ratePhotographersPage/rate-photographers-page";
 import Header from "./components/header";
 import { CookiesProvider, useCookies } from "react-cookie";
-import ErrorPage from "./pages/errorPage/error-page";
 
 function App() {
   const [cookies, setCookies] = useCookies(["SESSION"]);

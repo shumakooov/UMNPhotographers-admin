@@ -52,7 +52,7 @@ export default function LoginPage({ onLogin }: any) {
   };
 
   return (
-    <div className="wrapper">
+    <div className="login-wrapper">
       <div className="form">
         <TextField
           id="outlined-required"
