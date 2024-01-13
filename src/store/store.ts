@@ -2,12 +2,14 @@ import { configureStore } from '@reduxjs/toolkit'
 import locationReducer from './locationSlice'
 import zoneReducer from './zoneSlice'
 import activityReducer from './activitySlice'
+import photographerSlice from './photographerSlice'
 
 export const store = configureStore({
     reducer: {
         locations: locationReducer,
         zones: zoneReducer,
         activities: activityReducer,
+        photographer: photographerSlice
     },
 })
 

@@ -1,5 +1,4 @@
 import { useLocation } from "react-router-dom";
-import styles from "./index.module.css";
 import { AppBar, Toolbar, Typography } from "@mui/material";
 import MainMenu from "./MainMenu";
 import NavList from "./NavList";
@@ -10,7 +9,7 @@ export default function Header() {
   const activeMainPage = location.pathname.split("/")[1];
 
   return (
-    <div >
+    <div style={{ backgroundColor: "#FFF" }}>
       <AppBar position="static" color="transparent">
         <Toolbar>
           <MainMenu />
