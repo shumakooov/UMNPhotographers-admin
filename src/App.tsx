@@ -15,6 +15,7 @@ import PhotographersDistributionPage from "./pages/events/photographersDistribut
 import RatePhotographersPage from "./pages/events/ratePhotographersPage/rate-photographers-page";
 import Header from "./components/header";
 import { CookiesProvider, useCookies } from "react-cookie";
+import ErrorPage from "./pages/errorPage/error-page";
 
 function App() {
   const [cookies, setCookies] = useCookies(["SESSION"]);
@@ -27,7 +28,7 @@ function App() {
     <CookiesProvider>
       {cookies.SESSION ? (
         <>
-          <Header/>
+          <Header />
           <Routes>
             <Route path={"*"} element={<Navigate to="/events" replace />} />
             <Route path="/events/" element={<Outlet />}>

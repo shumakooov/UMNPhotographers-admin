@@ -1,16 +1,20 @@
-import { useLocation } from "react-router-dom";
-import styles from "./index.module.css";
+import { useLocation, useMatch } from "react-router-dom";
 import { AppBar, Toolbar, Typography } from "@mui/material";
 import MainMenu from "./MainMenu";
 import NavList from "./NavList";
 import AvatarMenu from "./AvatarMenu";
+import { useSelector } from "react-redux";
 
 export default function Header() {
   const location = useLocation();
   const activeMainPage = location.pathname.split("/")[1];
+  const profileMatch = useMatch("/photographers/:id");
+  const photographerProfileInfo = useSelector(
+    (state: any) => state.photographer.photographerProfileInfo
+  );
 
   return (
-    <div >
+    <div style={{ backgroundColor: "#FFF" }}>
       <AppBar position="static" color="transparent">
         <Toolbar>
           <MainMenu />
@@ -26,7 +30,7 @@ export default function Header() {
           >
             {activeMainPage === "events"
               ? "Мероприятия"
-              : activeMainPage === "photographers"
+              : activeMainPage === "photographers" && !profileMatch
               ? "Фотографы"
               : activeMainPage === "devices"
               ? "Техника"
@@ -34,6 +38,10 @@ export default function Header() {
               ? "Настройки"
               : activeMainPage === "profile"
               ? "Профиль"
+              : profileMatch
+              ? `${photographerProfileInfo.surname ?? ""} ${
+                  photographerProfileInfo.firstname ?? ""
+                }`
               : ""}
           </Typography>
           <NavList activeMainPage={activeMainPage} />
