@@ -4,6 +4,7 @@ import zoneReducer from './zoneSlice'
 import activityReducer from './activitySlice'
 import eventReducer from './eventSlice'
 import scheduleReducer from "./scheduleSlice";
+import photographerSlice from "./photographerSlice"
 
 export const store = configureStore({
     reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
         activities: activityReducer,
         events: eventReducer,
         scheduleList: scheduleReducer,
+        photographer: photographerSlice,
     },
 })
 
