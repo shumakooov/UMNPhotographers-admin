@@ -2,12 +2,16 @@ import { configureStore } from '@reduxjs/toolkit'
 import locationReducer from './locationSlice'
 import zoneReducer from './zoneSlice'
 import activityReducer from './activitySlice'
+import eventReducer from './eventSlice'
+import scheduleReducer from "./scheduleSlice";
 
 export const store = configureStore({
     reducer: {
         locations: locationReducer,
         zones: zoneReducer,
         activities: activityReducer,
+        events: eventReducer,
+        scheduleList: scheduleReducer,
     },
 })
 

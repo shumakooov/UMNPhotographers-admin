@@ -8,6 +8,7 @@ import {RootState} from "../../../store/store";
 import styles from "./photographers-distribution-page.module.css";
 import CalendarHeaderPhoto from "./CalendarHeaderPhoto/calendarHeaderPhoto";
 import CalendarGridPhoto from "./CalendarGridPhoto/calendarGridPhoto";
+import {addSchedule, Schedule} from "../../../store/scheduleSlice";
 
 export default function PhotographersDistributionPage() {
     const [isLoading, setIsLoading] = useState(true);
@@ -16,18 +17,10 @@ export default function PhotographersDistributionPage() {
     useEffect(() => {
         const getDataLocation = () => {
             try {
-                axios.get(`https://photographersekb.ru:8080/admin/location/all`, {withCredentials: true})
-                    .then(res => {
-                        dispatch(addLocation(res.data.list))
-                    })
-                axios.get(`https://photographersekb.ru:8080/admin/zone/all`, {withCredentials: true})
-                    .then(res => {
-                        dispatch(addZone(res.data.list))
-                    })
-                axios.get(`https://photographersekb.ru:8080/admin/activity/short/all`, {withCredentials: true})
+                axios.get(`https://photographersekb.ru:8080/admin/schedule/list`, {withCredentials: true})
                     .then(res => {
                         console.log(res)
-                        dispatch(addActivity(res.data))
+                        dispatch(addSchedule(res.data.list))
                         setIsLoading(false)
                     })
             } catch (e) {
@@ -40,6 +33,7 @@ export default function PhotographersDistributionPage() {
     const locations: Location[] = useSelector((state: RootState) => state.locations.location);
     const zones: Zone[] = useSelector((state: RootState) => state.zones.zone);
     const activities: Activity[] = useSelector((state: RootState) => state.activities.activity);
+    const scheduleList: Schedule[] = useSelector((state: RootState) => state.scheduleList.schedule);
 
     if (isLoading) {
         return (
@@ -48,7 +42,6 @@ export default function PhotographersDistributionPage() {
     }
     return (
         <div className={styles.wrapper}>
-            photographers distribution page
             <CalendarHeaderPhoto></CalendarHeaderPhoto>
             <CalendarGridPhoto props={{
                 locations: locations,

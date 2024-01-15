@@ -16,8 +16,7 @@ import {useNavigate} from "react-router-dom";
 
 export default function PlaceHeader({props}: any) {
 
-    const needZoneId = props.tempActivitiesByLocation[0].zoneId
-    const zone = props.zones.find((zone: Zone) => zone.id === needZoneId)
+    const zone = props.zones.find((zone: Zone) => zone.id === props.location.zoneId)
 
     const [openModal, setOpenModal] = React.useState(false);
     const [locationIdForModal, setLocationIdForModal] = React.useState<number>()
@@ -65,11 +64,9 @@ export default function PlaceHeader({props}: any) {
     }
 
     const handleDeleteZoneAndLocation = async () => {
-        const response1 = await axios.delete(`https://photographersekb.ru:8080/admin/zone/${zoneIdForModal}`, {withCredentials: true})
-
         const response2 = await axios.delete(`https://photographersekb.ru:8080/admin/location/${locationIdForModal}`, {withCredentials: true})
 
-        if (response1.status === 200 || response2.status === 200) {
+        if (response2.status === 200) {
             navigate(0)
         }
     }
@@ -104,7 +101,7 @@ export default function PlaceHeader({props}: any) {
                                    margin="dense"
                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPlaceName(e.target.value)}/>
                         <TextField id="outlined-basic" helperText="Только числа от 1 до 1000" label="Зона"
-                                   defaultValue={zone.number}
+                                   defaultValue={zone?.number}
                                    margin="dense"
                                    variant="outlined"
                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setZoneNumber(e.target.value)}/>

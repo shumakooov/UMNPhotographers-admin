@@ -135,7 +135,7 @@ export default function PlaceGrid({props}: any) {
         }, {withCredentials: true})
 
         if (response.status === 200) {
-            navigate(0)
+            // navigate(0)
         }
     }
 

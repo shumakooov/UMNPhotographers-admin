@@ -142,7 +142,7 @@ export default function CalendarGrid({props}: any) {
 
                     {/*Drawer*/}
                     <div>
-                        <CreateTimelineDrawer />
+                        <CreateTimelineDrawer props={{zones: props.zones}}/>
                     </div>
 
                     {/*Modal*/}
