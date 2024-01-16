@@ -20,7 +20,11 @@ function App() {
   const [cookies, setCookies] = useCookies(["SESSION"]);
 
   function handleLogin(user: any) {
-    setCookies("SESSION", user, { path: "/" });
+    if (process.env.REACT_APP_PROFILE === "DEV") {
+      setCookies("SESSION", user, { path: "/" });
+    } else {
+      window.location.reload();
+    }
   }
 
   return (
@@ -29,39 +33,41 @@ function App() {
         <>
           <Header />
           <Routes>
-            <Route path={"*"} element={<Navigate to="/events" replace />} />
+            <Route path="*" element={<Navigate to="/events" replace />} />
             <Route path="/events/" element={<Outlet />}>
               <Route path="" element={<EventsPage />} />
-              <Route path="calendar" element={<EventCalendarPage />} />
-              <Route path="priority" element={<PriorityZonesPage />} />
-              <Route
-                path="distribution"
-                element={<PhotographersDistributionPage />}
-              />
-              <Route path="rate" element={<RatePhotographersPage />} />
-              <Route path="event/:id" element={<EventProfilePage />} />
+              <Route path=":id/" element={<Outlet />}>
+                <Route path="" element={<EventProfilePage />} />
+                <Route path="calendar" element={<EventCalendarPage />} />
+                <Route path="priority" element={<PriorityZonesPage />} />
+                <Route
+                  path="distribution"
+                  element={<PhotographersDistributionPage />}
+                />
+                <Route path="rate" element={<RatePhotographersPage />} />
+              </Route>
             </Route>
-            <Route path={"/photographers/"} element={<Outlet />}>
-              <Route path={""} element={<AllPhotographersPage />} />
-              <Route path={":id"} element={<ProfilePhotographerPage />} />
+            <Route path="/photographers/" element={<Outlet />}>
+              <Route path="" element={<AllPhotographersPage />} />
+              <Route path=":id" element={<ProfilePhotographerPage />} />
             </Route>
-            <Route path={"/devices/"} element={<Outlet />}>
-              <Route path={""} element={<DevicesPage />} />
-              <Route path={":type"} element={<DevicesPage />} />
+            <Route path="/devices/" element={<Outlet />}>
+              <Route path="" element={<DevicesPage />} />
+              <Route path=":type" element={<DevicesPage />} />
             </Route>
-
-            <Route path={"/settings"} element={<ChangePassPage />} />
-            <Route path={"/profile"} element={<ChangePassPage />} />
+            <Route path="/settings" element={<ChangePassPage />} />
+            <Route path="/profile" element={<ChangePassPage />} />
             <Route
-              path={"/work-photographers-calendar"}
+              path="/work-photographers-calendar"
               element={<WorkPhotographersCalendarPage />}
             />
           </Routes>
         </>
       ) : (
         <Routes>
-          <Route path={"*"} element={<Navigate to="/login" replace />} />
+          <Route path="*" element={<Navigate to="/login" replace />} />
           <Route path="/login" element={<LoginPage onLogin={handleLogin} />} />
+          <Route path="/events/:id/calendar" element={<EventCalendarPage />} />
         </Routes>
       )}
     </CookiesProvider>
