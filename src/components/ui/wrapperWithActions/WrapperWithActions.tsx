@@ -5,9 +5,10 @@ export default function WrapperWithActions({
   actions,
   p = 0,
   children,
+  ...props
 }: PropsWithChildren<any>) {
   return (
-    <div className="wrapper">
+    <div className="wrapper" {...props}>
       <div className="wrapper__actions shadow-container">{actions}</div>
       <div
         className="wrapper__container shadow-container"
