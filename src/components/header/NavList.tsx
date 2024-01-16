@@ -1,22 +1,10 @@
 import { Box } from "@mui/material";
 import CustomLink from "../ui/customLink/CustomLink";
-import { useMatch } from "react-router-dom";
+import { useMatch, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 
-const eventLinks = [
-  { title: "Все", to: "/events" },
-  { title: "Расписание", to: "/events/calendar" },
-  { title: "Приоритеты", to: "/events/priority" },
-  { title: "Распределение", to: "/events/distribution" },
-  { title: "Оценка фотографов", to: "/events/rate" },
-  // { title: "О мероприятии", to: "/events/event/:id" },
-];
-
-const photographerLinks = [
-  { title: "Все", to: "/photographers" },
-  // { title: "Профиль", to: "/photographers/:id" },
-];
+const photographerLinks = [{ title: "Все", to: "/photographers" }];
 
 const devicesLinks = [
   { title: "Все", to: "/devices" },
@@ -27,32 +15,52 @@ const devicesLinks = [
   { title: "Карты памяти", to: "/devices/memory" },
 ];
 
+const boxStyle = { flexGrow: 1, display: { xs: "flex", gap: 16 } };
+
 export default function NavList({
   activeMainPage,
 }: {
   activeMainPage: string;
 }) {
   const photographerProfileInfo: any = useSelector<RootState>(
-    (state) => state.photographer.photographerProfileInfo
+    (state) => state.photographer.photographerProfileInfo,
   );
   const profileMatch = useMatch("/photographers/:id");
+  const eventMatch = useMatch("/events/:id/*");
+  const { pathname } = useLocation();
+  const eventId = pathname.split("/")[2] ?? "";
+
   if (activeMainPage === "events") {
+    const eventLinks = [
+      { title: "Расписание", to: `/events/${eventId}/calendar` },
+      { title: "Приоритеты", to: `/events/${eventId}/priority` },
+      { title: "Распределение", to: `/events/${eventId}/distribution` },
+      { title: "Оценка фотографов", to: `/events/${eventId}/rate` },
+      { title: "О мероприятии", to: `/events/${eventId}` },
+    ];
+
     return (
-      <Box sx={{ flexGrow: 1, display: { xs: "flex", gap: 16 } }}>
-        {eventLinks.map((link) => (
-          <CustomLink
-            title={link.title.toUpperCase()}
-            to={link.to}
-            activeMainPage={activeMainPage}
-            key={link.title}
-          />
-        ))}
+      <Box sx={boxStyle}>
+        <CustomLink
+          title={"Все".toUpperCase()}
+          to="/events"
+          activeMainPage={activeMainPage}
+        />
+        {eventMatch &&
+          eventLinks.map((link) => (
+            <CustomLink
+              title={link.title.toUpperCase()}
+              to={link.to}
+              activeMainPage={activeMainPage}
+              key={link.title}
+            />
+          ))}
       </Box>
     );
   }
   if (activeMainPage === "photographers") {
     return (
-      <Box sx={{ flexGrow: 1, display: { xs: "flex", gap: 16 } }}>
+      <Box sx={boxStyle}>
         {photographerLinks.map((link) => (
           <CustomLink
             title={link.title.toUpperCase()}
@@ -68,7 +76,6 @@ export default function NavList({
             }`.toUpperCase()}
             to="/photographers/:id"
             activeMainPage={activeMainPage}
-            key="Профиль"
           />
         )}
       </Box>
@@ -77,7 +84,7 @@ export default function NavList({
 
   if (activeMainPage === "devices") {
     return (
-      <Box sx={{ flexGrow: 1, display: { xs: "flex", gap: 16 } }}>
+      <Box sx={boxStyle}>
         {devicesLinks.map((link) => (
           <CustomLink
             title={link.title.toUpperCase()}
