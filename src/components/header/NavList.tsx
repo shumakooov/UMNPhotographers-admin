@@ -1,16 +1,8 @@
 import { Box } from "@mui/material";
 import CustomLink from "../ui/customLink/CustomLink";
-import { useMatch } from "react-router-dom";
+import { useMatch, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
-
-const eventLinks = [
-  { title: "Расписание", to: "/events/:id/calendar" },
-  { title: "Приоритеты", to: "/events/:id/priority" },
-  { title: "Распределение", to: "/events/:id/distribution" },
-  { title: "Оценка фотографов", to: "/events/:id/rate" },
-  { title: "О мероприятии", to: "/events/:id" },
-];
 
 const photographerLinks = [{ title: "Все", to: "/photographers" }];
 
@@ -31,12 +23,22 @@ export default function NavList({
   activeMainPage: string;
 }) {
   const photographerProfileInfo: any = useSelector<RootState>(
-    (state) => state.photographer.photographerProfileInfo
+    (state) => state.photographer.photographerProfileInfo,
   );
   const profileMatch = useMatch("/photographers/:id");
   const eventMatch = useMatch("/events/:id/*");
+  const { pathname } = useLocation();
+  const eventId = pathname.split("/")[2] ?? "";
 
   if (activeMainPage === "events") {
+    const eventLinks = [
+      { title: "Расписание", to: `/events/${eventId}/calendar` },
+      { title: "Приоритеты", to: `/events/${eventId}/priority` },
+      { title: "Распределение", to: `/events/${eventId}/distribution` },
+      { title: "Оценка фотографов", to: `/events/${eventId}/rate` },
+      { title: "О мероприятии", to: `/events/${eventId}` },
+    ];
+
     return (
       <Box sx={boxStyle}>
         <CustomLink
