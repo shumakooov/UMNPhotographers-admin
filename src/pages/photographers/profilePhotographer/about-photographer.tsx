@@ -22,7 +22,7 @@ import ShareIcon from "@mui/icons-material/Share";
 import SettingsBackupRestoreIcon from "@mui/icons-material/SettingsBackupRestore";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import SaveIcon from "@mui/icons-material/Save";
-import WrapperWithActions from "../../../components/ui/wrapperWithActions/WrapperWithActions";
+import WrapperWithActions from "../../../components/ui/wrapperWithActions/wrapper-with-actions";
 
 type userInfo = {
   id: number;
@@ -52,7 +52,7 @@ export default function AboutPhotographer() {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const photographerProfileInfo = useSelector(
-    (state: any) => state.photographer.photographerProfileInfo
+    (state: any) => state.photographer.photographerProfileInfo,
   );
   const [userData, setUserData] = useState<userInfo>({
     id: 0,

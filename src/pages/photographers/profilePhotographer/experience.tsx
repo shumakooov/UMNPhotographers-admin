@@ -3,7 +3,7 @@ import { DataGrid, GridColDef, GridRowsProp } from "@mui/x-data-grid";
 import ViewColumnIcon from "@mui/icons-material/ViewColumn";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import SaveAltIcon from "@mui/icons-material/SaveAlt";
-import WrapperWithActions from "../../../components/ui/wrapperWithActions/WrapperWithActions";
+import WrapperWithActions from "../../../components/ui/wrapperWithActions/wrapper-with-actions";
 import "./index.css";
 
 const columns: GridColDef[] = [

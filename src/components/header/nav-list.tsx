@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import CustomLink from "../ui/customLink/CustomLink";
+import CustomLink from "../ui/customLink/custom-link";
 import { useMatch, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";

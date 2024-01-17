@@ -21,7 +21,7 @@ import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import SaveIcon from "@mui/icons-material/Save";
 import CancelIcon from "@mui/icons-material/Close";
 import EditIcon from "@mui/icons-material/Edit";
-import WrapperWithActions from "../../../components/ui/wrapperWithActions/WrapperWithActions";
+import WrapperWithActions from "../../../components/ui/wrapperWithActions/wrapper-with-actions";
 import { IconButton } from "@mui/material";
 import ViewColumnIcon from "@mui/icons-material/ViewColumn";
 import FilterListIcon from "@mui/icons-material/FilterList";

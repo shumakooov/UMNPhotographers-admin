@@ -1,5 +1,5 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import PhotographerContoller from "../api/photographerContoller";
+import PhotographerController from "../api/photographerContoller";
 
 type userInfo = {
   id: number;
@@ -26,25 +26,25 @@ export const receiveUserById = createAsyncThunk(
   "photographer/getInfo",
   async (id: string | undefined, { rejectWithValue }) => {
     try {
-      return await PhotographerContoller.getById(id);
+      return await PhotographerController.getById(id);
     } catch (error) {
       return rejectWithValue(error);
     }
-  }
+  },
 );
 
 export const changeUserInfo = createAsyncThunk(
   "photographer/putInfo",
   async (
     formData: Omit<userInfo, "registrationDate" | "techniqueInfoId">,
-    { rejectWithValue }
+    { rejectWithValue },
   ) => {
     try {
-      await PhotographerContoller.edit(formData);
+      await PhotographerController.edit(formData);
     } catch (error) {
       return rejectWithValue(error);
     }
-  }
+  },
 );
 
 interface PhotographerState {
@@ -64,7 +64,7 @@ const photographerSlice = createSlice({
       receiveUserById.fulfilled,
       (state, action: PayloadAction<userInfo | any>) => {
         state.photographerProfileInfo = action.payload;
-      }
+      },
     );
   },
 });
