@@ -12,6 +12,23 @@ export interface Activity {
     priority: number;
 }
 
+export interface ActivityFull {
+    id: number,
+    locationId: number,
+    eventId: number,
+    zoneId: number,
+    name: string,
+    description: string,
+    startTime: string,
+    endTime: string,
+    photographersCount: number,
+    priority: number,
+    shootingTime: number,
+    shootingType: string,
+    importantPersons: string,
+    activityCode: string
+}
+
 export interface ActivityState {
     activity: Activity[]
 }

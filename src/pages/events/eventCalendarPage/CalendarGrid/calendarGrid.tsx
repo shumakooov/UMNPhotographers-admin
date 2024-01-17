@@ -120,23 +120,26 @@ export default function CalendarGrid({props}: any) {
                         props.locations.map((location: Location) => {
                             const tempActivitiesByLocation = props.items.filter((activity: Activity) => activity.locationId === location.id)
 
-                            return (
-                                <div key={location.id} className={styles.timeLine}
-                                >
-                                    <PlaceHeader props={{
-                                        location: location,
-                                        tempActivitiesByLocation: tempActivitiesByLocation,
-                                        zones: props.zones,
-                                    }}/>
-                                    <PlaceGrid props={{
-                                        locationId: location.id,
-                                        startDate: location.startDate,
-                                        tempActivitiesByLocation: tempActivitiesByLocation,
-                                        locations: props.locations,
-                                        handleOpenModal: handleOpenModal
-                                    }}/>
-                                </div>
-                            )
+                            if (tempActivitiesByLocation.length > 0) {
+                                return (
+                                    <div key={location.id} className={styles.timeLine}
+                                    >
+                                        <PlaceHeader props={{
+                                            location: location,
+                                            tempActivitiesByLocation: tempActivitiesByLocation,
+                                            zones: props.zones,
+                                        }}/>
+                                        <PlaceGrid props={{
+                                            locationId: location.id,
+                                            startDate: location.startDate,
+                                            tempActivitiesByLocation: tempActivitiesByLocation,
+                                            locations: props.locations,
+                                            curDate: props.curDate,
+                                            handleOpenModal: handleOpenModal
+                                        }}/>
+                                    </div>
+                                )
+                            }
                         })
                     }
 

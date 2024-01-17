@@ -113,11 +113,18 @@ export default function PlaceGrid({props}: any) {
 
     const handleUpdateActivityByDrag = async (index: any, startTimePrev: string, endTimePrev: string) => {
         let duration = moment.duration(moment(endTimePrev).diff(moment(startTimePrev)));
+        console.log(props.curDate)
 
         let timeFrom = index % 2 === 0 ? moment().set({
             'hour': index / 2,
             'minute': 0
-        }) : moment().set({'hour': index / 2, 'minute': 30})
+        }) : moment().set({
+            'year': props.curDate.year(),
+            'month': props.curDate.month(),
+            'date': props.curDate.date(),
+            'hour': index / 2,
+            'minute': 30
+        })
         let timeTo = moment(timeFrom).add(duration, 'ms')
         const response = await axios.put(`https://photographersekb.ru:8080/admin/activity/${activityId}`, {
             locationId: locationIdForModal,
@@ -135,7 +142,7 @@ export default function PlaceGrid({props}: any) {
         }, {withCredentials: true})
 
         if (response.status === 200) {
-            // navigate(0)
+            navigate(0)
         }
     }
 

@@ -9,6 +9,7 @@ import styles from "./photographers-distribution-page.module.css";
 import CalendarHeaderPhoto from "./CalendarHeaderPhoto/calendarHeaderPhoto";
 import CalendarGridPhoto from "./CalendarGridPhoto/calendarGridPhoto";
 import {addSchedule, Schedule} from "../../../store/scheduleSlice";
+import {addSchedulePart, SchedulePart} from "../../../store/schedulePartSlice";
 
 export default function PhotographersDistributionPage() {
     const [isLoading, setIsLoading] = useState(true);
@@ -21,6 +22,10 @@ export default function PhotographersDistributionPage() {
                     .then(res => {
                         console.log(res)
                         dispatch(addSchedule(res.data.list))
+                    })
+                axios.get(`https://photographersekb.ru:8080/admin/schedule_part/all`, {withCredentials: true})
+                    .then(res => {
+                        dispatch(addSchedulePart(res.data.list))
                         setIsLoading(false)
                     })
             } catch (e) {
@@ -30,10 +35,8 @@ export default function PhotographersDistributionPage() {
         getDataLocation()
     }, [])
 
-    const locations: Location[] = useSelector((state: RootState) => state.locations.location);
-    const zones: Zone[] = useSelector((state: RootState) => state.zones.zone);
-    const activities: Activity[] = useSelector((state: RootState) => state.activities.activity);
     const scheduleList: Schedule[] = useSelector((state: RootState) => state.scheduleList.schedule);
+    const scheduleParts: SchedulePart[] = useSelector((state: RootState) => state.schedulePart.schedulePart);
 
     if (isLoading) {
         return (
@@ -44,9 +47,8 @@ export default function PhotographersDistributionPage() {
         <div className={styles.wrapper}>
             <CalendarHeaderPhoto></CalendarHeaderPhoto>
             <CalendarGridPhoto props={{
-                locations: locations,
-                items: activities,
-                zones: zones,
+                scheduleList: scheduleList,
+                scheduleParts: scheduleParts
             }}></CalendarGridPhoto>
         </div>
     );
