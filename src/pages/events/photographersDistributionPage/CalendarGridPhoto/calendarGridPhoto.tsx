@@ -3,10 +3,7 @@ import styles from "./calendarGridPhoto.module.css";
 import PlaceGridPhoto from "../PlacePhoto/placeGridPhoto";
 import PlaceHeaderPhoto from "../PlaceHeaderPhoto/placeHeaderPhoto";
 import axios from "axios";
-import {
-  HALF_HOUR_HEIGHT,
-  HOUR_MARGIN_TOP,
-} from "../../eventCalendarPage/globals";
+import { HALF_HOUR_HEIGHT, HOUR_MARGIN_TOP } from "../globalsPhoto";
 import moment, { Moment } from "moment";
 import { Box, Button, MenuItem, Modal, TextField } from "@mui/material";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
@@ -139,6 +136,7 @@ export default function CalendarGridPhoto({ props }: any) {
             );
 
             if (tempSchedulePartsByPhotographer.length > 0) {
+              console.log(tempSchedulePartsByPhotographer);
               return (
                 <div key={schedule.id} className={styles.timeLine}>
                   <PlaceHeaderPhoto

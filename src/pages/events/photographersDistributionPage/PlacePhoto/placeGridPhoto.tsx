@@ -1,9 +1,6 @@
 import React, { useEffect } from "react";
 import styles from "./placeGridPhoto.module.css";
-import {
-  HALF_HOUR_HEIGHT,
-  HOUR_MARGIN_TOP,
-} from "../../eventCalendarPage/globals";
+import { HALF_HOUR_HEIGHT, HOUR_MARGIN_TOP } from "../globalsPhoto";
 import moment, { Moment } from "moment";
 import axios from "axios";
 import Box from "@mui/material/Box";
@@ -171,7 +168,7 @@ export default function PlaceGridPhoto({ props }: any) {
   //for tempSchedulePartsByPhotographer
   const [responseAct, setResponseAct] = React.useState<ActivityFull>();
   const [activitiesByPhotographer, setActivitiesByPhotographer] =
-    React.useState<ActivityFull[]>();
+    React.useState<ActivityFull[]>([]);
   // let activitiesByPhotographer: ActivityFull[] = [];
 
   const getActivitiesByPhotographer = (activityId: number) => {
@@ -184,19 +181,16 @@ export default function PlaceGridPhoto({ props }: any) {
 
   useEffect(() => {
     const getDataLocation = () => {
-      props.tempSchedulePartsByPhotographer.forEach((i: SchedulePart) => {
-        axios(
-          `https://photographersekb.ru:8080/admin/activity/${i.activityId}`,
-          { withCredentials: true },
-        ).then((res) => {
-          if (activitiesByPhotographer) {
-            setActivitiesByPhotographer([
-              ...activitiesByPhotographer,
-              res.data,
-            ]);
-          }
-        });
-      });
+      Promise.all(
+        props.tempSchedulePartsByPhotographer.map((i: SchedulePart) => {
+          return axios(
+            `https://photographersekb.ru:8080/admin/activity/${i.activityId}`,
+            { withCredentials: true },
+          );
+        }),
+      ).then((res) =>
+        setActivitiesByPhotographer(res.map((item) => item.data)),
+      );
     };
     getDataLocation();
   }, []);
@@ -224,9 +218,6 @@ export default function PlaceGridPhoto({ props }: any) {
 
         {/*<Event />*/}
         {activitiesByPhotographer?.map((responseAct: ActivityFull) => {
-          // getActivitiesByPhotographer(schedulePart.activityId);
-
-          // TODO: ТУТ
           let startTime = moment(responseAct?.startTime);
           let endTime = moment(responseAct?.endTime);
           let duration = moment.duration(endTime.diff(startTime));
