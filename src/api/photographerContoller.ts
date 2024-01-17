@@ -1,6 +1,7 @@
 import instance from "./instance";
+import { AxiosResponse } from "axios";
 
-type newUser = {
+type NewUser = {
   email: string;
   firstname: string;
   surname: string;
@@ -9,7 +10,7 @@ type newUser = {
   description?: string;
 };
 
-type userInfo = {
+type UserInfo = {
   id: number;
   email: string;
   firstname: string;
@@ -30,26 +31,28 @@ type userInfo = {
   techniqueInfoId: number;
 };
 
-type responseGetAll = {
-  list: userInfo[];
+type ResponseGetAll = {
+  list: UserInfo[];
   count: number;
 };
 
-export default class PhotographerContoller {
-  static async getAll(): Promise<responseGetAll> {
+export default class PhotographerController {
+  static async getAll(): Promise<AxiosResponse<ResponseGetAll>> {
     return instance.get("/photographer/all");
   }
 
-  static async getById(id: string | undefined): Promise<userInfo> {
+  static async getById(
+    id: string | undefined,
+  ): Promise<AxiosResponse<UserInfo>> {
     const { data } = await instance.get(`/photographer/${id}`);
     return data;
   }
 
-  // static async create(formData: newUser): Promise<null> {}
+  // static async create(formData: NewUser): Promise<null> {}
 
   static async edit(
-    formData: Omit<userInfo, "registrationDate" | "techniqueInfoId">
-  ): Promise<null> {
+    formData: Omit<UserInfo, "registrationDate" | "techniqueInfoId">,
+  ): Promise<AxiosResponse<null>> {
     const { data } = await instance.put("/photographer/edit", formData);
     console.log(data);
 

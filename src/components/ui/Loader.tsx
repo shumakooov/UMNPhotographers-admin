@@ -4,7 +4,7 @@ export default function Loader() {
   return (
     <Box
       sx={{
-        height: "90vh",
+        height: "80vh",
         display: {
           xs: "flex",
           justifyContent: "center",

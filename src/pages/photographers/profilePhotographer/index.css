@@ -55,4 +55,5 @@
 
 .user-info__avatar {
   aspect-ratio: 1;
+  height: 100%;
 }

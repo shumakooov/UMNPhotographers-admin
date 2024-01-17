@@ -1,8 +1,8 @@
 import { useLocation } from "react-router-dom";
 import { AppBar, Toolbar, Typography } from "@mui/material";
-import MainMenu from "./MainMenu";
-import NavList from "./NavList";
-import AvatarMenu from "./AvatarMenu";
+import MainMenu from "./main-menu";
+import NavList from "./nav-list";
+import AvatarMenu from "./avatar-menu";
 
 export default function Header() {
   const location = useLocation();
@@ -26,14 +26,14 @@ export default function Header() {
             {activeMainPage === "events"
               ? "Мероприятия"
               : activeMainPage === "photographers"
-              ? "Фотографы"
-              : activeMainPage === "devices"
-              ? "Техника"
-              : activeMainPage === "settings"
-              ? "Настройки"
-              : activeMainPage === "profile"
-              ? "Профиль"
-              : ""}
+                ? "Фотографы"
+                : activeMainPage === "devices"
+                  ? "Техника"
+                  : activeMainPage === "settings"
+                    ? "Настройки"
+                    : activeMainPage === "profile"
+                      ? "Профиль"
+                      : ""}
           </Typography>
           <NavList activeMainPage={activeMainPage} />
           <AvatarMenu />

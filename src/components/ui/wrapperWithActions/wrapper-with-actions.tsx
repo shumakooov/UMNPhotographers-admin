@@ -1,5 +1,5 @@
 import { PropsWithChildren } from "react";
-import "./wrapperWithActions.css";
+import "./wrapper-with-actions.css";
 
 export default function WrapperWithActions({
   actions,
