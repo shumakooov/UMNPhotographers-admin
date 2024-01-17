@@ -7,7 +7,10 @@ import WrapperWithActions from "../../../components/ui/wrapperWithActions/wrappe
 import styles from "./priority-zones-page.module.css";
 import { useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { receivePhotographerPriority } from "../../../store/eventSlice";
+import {
+  receivePhotographerPriority,
+  resetPhotographerPriority,
+} from "../../../store/eventSlice";
 import { AppDispatch } from "../../../store/store";
 import Loader from "../../../components/ui/Loader";
 
@@ -33,22 +36,10 @@ export default function PriorityZonesPage() {
   const { id: eventId } = useParams();
   const dispatch = useDispatch<AppDispatch>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [columns, setColumns] = useState<GridColDef[]>([
-    {
-      field: "surname",
-      headerName: "Фамилия",
-      width: 212,
-    },
-    {
-      field: "firstname",
-      headerName: "Имя",
-      width: 196,
-      headerClassName: styles.firstname,
-    },
-  ]);
+  const [columns, setColumns] = useState<GridColDef[]>([]);
   const [rows, setRows] = useState([]);
 
-  useEffect(() => {
+  const uploadData = () => {
     if (eventId) {
       dispatch(receivePhotographerPriority(eventId))
         .then(({ payload }: { payload: any }) => {
@@ -62,13 +53,30 @@ export default function PriorityZonesPage() {
             }),
           );
 
-          setColumns([...columns, ...resColumns]);
+          setColumns([
+            {
+              field: "surname",
+              headerName: "Фамилия",
+              width: 212,
+            },
+            {
+              field: "firstname",
+              headerName: "Имя",
+              width: 196,
+              headerClassName: styles.firstname,
+            },
+            ...resColumns,
+          ]);
           setRows(payload.data);
         })
         .then(() => {
           setIsLoading(false);
         });
     }
+  };
+
+  useEffect(() => {
+    uploadData();
   }, []);
 
   if (isLoading) {
@@ -94,6 +102,12 @@ export default function PriorityZonesPage() {
                 opacity: 0.8,
                 transition: "opacity 0.3s",
               },
+            }}
+            onClick={() => {
+              setIsLoading(true);
+              dispatch(resetPhotographerPriority()).then(() => {
+                uploadData();
+              });
             }}
           >
             <AutorenewIcon />

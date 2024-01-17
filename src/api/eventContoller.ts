@@ -1,35 +1,6 @@
 import instance from "./instance";
-
-type Zone = {
-  id: number;
-  number: number;
-  description: string | null;
-  manager: string | null;
-  eventId: number;
-};
-
-type Schedule = {
-  id: number;
-  eventId: number;
-  photographerId: number;
-  zoneId: number;
-  published: boolean;
-  firstname: string;
-  surname: string;
-  middleName: string;
-};
-
-type ZoneInfo = {
-  id: number;
-  zoneId: number;
-  eventId: number;
-  photographerId: number;
-  photographerScheduleId: number;
-  firstname: string;
-  surname: string;
-  middleName: string;
-  priority: number;
-};
+import { Zone, Schedule, ZoneInfo, NewZoneInfo } from "../types/event";
+import { AxiosResponse } from "axios";
 
 export default class EventController {
   static async getEventZones(eventId: string): Promise<Zone[]> {
@@ -51,5 +22,16 @@ export default class EventController {
       `/zone_info/all?eventId=${eventId}&page=0&size=100`,
     );
     return data.list;
+  }
+
+  static async putZoneInfo(
+    id: number,
+    newInfo: NewZoneInfo,
+  ): Promise<AxiosResponse<null>> {
+    return instance.put(`/zone_info/${id}`, newInfo);
+  }
+
+  static async deleteZoneInfo(id: number): Promise<AxiosResponse<null>> {
+    return instance.delete(`/zone_info/${id}`);
   }
 }

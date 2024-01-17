@@ -1,5 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import EventController from "../api/eventContoller";
+import { ZoneInfo } from "../types/event";
+import { RootState } from "./store";
 
 export interface Event {
   id: number;
@@ -17,6 +19,7 @@ export interface Event {
 
 export interface EventState {
   event: Event[];
+  zonesInfo: ZoneInfo[];
 }
 
 export const receivePhotographerPriority = createAsyncThunk(
@@ -48,7 +51,10 @@ export const receivePhotographerPriority = createAsyncThunk(
       // Нулевые приоритеты на зоны
       let initZonesPriority = {};
       for (let item of zones) {
-        initZonesPriority = { ...initZonesPriority, [`zone${item.number}`]: 0 };
+        initZonesPriority = {
+          ...initZonesPriority,
+          [`zone${item.number}`]: "-",
+        };
       }
 
       // Соединение информации о фотографах и нулевых приоритетов
@@ -71,14 +77,29 @@ export const receivePhotographerPriority = createAsyncThunk(
         data.push(item);
       }
 
-      return { zoneCount: zones.length, data };
+      return { zonesInfo: listZoneInfo, zoneCount: zones.length, data };
     } catch (error) {
       return rejectWithValue(error);
     }
   },
 );
 
-const initialState: EventState = { event: [] };
+export const resetPhotographerPriority = createAsyncThunk(
+  "event/photographerPriority/reset",
+  async (_, { rejectWithValue, getState }) => {
+    try {
+      const state: any = getState();
+      for (let item of state.events.zonesInfo) {
+        await EventController.deleteZoneInfo(item.id);
+      }
+      return;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  },
+);
+
+const initialState: EventState = { event: [], zonesInfo: [] };
 
 const eventSlice = createSlice({
   name: "event",
@@ -87,6 +108,11 @@ const eventSlice = createSlice({
     addEvent(state, action) {
       state.event = action.payload;
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(receivePhotographerPriority.fulfilled, (state, action) => {
+      state.zonesInfo = action.payload.zonesInfo;
+    });
   },
 });
 
