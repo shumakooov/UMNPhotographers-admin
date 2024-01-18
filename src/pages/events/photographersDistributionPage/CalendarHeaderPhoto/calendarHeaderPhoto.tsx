@@ -3,7 +3,8 @@ import styles from "./calendarHeaderPhoto.module.css";
 import moment from "moment";
 import { Moment } from "moment/moment";
 import axios from "axios";
-import { Event } from "../../../../store/eventSlice";
+
+import { Event } from "../../../../types/event";
 import { IconButton } from "@mui/material";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";

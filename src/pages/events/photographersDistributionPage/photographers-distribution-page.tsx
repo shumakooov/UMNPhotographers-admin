@@ -15,7 +15,7 @@ import {
 } from "../../../store/schedulePartSlice";
 import { useLocation } from "react-router-dom";
 import { Moment } from "moment";
-import { Event } from "../../../store/eventSlice";
+import { Event } from "../../../types/event";
 
 export default function PhotographersDistributionPage() {
   const location = useLocation();
