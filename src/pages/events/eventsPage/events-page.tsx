@@ -172,7 +172,8 @@ export default function EventsPage() {
       try {
         const eventsTemp: Event[] = [];
         await axios
-          .get(`${process.env.REACT_APP_API_URL}/admin/event/all`, {
+          //TODO: захардкодил ссылку
+          .get(`https://photographersekb.ru:8080/admin/event/all`, {
             withCredentials: true,
           })
           .then((res) => {

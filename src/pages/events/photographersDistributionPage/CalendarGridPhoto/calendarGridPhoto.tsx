@@ -155,6 +155,7 @@ export default function CalendarGridPhoto({ props }: any) {
                       scheduleParts: props.scheduleParts,
                       tempSchedulePartsByPhotographer:
                         tempSchedulePartsByPhotographer,
+                      curDate: props.curDate,
                       handleOpenModal: handleOpenModal,
                     }}
                   />

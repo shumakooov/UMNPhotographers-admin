@@ -75,9 +75,6 @@ export default function EventCalendarPage() {
 
   moment.updateLocale("en", { week: { dow: 1 } });
 
-  const startDay = moment().startOf("month").startOf("week");
-  const endDay = moment().endOf("month").endOf("week");
-
   function handleDate(date: Moment) {
     setCurDate(date);
   }

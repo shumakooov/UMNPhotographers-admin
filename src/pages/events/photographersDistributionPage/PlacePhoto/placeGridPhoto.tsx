@@ -169,18 +169,9 @@ export default function PlaceGridPhoto({ props }: any) {
   const [responseAct, setResponseAct] = React.useState<ActivityFull>();
   const [activitiesByPhotographer, setActivitiesByPhotographer] =
     React.useState<ActivityFull[]>([]);
-  // let activitiesByPhotographer: ActivityFull[] = [];
-
-  const getActivitiesByPhotographer = (activityId: number) => {
-    axios(`https://photographersekb.ru:8080/admin/activity/${activityId}`, {
-      withCredentials: true,
-    }).then((res) => {
-      setResponseAct(res.data);
-    });
-  };
 
   useEffect(() => {
-    const getDataLocation = () => {
+    const getActivities = () => {
       Promise.all(
         props.tempSchedulePartsByPhotographer.map((i: SchedulePart) => {
           return axios(
@@ -192,7 +183,7 @@ export default function PlaceGridPhoto({ props }: any) {
         setActivitiesByPhotographer(res.map((item) => item.data)),
       );
     };
-    getDataLocation();
+    getActivities();
   }, []);
 
   return (
@@ -217,38 +208,44 @@ export default function PlaceGridPhoto({ props }: any) {
         })}
 
         {/*<Event />*/}
-        {activitiesByPhotographer?.map((responseAct: ActivityFull) => {
-          let startTime = moment(responseAct?.startTime);
-          let endTime = moment(responseAct?.endTime);
-          let duration = moment.duration(endTime.diff(startTime));
+        {activitiesByPhotographer
+          ?.filter(
+            (i: ActivityFull) =>
+              props.curDate?.isBetween(i.startTime, i.endTime) ||
+              props.curDate?.isSame(i.endTime, "day"),
+          )
+          .map((responseAct: ActivityFull) => {
+            let startTime = moment(responseAct?.startTime);
+            let endTime = moment(responseAct?.endTime);
+            let duration = moment.duration(endTime.diff(startTime));
 
-          const EVENT_TOP =
-            startTime.hours() * HALF_HOUR_HEIGHT * 2 +
-            HOUR_MARGIN_TOP +
-            startTime.minutes();
-          const EVENT_HEIGHT =
-            duration.hours() * HALF_HOUR_HEIGHT * 2 + duration.minutes();
+            const EVENT_TOP =
+              startTime.hours() * HALF_HOUR_HEIGHT * 2 +
+              HOUR_MARGIN_TOP +
+              startTime.minutes();
+            const EVENT_HEIGHT =
+              duration.hours() * HALF_HOUR_HEIGHT * 2 + duration.minutes();
 
-          return (
-            <>
-              <button
-                className={styles.eventBtn}
-                style={{
-                  top: EVENT_TOP,
-                  height: EVENT_HEIGHT,
-                }}
-                onClick={(e) => {
-                  handleOpen(e, responseAct);
-                }}
-                draggable={true}
-                onDragStart={(e) => dragStartHandler(e, responseAct)}
-                onDragEnd={(e) => dragEndHandler(e, responseAct)}
-              >
-                {responseAct?.name}
-              </button>
-            </>
-          );
-        })}
+            return (
+              <>
+                <button
+                  className={styles.eventBtn}
+                  style={{
+                    top: EVENT_TOP,
+                    height: EVENT_HEIGHT,
+                  }}
+                  onClick={(e) => {
+                    handleOpen(e, responseAct);
+                  }}
+                  draggable={true}
+                  onDragStart={(e) => dragStartHandler(e, responseAct)}
+                  onDragEnd={(e) => dragEndHandler(e, responseAct)}
+                >
+                  {responseAct?.name}
+                </button>
+              </>
+            );
+          })}
 
         {/*<div>*/}
         {/*    <Modal*/}
