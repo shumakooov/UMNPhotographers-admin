@@ -6,6 +6,7 @@ import {
   GridToolbarFilterButton,
   GridToolbarExport,
   useGridApiContext,
+  GridColDef,
 } from "@mui/x-data-grid";
 import WrapperWithActions from "../../../components/ui/wrapperWithActions/wrapper-with-actions";
 import { IconButton } from "@mui/material";
@@ -17,7 +18,7 @@ import { useParams } from "react-router-dom";
 import { Evaluation, EvaluationRow } from "../../../types/photographer";
 import Loader from "../../../components/ui/Loader";
 
-const columns = [
+const columns: GridColDef[] = [
   {
     field: "photographer",
     headerName: "Фотограф",
@@ -101,7 +102,7 @@ export default function RatePhotographersPage() {
           </IconButton>
         </>
       }*/
-      style={{ padding: "16px 64px" }}
+      p="16px 64px"
     >
       <DataGrid
         columns={columns}

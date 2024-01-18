@@ -1,3 +1,17 @@
+export type Event = {
+  id: number;
+  name: string;
+  level: number;
+  startTime: string;
+  endTime: string;
+  timeZone: string;
+  address: string;
+  driveLink: string | null;
+  photographersCount: number;
+  published: boolean | null;
+  description: string | null;
+};
+
 export type Zone = {
   id: number;
   number: number;

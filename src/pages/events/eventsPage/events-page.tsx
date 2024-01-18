@@ -259,7 +259,7 @@ export default function EventsPage() {
           </ModalCED>
         </>
       }
-      style={{ padding: "16px 64px" }}
+      p="16px 64px"
     >
       <div style={{ height: 400, width: "100%" }}>
         <DataGrid

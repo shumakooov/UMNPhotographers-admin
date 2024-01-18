@@ -161,13 +161,12 @@ export default function AboutPhotographer() {
           </IconButton>
         </>
       }
-      p="34px"
     >
       <Grid
         container
         spacing="34px"
         direction="column"
-        sx={{ height: "820px" }}
+        sx={{ height: "820px", padding: "34px" }}
       >
         <Grid item xs={6}>
           <div className="user-info__avatar shadow-container"></div>
