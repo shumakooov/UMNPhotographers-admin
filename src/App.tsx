@@ -15,6 +15,12 @@ import PhotographersDistributionPage from "./pages/events/photographersDistribut
 import RatePhotographersPage from "./pages/events/ratePhotographersPage/rate-photographers-page";
 import Header from "./components/header";
 import { CookiesProvider, useCookies } from "react-cookie";
+import DevicesPageWrapper from "./pages/devices";
+import CamerasTable from "./pages/devices/cameras-table";
+import OpticsTable from "./pages/devices/optics-table";
+import FlashesTable from "./pages/devices/flashes-table";
+import AccumulatorsTable from "./pages/devices/accumulators-table";
+import MemoryTable from "./pages/devices/memory-table";
 
 function App() {
   const [cookies, setCookies] = useCookies(["SESSION"]);
@@ -51,9 +57,13 @@ function App() {
               <Route path="" element={<AllPhotographersPage />} />
               <Route path=":id" element={<ProfilePhotographerPage />} />
             </Route>
-            <Route path="/devices/" element={<Outlet />}>
+            <Route path="/devices/" element={<DevicesPageWrapper />}>
               <Route path="" element={<DevicesPage />} />
-              <Route path=":type" element={<DevicesPage />} />
+              <Route path="camera" element={<CamerasTable />} />
+              <Route path="lens" element={<OpticsTable />} />
+              <Route path="flash" element={<FlashesTable />} />
+              <Route path="battery" element={<AccumulatorsTable />} />
+              <Route path="memory" element={<MemoryTable />} />
             </Route>
             <Route path="/settings" element={<ChangePassPage />} />
             <Route path="/profile" element={<ChangePassPage />} />

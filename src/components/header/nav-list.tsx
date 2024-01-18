@@ -9,7 +9,7 @@ const photographerLinks = [{ title: "Все", to: "/photographers" }];
 const devicesLinks = [
   { title: "Все", to: "/devices" },
   { title: "Камеры", to: "/devices/camera" },
-  { title: "Оптика", to: "/devices/leens" },
+  { title: "Оптика", to: "/devices/lens" },
   { title: "Вспышки", to: "/devices/flash" },
   { title: "Батареи", to: "/devices/battery" },
   { title: "Карты памяти", to: "/devices/memory" },
