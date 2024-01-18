@@ -1,18 +1,12 @@
 import * as React from "react";
-import {
-  DataGrid,
-  GridColDef,
-  GridRowModel,
-  GridRowsProp,
-  GridSortModel,
-  GridToolbar,
-} from "@mui/x-data-grid";
+import { DataGrid, GridColDef, GridToolbar } from "@mui/x-data-grid";
 import ModalCED from "../../../components/modalCED/modal-ced";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import PhotographerController from "../../../api/photographerContoller";
 
 interface Photographer {
   id: number;
@@ -57,32 +51,25 @@ export default function AllPhotographersPage() {
   useEffect(() => {
     const getData = async () => {
       try {
-        const photosTemp: Photographer[] = [];
-        const result = await axios
-          .get(
-            `https://photographersekb.ru:8080/admin/photographer/all?page=0&size=30`,
-            { withCredentials: true }
-          )
+        PhotographerController.getAll()
           .then((res) => {
-            res.data.list.map((e: any) =>
-              photosTemp.push({
-                id: e.id,
-                surname: e.surname,
-                firstname: e.firstname,
-                phone: e.phone,
-                vk: e.contacts?.vk,
-                tg: e.contacts?.tg,
-                email: e.email,
-                technic: e.technique_info_id,
-                portfolio: e.portfolio,
-                trainee: e.trainee,
-                status: e.status,
-                description: e.description,
-                score: e.score,
-              })
-            );
-          });
-        setPhotographers(photosTemp);
+            return res.map((e: any) => ({
+              id: e.id,
+              surname: e.surname,
+              firstname: e.firstname,
+              phone: e.phone,
+              vk: e.contacts?.vk,
+              tg: e.contacts?.tg,
+              email: e.email,
+              technic: e.techniqueInfoId,
+              portfolio: e.portfolio,
+              trainee: e.trainee,
+              status: e.status,
+              description: e.description,
+              score: e.score,
+            }));
+          })
+          .then((res) => setPhotographers(res));
       } catch (e) {
         console.error(e);
       }

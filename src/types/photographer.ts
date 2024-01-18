@@ -1,3 +1,33 @@
+export type Photographer = {
+  id: number;
+  email: string;
+  firstname: string;
+  surname: string;
+  middleName: string;
+  birthdate: string;
+  phone: string;
+  contacts: {
+    vk: string | null;
+    tg: string | null;
+  } | null;
+  score: number | null;
+  status: "created" | "blocked" | "approved";
+  registrationDate: string;
+  description: string | null;
+  trainee: boolean;
+  portfolio: string | null;
+  techniqueInfoId: number;
+};
+
+export type NewPhotographer = {
+  email: string;
+  firstname: string;
+  surname: string;
+  middleName: string;
+  trainee?: boolean;
+  description?: string;
+};
+
 export type Evaluation = {
   id: number;
   photographer: {
