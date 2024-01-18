@@ -1,5 +1,6 @@
 import instance from "./instance";
 import { AxiosResponse } from "axios";
+import { Evaluation } from "../types/photographer";
 
 type NewUser = {
   email: string;
@@ -41,9 +42,7 @@ export default class PhotographerController {
     return instance.get("/photographer/all");
   }
 
-  static async getById(
-    id: string | undefined,
-  ): Promise<AxiosResponse<UserInfo>> {
+  static async getById(id: string | undefined): Promise<UserInfo> {
     const { data } = await instance.get(`/photographer/${id}`);
     return data;
   }
@@ -53,9 +52,13 @@ export default class PhotographerController {
   static async edit(
     formData: Omit<UserInfo, "registrationDate" | "techniqueInfoId">,
   ): Promise<AxiosResponse<null>> {
-    const { data } = await instance.put("/photographer/edit", formData);
-    console.log(data);
+    return instance.put("/photographer/edit", formData);
+  }
 
-    return data;
+  static async getEvaluationAll(eventId: string): Promise<Evaluation[]> {
+    const { data } = await instance.get(
+      `/evaluation/all?eventId=${eventId}&page=0&size=100`,
+    );
+    return data.list;
   }
 }
