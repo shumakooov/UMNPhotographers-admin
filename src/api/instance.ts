@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: `${process.env.REACT_APP_API_URL}/admin`,
+  baseURL: "https://photographersekb.ru:8080/admin",
   withCredentials: true,
 });
 
@@ -16,7 +16,7 @@ instance.interceptors.response.use(
     } else {
       return Promise.reject(error);
     }
-  }
+  },
 );
 
 export default instance;
