@@ -1,26 +1,28 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import EventController from "../api/eventContoller";
 import { ZoneInfo } from "../types/event";
-import { RootState } from "./store";
-
-export interface Event {
-  id: number;
-  name: string;
-  level: number;
-  startTime: string;
-  endTime: string;
-  timeZone: string;
-  address: string;
-  driveLink: string;
-  photographersCount: number;
-  published: boolean;
-  description: string;
-}
+import { Event } from "../types/event";
 
 export interface EventState {
   event: Event[];
   zonesInfo: ZoneInfo[];
 }
+
+export const changeEvent = createAsyncThunk(
+  "event/change",
+  async (
+    [eventId, newData]: [string, Omit<Event, "id">],
+    { rejectWithValue },
+  ) => {
+    try {
+      await EventController.putEvent(eventId, newData);
+      const { data } = await EventController.getEvent(eventId);
+      return data;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  },
+);
 
 export const receivePhotographerPriority = createAsyncThunk(
   "event/photographerPriority",

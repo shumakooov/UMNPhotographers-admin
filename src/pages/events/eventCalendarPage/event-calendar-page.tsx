@@ -9,7 +9,8 @@ import { addLocation, Location } from "../../../store/locationSlice";
 import { addZone, Zone } from "../../../store/zoneSlice";
 import { Activity, addActivity } from "../../../store/activitySlice";
 import { RootState } from "../../../store/store";
-import { addEvent, Event } from "../../../store/eventSlice";
+import { addEvent } from "../../../store/eventSlice";
+import { Event } from "../../../types/event";
 import { Moment } from "moment/moment";
 import { useLocation } from "react-router-dom";
 

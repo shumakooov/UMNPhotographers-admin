@@ -161,121 +161,119 @@ export default function AboutPhotographer() {
           </IconButton>
         </>
       }
-      p="34px"
     >
-      <Grid
-        container
-        spacing="34px"
-        direction="column"
-        sx={{ height: "820px" }}
-      >
-        <Grid item xs={6}>
-          <div className="user-info__avatar shadow-container"></div>
+      <Grid container spacing="34px" sx={{ padding: "34px" }}>
+        <Grid item container direction="column" xs={3} spacing="34px">
+          {/*<Grid item xs={6}>
+            <div className="user-info__avatar shadow-container"></div>
+          </Grid>*/}
+          <Grid item>
+            <div className="form-container shadow-container">
+              <TextField
+                required
+                id="outlined-required"
+                label="Фамилия"
+                name="surname"
+                value={userData.surname}
+                onChange={handleChange}
+              />
+              <TextField
+                required
+                id="outlined-required"
+                label="Имя"
+                name="firstname"
+                value={userData.firstname}
+                onChange={handleChange}
+              />
+              <TextField
+                id="outlined-required"
+                label="Отчество"
+                name="surname"
+                value={userData.middleName}
+                onChange={handleChange}
+              />
+              <Box
+                sx={{
+                  padding: "0 10px",
+                  display: { xs: "flex", justifyContent: "space-between" },
+                }}
+              >
+                <Typography>
+                  <span style={{ opacity: 0.8 }}>Дата рождения:</span> <br />
+                  {userData.birthdate}
+                </Typography>
+                <Typography>
+                  <span style={{ opacity: 0.8 }}>Зарегестрирован:</span> <br />
+                  {userData.registrationDate}
+                </Typography>
+              </Box>
+            </div>
+          </Grid>
         </Grid>
-        <Grid item>
-          <div className="form-container shadow-container">
-            <TextField
-              required
-              id="outlined-required"
-              label="Фамилия"
-              name="surname"
-              value={userData.surname}
-              onChange={handleChange}
-            />
-            <TextField
-              required
-              id="outlined-required"
-              label="Имя"
-              name="firstname"
-              value={userData.firstname}
-              onChange={handleChange}
-            />
-            <TextField
-              id="outlined-required"
-              label="Отчество"
-              name="surname"
-              value={userData.middleName}
-              onChange={handleChange}
-            />
-            <Box
-              sx={{
-                padding: "0 10px",
-                display: { xs: "flex", justifyContent: "space-between" },
-              }}
-            >
-              <Typography>
-                <span style={{ opacity: 0.8 }}>Дата рождения:</span> <br />
-                {userData.birthdate}
-              </Typography>
-              <Typography>
-                <span style={{ opacity: 0.8 }}>Зарегестрирован:</span> <br />
-                {userData.registrationDate}
-              </Typography>
-            </Box>
-          </div>
+        <Grid item container direction="column" xs={4} spacing="34px">
+          <Grid item>
+            <div className="form-container shadow-container">
+              <Typography variant="h6">Контакты</Typography>
+              <TextField
+                label="Телефона"
+                name="phone"
+                value={userData.phone}
+                onChange={handleChange}
+              />
+              <TextField
+                label="VK"
+                name="vk"
+                value={userData.contacts?.vk}
+                onChange={handleChange}
+              />
+              <TextField
+                label="Telegram"
+                name="tg"
+                value={userData.contacts?.tg}
+                onChange={handleChange}
+              />
+              <TextField
+                label="yandex.mail"
+                name="email"
+                value={userData.email}
+                onChange={handleChange}
+              />
+            </div>
+          </Grid>
+          <Grid item>
+            <div className="form-container shadow-container">
+              <Typography variant="h6">Статус</Typography>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={userData.status}
+                name="status"
+                onChange={handleChange}
+              >
+                <MenuItem value="approved">Активен</MenuItem>
+                <MenuItem value="blocked">Заблокирован</MenuItem>
+                <MenuItem value="created">Создан</MenuItem>
+              </Select>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    name="trainee"
+                    checked={userData.trainee}
+                    onChange={handleChange}
+                  />
+                }
+                label="Практикант"
+              />
+              <TextField
+                label="Калибровочный уровень фотографа"
+                name="score"
+                value={userData.score === 0 ? "" : userData.score}
+                onChange={handleChange}
+              />
+            </div>
+          </Grid>
         </Grid>
-        <Grid item>
-          <div className="form-container shadow-container">
-            <Typography variant="h6">Контакты</Typography>
-            <TextField
-              label="Телефона"
-              name="phone"
-              value={userData.phone}
-              onChange={handleChange}
-            />
-            <TextField
-              label="VK"
-              name="vk"
-              value={userData.contacts?.vk}
-              onChange={handleChange}
-            />
-            <TextField
-              label="Telegram"
-              name="tg"
-              value={userData.contacts?.tg}
-              onChange={handleChange}
-            />
-            <TextField
-              label="yandex.mail"
-              name="email"
-              value={userData.email}
-              onChange={handleChange}
-            />
-          </div>
-        </Grid>
-        <Grid item>
-          <div className="form-container shadow-container">
-            <Typography variant="h6">Статус</Typography>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={userData.status}
-              name="status"
-              onChange={handleChange}
-            >
-              <MenuItem value="approved">Активен</MenuItem>
-              <MenuItem value="blocked">Заблокирован</MenuItem>
-              <MenuItem value="created">Создан</MenuItem>
-            </Select>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  name="trainee"
-                  checked={userData.trainee}
-                  onChange={handleChange}
-                />
-              }
-              label="Практикант"
-            />
-            <TextField
-              label="Калибровочный уровень фотографа"
-              name="score"
-              value={userData.score === 0 ? "" : userData.score}
-              onChange={handleChange}
-            />
-          </div>
-        </Grid>
-        <Grid item>
+        <Grid item xs={5}>
           <div className="form-container shadow-container">
             <Typography variant="h6">Краткая характеристика</Typography>
             <TextField

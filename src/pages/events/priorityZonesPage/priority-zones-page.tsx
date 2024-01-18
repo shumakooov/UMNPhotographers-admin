@@ -114,7 +114,7 @@ export default function PriorityZonesPage() {
           </IconButton>
         </>
       }
-      style={{ padding: "16px 64px" }}
+      p="16px 64px"
     >
       <DataGrid
         rows={rows}
