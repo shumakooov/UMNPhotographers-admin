@@ -35,7 +35,7 @@ export default function NavList({
       { title: "Расписание", to: `/events/${eventId}/calendar` },
       { title: "Приоритеты", to: `/events/${eventId}/priority` },
       { title: "Распределение", to: `/events/${eventId}/distribution` },
-      { title: "Оценка фотографов", to: `/events/${eventId}/rate` },
+      { title: "Оценки фотографов", to: `/events/${eventId}/rate` },
       { title: "О мероприятии", to: `/events/${eventId}` },
     ];
 
