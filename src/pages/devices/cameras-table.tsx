@@ -1,15 +1,5 @@
 import * as React from "react";
-import {
-  DataGrid,
-  GridColDef,
-  GridRowModel,
-  GridRowsProp,
-  GridToolbar,
-  GridToolbarColumnsButton,
-  GridToolbarContainer,
-  GridToolbarExport,
-  GridToolbarFilterButton,
-} from "@mui/x-data-grid";
+import { DataGrid, GridColDef, GridRowModel } from "@mui/x-data-grid";
 import Alert, { AlertProps } from "@mui/material/Alert";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
@@ -20,6 +10,7 @@ import Button from "@mui/material/Button";
 import { useEffect, useState } from "react";
 import DeviceController from "../../api/deviceController";
 import { Camera } from "../../types/device";
+import CustomTableToolbar from "../../components/custom-table-toolbar";
 
 interface Cameras {
   id: number;
@@ -189,13 +180,7 @@ export default function CamerasTable() {
             toolbarColumns: "Столбцы",
           }}
           slots={{
-            toolbar: () => (
-              <GridToolbarContainer>
-                <GridToolbarColumnsButton />
-                <GridToolbarFilterButton />
-                <GridToolbarExport />
-              </GridToolbarContainer>
-            ),
+            toolbar: CustomTableToolbar,
           }}
           initialState={{
             sorting: {

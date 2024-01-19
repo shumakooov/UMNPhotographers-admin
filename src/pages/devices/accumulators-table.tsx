@@ -1,13 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from "react";
-import {
-  DataGrid,
-  GridColDef,
-  GridRowModel,
-  GridToolbarColumnsButton,
-  GridToolbarContainer,
-  GridToolbarExport,
-  GridToolbarFilterButton,
-} from "@mui/x-data-grid";
+import { DataGrid, GridColDef, GridRowModel } from "@mui/x-data-grid";
 import Alert, { AlertProps } from "@mui/material/Alert";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
@@ -17,6 +9,7 @@ import Snackbar from "@mui/material/Snackbar";
 import Button from "@mui/material/Button";
 import DeviceController from "../../api/deviceController";
 import { Battery } from "../../types/device";
+import CustomTableToolbar from "../../components/custom-table-toolbar";
 
 interface Accumulators {
   id: number;
@@ -176,13 +169,7 @@ export default function AccumulatorsTable() {
             toolbarColumns: "Столбцы",
           }}
           slots={{
-            toolbar: () => (
-              <GridToolbarContainer>
-                <GridToolbarColumnsButton />
-                <GridToolbarFilterButton />
-                <GridToolbarExport />
-              </GridToolbarContainer>
-            ),
+            toolbar: CustomTableToolbar,
           }}
           initialState={{
             sorting: {

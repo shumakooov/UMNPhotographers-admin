@@ -1,13 +1,7 @@
 import { useState, useEffect } from "react";
-import {
-  DataGrid,
-  GridColDef,
-  GridToolbarColumnsButton,
-  GridToolbarContainer,
-  GridToolbarExport,
-  GridToolbarFilterButton,
-} from "@mui/x-data-grid";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import DeviceController from "../../api/deviceController";
+import CustomTableToolbar from "../../components/custom-table-toolbar";
 
 const columns: GridColDef[] = [
   {
@@ -41,20 +35,22 @@ export default function DevicesPage() {
   const [rows, setRows] = useState([]);
 
   useEffect(() => {
-    Promise.all(
-      ["camera", "flash", "lens", "memory", "battery"].map((type) =>
-        DeviceController.getAllByType(type),
-      ),
-    )
-      .then((res: any) =>
+    const getData = async () => {
+      return Promise.all(
+        ["camera", "flash", "lens", "memory", "battery"].map((type) =>
+          DeviceController.getAllByType(type),
+        ),
+      ).then((res: any) =>
         res.flat(1).map((item: any) => ({
           ...item,
           manufacturer: item.manufacturer.name,
           model: item.model.name,
           rating: item.rating ? item.rating : "-",
         })),
-      )
-      .then((res) => setRows(res));
+      );
+    };
+
+    getData().then((res) => setRows(res));
   }, []);
 
   return (
@@ -71,13 +67,7 @@ export default function DevicesPage() {
         toolbarColumns: "Столбцы",
       }}
       slots={{
-        toolbar: () => (
-          <GridToolbarContainer>
-            <GridToolbarColumnsButton />
-            <GridToolbarFilterButton />
-            <GridToolbarExport />
-          </GridToolbarContainer>
-        ),
+        toolbar: CustomTableToolbar,
       }}
     />
   );

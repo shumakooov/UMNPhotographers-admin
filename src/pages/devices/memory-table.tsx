@@ -1,13 +1,5 @@
 import * as React from "react";
-import {
-  DataGrid,
-  GridColDef,
-  GridRowModel,
-  GridToolbarColumnsButton,
-  GridToolbarContainer,
-  GridToolbarExport,
-  GridToolbarFilterButton,
-} from "@mui/x-data-grid";
+import { DataGrid, GridColDef, GridRowModel } from "@mui/x-data-grid";
 import Alert, { AlertProps } from "@mui/material/Alert";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
@@ -18,6 +10,7 @@ import Button from "@mui/material/Button";
 import { useEffect, useState } from "react";
 import DeviceController from "../../api/deviceController";
 import { Memory } from "../../types/device";
+import CustomTableToolbar from "../../components/custom-table-toolbar";
 
 const columns: GridColDef[] = [
   { field: "id", headerName: "ID" },
@@ -176,13 +169,7 @@ export default function MemoryTable() {
             toolbarColumns: "Столбцы",
           }}
           slots={{
-            toolbar: () => (
-              <GridToolbarContainer>
-                <GridToolbarColumnsButton />
-                <GridToolbarFilterButton />
-                <GridToolbarExport />
-              </GridToolbarContainer>
-            ),
+            toolbar: CustomTableToolbar,
           }}
           initialState={{
             sorting: {
