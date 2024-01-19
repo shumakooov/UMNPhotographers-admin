@@ -1,12 +1,12 @@
 import * as React from "react";
-import { DataGrid, GridColDef, GridToolbar } from "@mui/x-data-grid";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import ModalCED from "../../../components/modalCED/modal-ced";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import PhotographerController from "../../../api/photographerContoller";
+import CustomTableToolbar from "../../../components/custom-table-toolbar";
 
 interface Photographer {
   id: number;
@@ -79,9 +79,9 @@ export default function AllPhotographersPage() {
   }, []);
 
   return (
-    <div style={{ padding: "16px" }}>
-      <div className="shadow-container" style={{ padding: "10px" }}>
-        <ModalCED name={"Добавить фотографа"}>
+    <div style={{ padding: "16px 120px" }}>
+      <div className="shadow-container">
+        {/*        <ModalCED name={"Добавить фотографа"}>
           <Box
             component="form"
             sx={{
@@ -104,17 +104,16 @@ export default function AllPhotographersPage() {
             <TextField id="outlined-required" label="Статус фотографа" />
             <TextField id="outlined-required" label="Статус пользователя" />
           </Box>
-        </ModalCED>
+        </ModalCED>*/}
 
         <div style={{ height: 600, width: "100%" }}>
           <DataGrid
             rows={photographers}
             columns={columns}
             slots={{
-              toolbar: GridToolbar,
+              toolbar: CustomTableToolbar,
             }}
             onRowClick={useHandleRowClick}
-            density="compact"
           />
         </div>
       </div>
