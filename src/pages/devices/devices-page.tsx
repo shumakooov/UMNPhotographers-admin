@@ -24,14 +24,15 @@ const columns: GridColDef[] = [
     headerName: "Модель",
     width: 200,
   },
-  {
-    field: "rating",
-    headerName: "Рейтинг",
-    width: 200,
-  },
+
   {
     field: "type",
     headerName: "Тип",
+    width: 200,
+  },
+  {
+    field: "rating",
+    headerName: "Рейтинг",
     width: 200,
   },
 ];

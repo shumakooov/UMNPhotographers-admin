@@ -31,7 +31,7 @@ interface Cameras {
 }
 
 const columns: GridColDef[] = [
-  { field: "id", headerName: "ID", width: 100 },
+  { field: "id", headerName: "ID" },
 
   {
     field: "manufacturer",
@@ -43,10 +43,10 @@ const columns: GridColDef[] = [
   {
     field: "crop",
     headerName: "Кроп-фактор",
-    width: 150,
+    width: 200,
     editable: true,
   },
-  { field: "rating", headerName: "Рейтинг", width: 120, editable: true },
+  { field: "rating", headerName: "Рейтинг", width: 200, editable: true },
 ];
 
 const useFakeMutation = () => {
@@ -180,6 +180,7 @@ export default function CamerasTable() {
           rows={rows}
           columns={columns}
           processRowUpdate={processRowUpdate}
+          checkboxSelection
           localeText={{
             noRowsLabel: "Нет техники",
             toolbarExport: "Экспорт",

@@ -79,7 +79,7 @@ export default function AllPhotographersPage() {
   }, []);
 
   return (
-    <div style={{ padding: "16px" }}>
+    <div style={{ padding: "16px 64px" }}>
       <div className="shadow-container" style={{ padding: "10px" }}>
         <ModalCED name={"Добавить фотографа"}>
           <Box
