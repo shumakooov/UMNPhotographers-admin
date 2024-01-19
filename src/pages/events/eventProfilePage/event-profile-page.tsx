@@ -102,9 +102,7 @@ export default function EventProfilePage() {
 
   const handleSave = () => {
     if (eventId) {
-      dispatch(changeEvent([eventId, eventData])).then(() => {
-        navigate("/events");
-      });
+      dispatch(changeEvent([eventId, eventData]));
     }
   };
 

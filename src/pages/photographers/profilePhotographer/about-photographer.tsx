@@ -104,10 +104,9 @@ export default function AboutPhotographer() {
     });
   };
 
-  const handleSubmit = () => {
+  const handleSave = () => {
     const { registrationDate, techniqueInfoId, ...formData } = userData;
     dispatch(changeUserInfo(formData));
-    navigate("/photographers");
   };
 
   useEffect(() => {
@@ -139,7 +138,7 @@ export default function AboutPhotographer() {
                 transition: "opacity 0.3s",
               },
             }}
-            onClick={handleSubmit}
+            onClick={handleSave}
           >
             <SaveIcon />
           </IconButton>
