@@ -13,7 +13,11 @@ export default function CustomLink({
   const match = useMatch(to);
 
   const matchStyles = match
-    ? { color: "#2196F3", borderBottom: "2px solid #2196F3" }
+    ? {
+        color: "#2196F3",
+        borderBottom: "2px solid #2196F3",
+        transition: "color 300ms, border-color 500ms ease-out",
+      }
     : { color: "#79747E" };
 
   return (

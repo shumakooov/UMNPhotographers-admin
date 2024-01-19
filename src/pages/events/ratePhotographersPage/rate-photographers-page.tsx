@@ -17,6 +17,7 @@ import PhotographerController from "../../../api/photographerContoller";
 import { useParams } from "react-router-dom";
 import { Evaluation, EvaluationRow } from "../../../types/photographer";
 import Loader from "../../../components/ui/Loader";
+import CustomTableToolbar from "../../../components/custom-table-toolbar";
 
 const columns: GridColDef[] = [
   {
@@ -55,7 +56,6 @@ export default function RatePhotographersPage() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const { id: eventId } = useParams();
   const [rows, setRows] = useState<EvaluationRow[]>([]);
-  // const apiRef = useGridApiContext();
 
   useEffect(() => {
     if (eventId) {
@@ -82,28 +82,7 @@ export default function RatePhotographersPage() {
   }
 
   return (
-    <WrapperWithActions
-      /*actions={
-        <>
-          <IconButton aria-label="share" color="primary">
-            <ViewColumnIcon />
-          </IconButton>
-          <IconButton aria-label="reset" color="primary">
-            <FilterListIcon />
-          </IconButton>
-          <IconButton
-            aria-label="save"
-            color="primary"
-            onClick={() => {
-              csvRef.current.exportDataAsCsv();
-            }}
-          >
-            <SaveAltIcon />
-          </IconButton>
-        </>
-      }*/
-      p="16px 64px"
-    >
+    <WrapperWithActions p="16px 120px">
       <DataGrid
         columns={columns}
         rows={rows}
@@ -111,19 +90,9 @@ export default function RatePhotographersPage() {
         style={rows.length === 0 ? { height: "80vh" } : {}}
         localeText={{
           noRowsLabel: "Нет оценок",
-          toolbarExport: "Экспорт",
-          toolbarExportCSV: "CSV",
-          toolbarFilters: "Фильтры",
-          toolbarColumns: "Столбцы",
         }}
         slots={{
-          toolbar: () => (
-            <GridToolbarContainer>
-              <GridToolbarColumnsButton />
-              <GridToolbarFilterButton />
-              <GridToolbarExport />
-            </GridToolbarContainer>
-          ),
+          toolbar: CustomTableToolbar,
         }}
       />
     </WrapperWithActions>

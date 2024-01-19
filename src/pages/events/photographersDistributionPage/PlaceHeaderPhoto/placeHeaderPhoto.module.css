@@ -1,8 +1,8 @@
 .wrapper {
-    /*position: fixed;*/
-    /*z-index: 10;*/
+    position: sticky;
+    top: 109px;
+    z-index: 10;
     background-color: dimgray;
-    /*width: 100%;*/
 }
 
 .zone {

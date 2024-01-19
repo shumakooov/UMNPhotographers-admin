@@ -1,5 +1,6 @@
 .wrapperHeader {
-    /*position: fixed;*/
+    position: sticky;
+    top: 64px;
     width: 100%;
     z-index: 10;
 }
