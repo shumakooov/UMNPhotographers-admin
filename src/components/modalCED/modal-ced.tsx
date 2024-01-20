@@ -11,14 +11,15 @@ const style = {
   transform: "translate(-50%, -50%)",
   width: 400,
   bgcolor: "background.paper",
-  border: "2px solid #000",
+  borderRadius: 2,
   boxShadow: 24,
-  p: 4,
+  p: 3,
 };
 
 export default function ModalCED({
   name,
   variant = "default",
+  buttons = "allButtons",
   icon,
   children,
   ...props
@@ -54,17 +55,23 @@ export default function ModalCED({
         <Box sx={style}>
           {children}
 
-          <Stack spacing={2} direction="row" className={"btn_group"}>
+          {buttons === "allButtons" ? (
+            <Stack spacing={2} direction="row" className={"btn_group"}>
+              <Button onClick={handleOpenChild} variant="contained">
+                Сохранить
+              </Button>
+              <Button onClick={handleOpenChild} variant="contained">
+                Удалить
+              </Button>
+              <Button onClick={handleClose} variant="contained">
+                Отменить
+              </Button>
+            </Stack>
+          ) : (
             <Button onClick={handleOpenChild} variant="contained">
               Сохранить
             </Button>
-            <Button onClick={handleOpenChild} variant="contained">
-              Удалить
-            </Button>
-            <Button onClick={handleClose} variant="contained">
-              Отменить
-            </Button>
-          </Stack>
+          )}
         </Box>
       </Modal>
 
@@ -82,6 +89,7 @@ export default function ModalCED({
                 onClick={() => {
                   handleCloseChild();
                   handleClose();
+                  props.onClickSave();
                 }}
               >
                 Да, уверен

@@ -1,0 +1,10 @@
+.column_modal {
+    display: flex;
+    flex-direction: row;
+}
+
+.box_style {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}

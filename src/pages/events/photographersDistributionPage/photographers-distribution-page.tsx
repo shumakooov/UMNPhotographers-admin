@@ -20,6 +20,7 @@ import { Event } from "../../../types/event";
 export default function PhotographersDistributionPage() {
   const location = useLocation();
   const activeEventId = location.pathname.split("/")[2];
+  const [event, setEvent] = React.useState<Event>();
   const [curDate, setCurDate] = React.useState<Moment>();
   const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
@@ -41,6 +42,16 @@ export default function PhotographersDistributionPage() {
           })
           .then((res) => {
             dispatch(addSchedulePart(res.data.list));
+          });
+        axios
+          .get(
+            `https://photographersekb.ru:8080/admin/event/${activeEventId}`,
+            {
+              withCredentials: true,
+            },
+          )
+          .then((res) => {
+            setEvent(res.data);
             setIsLoading(false);
           });
       } catch (e) {
@@ -68,7 +79,7 @@ export default function PhotographersDistributionPage() {
     <div className={styles.wrapper}>
       <CalendarHeaderPhoto
         props={{
-          eventId: activeEventId,
+          event: event,
           handleDate: handleDate,
         }}
       ></CalendarHeaderPhoto>

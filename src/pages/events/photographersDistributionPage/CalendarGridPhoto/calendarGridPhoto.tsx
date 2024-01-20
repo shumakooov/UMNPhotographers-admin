@@ -136,7 +136,6 @@ export default function CalendarGridPhoto({ props }: any) {
             );
 
             if (tempSchedulePartsByPhotographer.length > 0) {
-              console.log(tempSchedulePartsByPhotographer);
               return (
                 <div key={schedule.id} className={styles.timeLine}>
                   <PlaceHeaderPhoto

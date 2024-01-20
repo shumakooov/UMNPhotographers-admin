@@ -10,26 +10,12 @@ import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 export default function CalendarHeaderPhoto({ props }: any) {
-  const [event, setEvent] = React.useState<Event>();
-  useEffect(() => {
-    const getEvent = () => {
-      axios
-        .get(`https://photographersekb.ru:8080/admin/event/${props.eventId}`, {
-          withCredentials: true,
-        })
-        .then((res) => {
-          setEvent(res.data);
-        });
-    };
-    getEvent();
-  }, []);
-
   let duration = moment.duration(
-    moment(event?.endTime).diff(moment(event?.startTime)),
+    moment(props.event.endTime).diff(moment(props.event.startTime)),
   );
 
   const [tempDate, setTempDate] = React.useState<Moment>(
-    moment(event?.startTime),
+    moment(props.event.startTime),
   );
 
   const [whichDay, setWhichDay] = React.useState(1);
