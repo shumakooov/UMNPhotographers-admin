@@ -10,6 +10,7 @@ import { useDispatch } from "react-redux";
 import {
   receivePhotographerPriority,
   resetPhotographerPriority,
+  changeApprovedZone,
 } from "../../../store/eventSlice";
 import { AppDispatch } from "../../../store/store";
 import Loader from "../../../components/ui/Loader";
@@ -27,7 +28,7 @@ const cellColor = (params: GridCellParams<any>): any => {
     return styles.green;
   }
 
-  if (params.value === 4) {
+  if (params.value === "✔") {
     return styles.blue;
   }
 };
@@ -44,7 +45,7 @@ export default function PriorityZonesPage() {
       dispatch(receivePhotographerPriority(eventId))
         .then(({ payload }: { payload: any }) => {
           // @ts-ignore
-          const resColumns = [...Array(payload.zoneCount).keys()].map(
+          const resColumns = [...Array(payload.zones.length).keys()].map(
             (index) => ({
               field: `zone${index + 1}`,
               headerName: `Зона ${index + 1}`,
@@ -72,6 +73,23 @@ export default function PriorityZonesPage() {
         .then(() => {
           setIsLoading(false);
         });
+    }
+  };
+
+  const handleApprovedZone = (e: any) => {
+    if (e.value === "✔") {
+      return;
+    }
+
+    if (e.field.includes("zone")) {
+      dispatch(
+        changeApprovedZone({
+          photographerId: e.id,
+          numberZone: e.field.replace("zone", ""),
+        }),
+      ).then(() => {
+        uploadData();
+      });
     }
   };
 
@@ -125,9 +143,13 @@ export default function PriorityZonesPage() {
               pageSize: 10,
             },
           },
+          sorting: {
+            sortModel: [{ field: "id", sort: "asc" }],
+          },
         }}
         pageSizeOptions={[5]}
         checkboxSelection
+        onCellClick={handleApprovedZone}
         disableRowSelectionOnClick
         getCellClassName={(params) =>
           params.field === "firstname" ? styles.firstname : ""

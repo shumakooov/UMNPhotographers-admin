@@ -52,4 +52,14 @@ export default class EventController {
     );
     return data.list;
   }
+
+  static async putScheduleZone(
+    id: number,
+    published: boolean,
+    zoneId: number | null,
+  ): Promise<AxiosResponse<null>> {
+    return instance.put(
+      `/schedule/${id}?published=${published}&zoneId=${zoneId}`,
+    );
+  }
 }
