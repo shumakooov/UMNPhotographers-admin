@@ -77,9 +77,9 @@ export default function PriorityZonesPage() {
   };
 
   const handleApprovedZone = (e: any) => {
-    if (e.value === "✔") {
-      return;
-    }
+    // if (e.value === "✔") {
+    //   return;
+    // }
 
     if (e.field.includes("zone")) {
       dispatch(

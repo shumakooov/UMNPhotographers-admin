@@ -145,9 +145,9 @@ export const changeApprovedZone = createAsyncThunk(
       }
 
       // Сброс утверждения при повторном нажатии на галочку
-      /*if (schedule.zoneId === zoneId) {
+      if (schedule.zoneId === zoneId) {
         zoneId = null;
-      }*/
+      }
 
       const { data } = await EventController.putScheduleZone(
         schedule.id,

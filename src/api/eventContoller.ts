@@ -58,8 +58,11 @@ export default class EventController {
     published: boolean,
     zoneId: number | null,
   ): Promise<AxiosResponse<null>> {
-    return instance.put(
-      `/schedule/${id}?published=${published}&zoneId=${zoneId}`,
-    );
+    if (zoneId !== null) {
+      return instance.put(
+        `/schedule/${id}?published=${published}&zoneId=${zoneId}`,
+      );
+    }
+    return instance.put(`/schedule/${id}?published=${published}`);
   }
 }
