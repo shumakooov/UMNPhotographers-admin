@@ -1,5 +1,12 @@
 import instance from "./instance";
-import { Zone, Schedule, ZoneInfo, NewZoneInfo, Event } from "../types/event";
+import {
+  Zone,
+  Schedule,
+  ZoneInfo,
+  NewZoneInfo,
+  Event,
+  CheckRequest,
+} from "../types/event";
 import { AxiosResponse } from "axios";
 
 export default class EventController {
@@ -27,10 +34,14 @@ export default class EventController {
     return data.list;
   }
 
-  static async getAllZoneInfo(eventId: string): Promise<ZoneInfo[]> {
+  static async getAllZoneInfo(
+    eventId: string,
+    zoneId: string = "",
+  ): Promise<ZoneInfo[]> {
     const { data } = await instance.get(
-      `/zone_info/all?eventId=${eventId}&page=0&size=100`,
+      `/zone_info/all?zoneId=${zoneId}&eventId=${eventId}&page=0&size=100`,
     );
+
     return data.list;
   }
 
@@ -51,5 +62,33 @@ export default class EventController {
       `/schedule/list?eventId=${eventId}&page=0&size=100`,
     );
     return data.list;
+  }
+
+  static async putScheduleZone(
+    id: number,
+    published: boolean,
+    zoneId: number | null,
+  ): Promise<AxiosResponse<null>> {
+    if (zoneId !== null) {
+      return instance.put(
+        `/schedule/${id}?published=${published}&zoneId=${zoneId}`,
+      );
+    }
+    return instance.put(`/schedule/${id}?published=${published}`);
+  }
+
+  // Распределение
+  static async checkDistribution(
+    requestData: CheckRequest,
+  ): Promise<{ result: boolean }> {
+    const { data } = await instance.post("/service/check", requestData);
+    return data;
+  }
+
+  static async autDistribute(
+    requestData: CheckRequest,
+  ): Promise<{ result: boolean }> {
+    const { data } = await instance.post("/service/distribute", requestData);
+    return data;
   }
 }

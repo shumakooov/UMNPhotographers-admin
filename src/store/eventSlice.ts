@@ -1,11 +1,14 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import EventController from "../api/eventContoller";
-import { ZoneInfo } from "../types/event";
+import { Schedule, Zone, ZoneInfo } from "../types/event";
 import { Event } from "../types/event";
+import { RootState } from "./store";
 
 export interface EventState {
   event: Event[];
   zonesInfo: ZoneInfo[];
+  zones: Zone[];
+  scheduleList: Schedule[];
 }
 
 export const changeEvent = createAsyncThunk(
@@ -32,6 +35,20 @@ export const receivePhotographerPriority = createAsyncThunk(
       const zones = await EventController.getEventZones(eventId);
       const scheduleList = await EventController.getScheduleList(eventId);
       const listZoneInfo = await EventController.getAllZoneInfo(eventId);
+
+      const hasZoneSchedule = scheduleList.filter(
+        (item) => item.zoneId !== null,
+      );
+
+      const approvedZones = hasZoneSchedule.map((item) => {
+        const numberZone = zones.find(
+          (zone) => zone.id === item.zoneId,
+        )?.number;
+        return {
+          photographerId: item.photographerId,
+          [`zone${numberZone}`]: "✔",
+        };
+      });
 
       // Уникальные id фотографов
       const photographerIdListSet: number[] = Array.from(
@@ -74,12 +91,72 @@ export const receivePhotographerPriority = createAsyncThunk(
         );
         for (let { zoneId, priority } of photographerPriority) {
           // @ts-ignore
-          item[`zone${zoneId}`] = priority;
+          item[`zone${zones.find((zone) => zone.id === zoneId)?.number}`] =
+            priority;
         }
         data.push(item);
       }
 
-      return { zonesInfo: listZoneInfo, zoneCount: zones.length, data };
+      data = data.map((item) => {
+        const approvedZone = approvedZones.find(
+          (el) => el.photographerId === item.id,
+        );
+        if (approvedZone) {
+          return { ...item, ...approvedZone };
+        }
+
+        return item;
+      });
+
+      return { zonesInfo: listZoneInfo, zones: zones, data, scheduleList };
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  },
+);
+
+export const changeApprovedZone = createAsyncThunk(
+  "event/approvedZone/change",
+  async (
+    {
+      photographerId,
+      numberZone,
+    }: {
+      photographerId: number;
+      numberZone: string;
+    },
+    { rejectWithValue, getState },
+  ) => {
+    try {
+      const state: any = getState();
+      let zoneId: number | undefined | null = state.events.zones.find(
+        (zoneItem: Zone) => zoneItem.number === Number(numberZone),
+      )?.id;
+      const schedule = state.events.scheduleList.find(
+        (scheduleItem: Schedule) =>
+          scheduleItem.photographerId === photographerId,
+      );
+
+      if (!zoneId) {
+        return Promise.resolve("Зона не найдена");
+      }
+
+      if (!schedule) {
+        return Promise.resolve("Расписание не найдено");
+      }
+
+      // Сброс утверждения при повторном нажатии на галочку
+      if (schedule.zoneId === zoneId) {
+        zoneId = null;
+      }
+
+      const { data } = await EventController.putScheduleZone(
+        schedule.id,
+        schedule.published,
+        zoneId,
+      );
+
+      return data;
     } catch (error) {
       return rejectWithValue(error);
     }
@@ -101,7 +178,12 @@ export const resetPhotographerPriority = createAsyncThunk(
   },
 );
 
-const initialState: EventState = { event: [], zonesInfo: [] };
+const initialState: EventState = {
+  event: [],
+  zonesInfo: [],
+  zones: [],
+  scheduleList: [],
+};
 
 const eventSlice = createSlice({
   name: "event",
@@ -114,6 +196,8 @@ const eventSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(receivePhotographerPriority.fulfilled, (state, action) => {
       state.zonesInfo = action.payload.zonesInfo;
+      state.zones = action.payload.zones;
+      state.scheduleList = action.payload.scheduleList;
     });
   },
 });

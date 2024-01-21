@@ -1,9 +1,9 @@
-.firstname {
-    border-right: 1px solid;
-}
-
 .red {
     background: #FDEDED;
+}
+
+.red:hover, .yellow:hover, .green:hover, .blue:hover {
+    cursor: pointer;
 }
 
 .yellow {
@@ -18,5 +18,3 @@
 .blue {
     background: #E5F6FD;
 }
-
-
