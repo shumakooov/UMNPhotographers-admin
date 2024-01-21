@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import DeviceController from "../../api/deviceController";
 import CustomTableToolbar from "../../components/custom-table-toolbar";
+import Loader from "../../components/ui/Loader";
 
 const typeLabels = [
   {
@@ -56,6 +57,7 @@ const columns: GridColDef[] = [
 
 export default function DevicesPage() {
   const [rows, setRows] = useState([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const getData = async () => {
@@ -73,7 +75,10 @@ export default function DevicesPage() {
       );
     };
 
-    getData().then((res) => setRows(res));
+    getData().then((res) => {
+      setRows(res);
+      setIsLoading(false);
+    });
   }, []);
 
   return (
@@ -82,6 +87,7 @@ export default function DevicesPage() {
       rows={rows}
       checkboxSelection
       style={rows.length === 0 ? { height: "646px" } : {}}
+      loading={isLoading}
       initialState={{
         pagination: {
           paginationModel: {
@@ -98,6 +104,7 @@ export default function DevicesPage() {
       }}
       slots={{
         toolbar: CustomTableToolbar,
+        loadIcon: Loader,
       }}
     />
   );

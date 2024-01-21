@@ -1,11 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import WrapperWithActions from "../../../components/ui/wrapperWithActions/wrapper-with-actions";
 import {
+  Alert,
   Grid,
   IconButton,
   InputLabel,
   MenuItem,
   Select,
+  Snackbar,
   TextField,
   Typography,
 } from "@mui/material";
@@ -94,15 +96,30 @@ export default function EventProfilePage() {
     description: "",
   });
   const [rowsPhotographers, setRowsPhotographers] = useState<any>([]);
+  const [isVisibleSnackbar, setIsVisibleSnackbar] = useState<boolean>(false);
+  const saveResultRef = useRef<boolean>(false);
   const { id: eventId } = useParams();
 
   const handleChange = ({ target }: { target: any }) => {
     setEventData({ ...eventData, [target.name]: target.value });
   };
 
+  const changeVisibleSnackbar = () => {
+    setIsVisibleSnackbar(!isVisibleSnackbar);
+  };
+
   const handleSave = () => {
     if (eventId) {
-      dispatch(changeEvent([eventId, eventData]));
+      dispatch(changeEvent([eventId, eventData]))
+        .then(() => {
+          saveResultRef.current = true;
+        })
+        .catch(() => {
+          saveResultRef.current = false;
+        })
+        .finally(() => {
+          changeVisibleSnackbar();
+        });
     }
   };
 
@@ -116,7 +133,11 @@ export default function EventProfilePage() {
 
   useEffect(() => {
     if (eventId) {
-      EventController.getEvent(eventId).then((res) => setEventData(res.data));
+      EventController.getEvent(eventId)
+        .then((res) => setEventData(res.data))
+        .catch(() => {
+          navigate("/events");
+        });
       Promise.all([
         EventController.getScheduleList(eventId),
         EventController.getEventZones(eventId),
@@ -331,6 +352,19 @@ export default function EventProfilePage() {
           </div>
         </Grid>
       </Grid>
+      <Snackbar
+        open={isVisibleSnackbar}
+        autoHideDuration={3000}
+        onClose={changeVisibleSnackbar}
+      >
+        <Alert
+          onClose={changeVisibleSnackbar}
+          severity={saveResultRef.current ? "success" : "error"}
+          sx={{ width: "100%" }}
+        >
+          {saveResultRef.current ? "Данные мероприятия обновлены" : "Ошибка"}
+        </Alert>
+      </Snackbar>
     </WrapperWithActions>
   );
 }

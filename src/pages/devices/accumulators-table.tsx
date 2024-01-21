@@ -10,6 +10,7 @@ import Button from "@mui/material/Button";
 import DeviceController from "../../api/deviceController";
 import { Battery } from "../../types/device";
 import CustomTableToolbar from "../../components/custom-table-toolbar";
+import Loader from "../../components/ui/Loader";
 
 interface Accumulators {
   id: number;
@@ -67,6 +68,7 @@ export default function AccumulatorsTable() {
   const noButtonRef = useRef<HTMLButtonElement>(null);
   const [promiseArguments, setPromiseArguments] = useState<any>(null);
   const [rows, setRows] = useState<any>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     // @ts-ignore
@@ -78,6 +80,7 @@ export default function AccumulatorsTable() {
         model: item.model.name,
       }));
       setRows(newValue);
+      setIsLoading(false);
     });
   }, []);
 
@@ -162,8 +165,10 @@ export default function AccumulatorsTable() {
         localeText={{
           noRowsLabel: "Нет техники",
         }}
+        loading={isLoading}
         slots={{
           toolbar: CustomTableToolbar,
+          loadIcon: Loader,
         }}
         initialState={{
           pagination: {

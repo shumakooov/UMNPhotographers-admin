@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import DeviceController from "../../api/deviceController";
 import { Camera } from "../../types/device";
 import CustomTableToolbar from "../../components/custom-table-toolbar";
+import Loader from "../../components/ui/Loader";
 
 interface Cameras {
   id: number;
@@ -78,6 +79,7 @@ export default function CamerasTable() {
   const noButtonRef = React.useRef<HTMLButtonElement>(null);
   const [promiseArguments, setPromiseArguments] = React.useState<any>(null);
   const [rows, setRows] = useState<any>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     DeviceController.getAllByType("camera").then((res: Camera[]) => {
@@ -88,6 +90,7 @@ export default function CamerasTable() {
         model: item.model.name,
       }));
       setRows(newValue);
+      setIsLoading(false);
     });
   }, []);
 
@@ -172,8 +175,10 @@ export default function CamerasTable() {
         localeText={{
           noRowsLabel: "Нет техники",
         }}
+        loading={isLoading}
         slots={{
           toolbar: CustomTableToolbar,
+          loadIcon: Loader,
         }}
         initialState={{
           pagination: {

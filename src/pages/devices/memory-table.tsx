@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import DeviceController from "../../api/deviceController";
 import { Memory } from "../../types/device";
 import CustomTableToolbar from "../../components/custom-table-toolbar";
+import Loader from "../../components/ui/Loader";
 
 const columns: GridColDef[] = [
   {
@@ -66,6 +67,7 @@ export default function MemoryTable() {
   const noButtonRef = React.useRef<HTMLButtonElement>(null);
   const [promiseArguments, setPromiseArguments] = React.useState<any>(null);
   const [rows, setRows] = useState<any>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     // @ts-ignore
@@ -77,6 +79,7 @@ export default function MemoryTable() {
         model: item.model.name,
       }));
       setRows(newValue);
+      setIsLoading(false);
     });
   }, []);
 
@@ -161,8 +164,10 @@ export default function MemoryTable() {
         localeText={{
           noRowsLabel: "Нет техники",
         }}
+        loading={isLoading}
         slots={{
           toolbar: CustomTableToolbar,
+          loadIcon: Loader,
         }}
         initialState={{
           pagination: {

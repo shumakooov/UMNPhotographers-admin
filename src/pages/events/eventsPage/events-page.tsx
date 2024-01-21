@@ -176,42 +176,41 @@ export default function EventsPage() {
   };
 
   const columns: GridColDef[] = [
-    { field: "id", headerName: "ID", width: 30 },
     {
       field: "name",
       headerName: "Название мероприятия",
-      width: 170,
+      width: 196,
       editable: true,
     },
     {
       field: "lvl",
       headerName: "Важность мероприятия",
-      width: 150,
+      width: 196,
       editable: true,
     },
     {
       field: "startTime",
       headerName: "Время начала",
-      width: 200,
+      width: 196,
       editable: true,
     },
     {
       field: "endTime",
       headerName: "Время окончания",
-      width: 200,
+      width: 196,
       editable: true,
     },
     {
       field: "address",
       headerName: "Место проведения",
-      width: 170,
+      width: 196,
       editable: true,
     },
     {
       field: "actions",
       type: "actions",
       headerName: "Actions",
-      width: 100,
+      width: 196,
       cellClassName: "actions",
       getActions: ({ id, row }) => {
         const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
@@ -459,7 +458,7 @@ export default function EventsPage() {
       }
       p="16px 64px"
     >
-      <div style={{ height: 400, width: "100%" }}>
+      <div style={{ height: "646px", width: "100%" }}>
         <DataGrid
           rows={events}
           columns={columns}

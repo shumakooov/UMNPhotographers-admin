@@ -10,6 +10,7 @@ import Button from "@mui/material/Button";
 import DeviceController from "../../api/deviceController";
 import { Flash } from "../../types/device";
 import CustomTableToolbar from "../../components/custom-table-toolbar";
+import Loader from "../../components/ui/Loader";
 
 interface Flashes {
   id: number;
@@ -62,6 +63,7 @@ export default function FlashesTable() {
   const noButtonRef = useRef<HTMLButtonElement>(null);
   const [promiseArguments, setPromiseArguments] = useState<any>(null);
   const [rows, setRows] = useState<any>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     // @ts-ignore
@@ -73,6 +75,7 @@ export default function FlashesTable() {
         model: item.model.name,
       }));
       setRows(newValue);
+      setIsLoading(false);
     });
   }, []);
 
@@ -157,8 +160,10 @@ export default function FlashesTable() {
         localeText={{
           noRowsLabel: "Нет техники",
         }}
+        loading={isLoading}
         slots={{
           toolbar: CustomTableToolbar,
+          loadIcon: Loader,
         }}
         initialState={{
           pagination: {
