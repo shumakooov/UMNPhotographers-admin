@@ -91,7 +91,8 @@ export const receivePhotographerPriority = createAsyncThunk(
         );
         for (let { zoneId, priority } of photographerPriority) {
           // @ts-ignore
-          item[`zone${zoneId}`] = priority;
+          item[`zone${zones.find((zone) => zone.id === zoneId)?.number}`] =
+            priority;
         }
         data.push(item);
       }

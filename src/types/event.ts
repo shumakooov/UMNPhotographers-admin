@@ -47,3 +47,9 @@ export type NewZoneInfo = Pick<
   ZoneInfo,
   "zoneId" | "photographerId" | "photographerScheduleId" | "priority"
 >;
+
+export type CheckRequest = {
+  zoneId: number;
+  eventId: number;
+  photographers: number[];
+};

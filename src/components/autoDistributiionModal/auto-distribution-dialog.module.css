@@ -1,0 +1,20 @@
+.red {
+    background: #FDEDED;
+}
+
+.red:hover, .yellow:hover, .green:hover, .blue:hover {
+    cursor: pointer;
+}
+
+.yellow {
+    background: #FFF4E5;
+}
+
+.green {
+    background: #EDF7ED;
+
+}
+
+.blue {
+    background: #E5F6FD;
+}

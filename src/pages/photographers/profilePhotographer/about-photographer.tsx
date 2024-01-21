@@ -79,8 +79,6 @@ export default function AboutPhotographer() {
     const target = event.target;
 
     if (target.name === "trainee") {
-      console.log(target.checked);
-
       setUserData({
         ...userData,
         trainee: target.checked,
@@ -163,9 +161,9 @@ export default function AboutPhotographer() {
     >
       <Grid container spacing="34px" sx={{ padding: "34px" }}>
         <Grid item container direction="column" xs={3} spacing="34px">
-          {/*<Grid item xs={6}>
+          <Grid item xs={6}>
             <div className="user-info__avatar shadow-container"></div>
-          </Grid>*/}
+          </Grid>
           <Grid item>
             <div className="form-container shadow-container">
               <TextField
@@ -187,7 +185,7 @@ export default function AboutPhotographer() {
               <TextField
                 id="outlined-required"
                 label="Отчество"
-                name="surname"
+                name="middleName"
                 value={userData.middleName}
                 onChange={handleChange}
               />

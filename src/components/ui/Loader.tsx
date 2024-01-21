@@ -1,10 +1,10 @@
 import { Box, CircularProgress } from "@mui/material";
 
-export default function Loader() {
+export default function Loader({ fullPage = true }) {
   return (
     <Box
       sx={{
-        height: "80vh",
+        height: fullPage ? "80vh" : "100%",
         display: {
           xs: "flex",
           justifyContent: "center",

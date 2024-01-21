@@ -16,6 +16,7 @@ import {
 import { useLocation } from "react-router-dom";
 import { Moment } from "moment";
 import { Event } from "../../../types/event";
+import AutoDistributionDialog from "../../../components/autoDistributiionModal/auto-distribution-dialog";
 
 export default function PhotographersDistributionPage() {
   const location = useLocation();
@@ -66,6 +67,7 @@ export default function PhotographersDistributionPage() {
   }
   return (
     <div className={styles.wrapper}>
+      <AutoDistributionDialog />
       <CalendarHeaderPhoto
         props={{
           eventId: activeEventId,
