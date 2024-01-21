@@ -46,13 +46,12 @@ export default function AvatarMenu() {
   return (
     <Box sx={{ textAlign: "right", flexGrow: 1 }}>
       <IconButton
-        size="small"
         edge="start"
-        color="inherit"
+        style={{ color: "#BDBDBD" }}
         aria-label="open drawer"
         onClick={handleOpenUserMenu}
       >
-        <AccountCircle />
+        <AccountCircle fontSize="large" />
       </IconButton>
       <Menu
         id="menu-appbar"
