@@ -3,31 +3,54 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import DeviceController from "../../api/deviceController";
 import CustomTableToolbar from "../../components/custom-table-toolbar";
 
-const columns: GridColDef[] = [
+const typeLabels = [
   {
-    field: "id",
-    headerName: "ID",
+    type: "camera",
+    label: "Камера",
   },
+
+  {
+    type: "flash",
+    label: "Вспышка",
+  },
+  {
+    type: "lens",
+    label: "Отпика",
+  },
+  {
+    type: "memory",
+    label: "Карта памяти",
+  },
+  {
+    type: "battery",
+    label: "Аккумулятор",
+  },
+];
+
+const columns: GridColDef[] = [
   {
     field: "manufacturer",
     headerName: "Производитель",
-    width: 200,
+    width: 196,
   },
   {
     field: "model",
     headerName: "Модель",
-    width: 200,
+    width: 196,
   },
 
   {
     field: "type",
     headerName: "Тип",
-    width: 200,
+    width: 196,
+    valueFormatter: (params) => {
+      return typeLabels.find((item) => item.type === params.value)?.label;
+    },
   },
   {
     field: "rating",
     headerName: "Рейтинг",
-    width: 200,
+    width: 196,
   },
 ];
 
@@ -58,13 +81,20 @@ export default function DevicesPage() {
       columns={columns}
       rows={rows}
       checkboxSelection
-      style={rows.length === 0 ? { height: "80vh" } : {}}
+      style={rows.length === 0 ? { height: "646px" } : {}}
+      initialState={{
+        pagination: {
+          paginationModel: {
+            pageSize: 10,
+          },
+        },
+        sorting: {
+          sortModel: [{ field: "manufacturer", sort: "asc" }],
+        },
+      }}
+      pageSizeOptions={[]}
       localeText={{
         noRowsLabel: "Нет техники",
-        toolbarExport: "Экспорт",
-        toolbarExportCSV: "CSV",
-        toolbarFilters: "Фильтры",
-        toolbarColumns: "Столбцы",
       }}
       slots={{
         toolbar: CustomTableToolbar,

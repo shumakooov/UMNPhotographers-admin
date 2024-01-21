@@ -160,9 +160,24 @@ export default function AboutPhotographer() {
       }
     >
       <Grid container spacing="34px" sx={{ padding: "34px" }}>
-        <Grid item container direction="column" xs={3} spacing="34px">
+        <Grid
+          item
+          container
+          direction="column"
+          xs={3}
+          spacing="34px"
+          wrap="nowrap"
+        >
           <Grid item xs={6}>
-            <div className="user-info__avatar shadow-container"></div>
+            <Box
+              component="img"
+              className="user-info__avatar shadow-container"
+              sx={{
+                width: "100%",
+              }}
+              alt="The house from the offer."
+              src="/empty-avatar.jpg"
+            />
           </Grid>
           <Grid item>
             <div className="form-container shadow-container">
@@ -192,7 +207,11 @@ export default function AboutPhotographer() {
               <Box
                 sx={{
                   padding: "0 10px",
-                  display: { xs: "flex", justifyContent: "space-between" },
+                  display: {
+                    xs: "flex",
+                    justifyContent: "space-between",
+                    flexWrap: "wrap",
+                  },
                 }}
               >
                 <Typography>
@@ -249,7 +268,7 @@ export default function AboutPhotographer() {
               >
                 <MenuItem value="approved">Активен</MenuItem>
                 <MenuItem value="blocked">Заблокирован</MenuItem>
-                <MenuItem value="created">Создан</MenuItem>
+                <MenuItem value="created">Не подтвержден</MenuItem>
               </Select>
               <FormControlLabel
                 control={

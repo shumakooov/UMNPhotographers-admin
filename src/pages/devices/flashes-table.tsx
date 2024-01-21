@@ -19,14 +19,13 @@ interface Flashes {
 }
 
 const columns: GridColDef[] = [
-  { field: "id", headerName: "ID" },
   {
     field: "manufacturer",
     headerName: "Производитель",
-    width: 200,
+    width: 196,
     editable: true,
   },
-  { field: "model", headerName: "Модель", width: 200, editable: true },
+  { field: "model", headerName: "Модель", width: 196, editable: true },
 ];
 
 const useFakeMutation = () => {
@@ -148,36 +147,36 @@ export default function FlashesTable() {
   };
 
   return (
-    <div>
-      <div style={{ height: 400, width: "100%" }}>
-        {renderConfirmDialog()}
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          processRowUpdate={processRowUpdate}
-          checkboxSelection
-          localeText={{
-            noRowsLabel: "Нет техники",
-            toolbarExport: "Экспорт",
-            toolbarExportCSV: "CSV",
-            toolbarFilters: "Фильтры",
-            toolbarColumns: "Столбцы",
-          }}
-          slots={{
-            toolbar: CustomTableToolbar,
-          }}
-          initialState={{
-            sorting: {
-              sortModel: [{ field: "brand", sort: "desc" }],
+    <>
+      {renderConfirmDialog()}
+      <DataGrid
+        rows={rows}
+        columns={columns}
+        processRowUpdate={processRowUpdate}
+        checkboxSelection
+        localeText={{
+          noRowsLabel: "Нет техники",
+        }}
+        slots={{
+          toolbar: CustomTableToolbar,
+        }}
+        initialState={{
+          pagination: {
+            paginationModel: {
+              pageSize: 10,
             },
-          }}
-        />
-        {!!snackbar && (
-          <Snackbar open onClose={handleCloseSnackbar} autoHideDuration={6000}>
-            <Alert {...snackbar} onClose={handleCloseSnackbar} />
-          </Snackbar>
-        )}
-      </div>
-    </div>
+          },
+          sorting: {
+            sortModel: [{ field: "manufacturer", sort: "asc" }],
+          },
+        }}
+        pageSizeOptions={[]}
+      />
+      {!!snackbar && (
+        <Snackbar open onClose={handleCloseSnackbar} autoHideDuration={6000}>
+          <Alert {...snackbar} onClose={handleCloseSnackbar} />
+        </Snackbar>
+      )}
+    </>
   );
 }

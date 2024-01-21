@@ -200,7 +200,7 @@ export default function AutoDistributionDialog() {
               (schedule) => schedule.photographerId === zoneInfo.photographerId,
             );
             return {
-              id: zoneInfo.photographerId,
+              id: schedule?.id,
               priority: zoneInfo.priority,
               photographer: `${zoneInfo.surname} ${zoneInfo.firstname} ${zoneInfo.middleName}`,
               isApproved: schedule?.zoneId === Number(selectedZoneId),
