@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   TextField,
   Box,
@@ -9,15 +9,13 @@ import {
   FormControlLabel,
   Select,
   MenuItem,
+  Alert,
+  Snackbar,
 } from "@mui/material";
 import "./index.css";
-import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../../store/store";
-import {
-  receiveUserById,
-  changeUserInfo,
-} from "../../../store/photographerSlice";
+import { changeUserInfo } from "../../../store/photographerSlice";
 import ShareIcon from "@mui/icons-material/Share";
 import SettingsBackupRestoreIcon from "@mui/icons-material/SettingsBackupRestore";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
@@ -49,7 +47,6 @@ type userInfo = {
 };
 
 export default function AboutPhotographer() {
-  const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const photographerProfileInfo = useSelector(
     (state: any) => state.photographer.photographerProfileInfo,
@@ -74,6 +71,8 @@ export default function AboutPhotographer() {
     portfolio: "",
     techniqueInfoId: 0,
   });
+  const [isVisibleSnackbar, setIsVisibleSnackbar] = useState<boolean>(false);
+  const saveResultRef = useRef<boolean>(false);
 
   const handleChange = (event: any) => {
     const target = event.target;
@@ -102,9 +101,22 @@ export default function AboutPhotographer() {
     });
   };
 
+  const changeVisibleSnackbar = () => {
+    setIsVisibleSnackbar(!isVisibleSnackbar);
+  };
+
   const handleSave = () => {
     const { registrationDate, techniqueInfoId, ...formData } = userData;
-    dispatch(changeUserInfo(formData));
+    dispatch(changeUserInfo(formData))
+      .then(() => {
+        saveResultRef.current = true;
+      })
+      .catch(() => {
+        saveResultRef.current = false;
+      })
+      .finally(() => {
+        changeVisibleSnackbar();
+      });
   };
 
   useEffect(() => {
@@ -160,9 +172,24 @@ export default function AboutPhotographer() {
       }
     >
       <Grid container spacing="34px" sx={{ padding: "34px" }}>
-        <Grid item container direction="column" xs={3} spacing="34px">
+        <Grid
+          item
+          container
+          direction="column"
+          xs={3}
+          spacing="34px"
+          wrap="nowrap"
+        >
           <Grid item xs={6}>
-            <div className="user-info__avatar shadow-container"></div>
+            <Box
+              component="img"
+              className="user-info__avatar shadow-container"
+              sx={{
+                width: "100%",
+              }}
+              alt="The house from the offer."
+              src="/empty-avatar.jpg"
+            />
           </Grid>
           <Grid item>
             <div className="form-container shadow-container">
@@ -192,7 +219,11 @@ export default function AboutPhotographer() {
               <Box
                 sx={{
                   padding: "0 10px",
-                  display: { xs: "flex", justifyContent: "space-between" },
+                  display: {
+                    xs: "flex",
+                    justifyContent: "space-between",
+                    flexWrap: "wrap",
+                  },
                 }}
               >
                 <Typography>
@@ -249,7 +280,7 @@ export default function AboutPhotographer() {
               >
                 <MenuItem value="approved">Активен</MenuItem>
                 <MenuItem value="blocked">Заблокирован</MenuItem>
-                <MenuItem value="created">Создан</MenuItem>
+                <MenuItem value="created">Не подтвержден</MenuItem>
               </Select>
               <FormControlLabel
                 control={
@@ -292,6 +323,19 @@ export default function AboutPhotographer() {
           </div>
         </Grid>
       </Grid>
+      <Snackbar
+        open={isVisibleSnackbar}
+        autoHideDuration={3000}
+        onClose={changeVisibleSnackbar}
+      >
+        <Alert
+          onClose={changeVisibleSnackbar}
+          severity={saveResultRef.current ? "success" : "error"}
+          sx={{ width: "100%" }}
+        >
+          {saveResultRef.current ? "Данные фотографа обновлены" : "Ошибка"}
+        </Alert>
+      </Snackbar>
     </WrapperWithActions>
   );
 }

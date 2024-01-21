@@ -24,20 +24,48 @@ interface Photographer {
   score: number | null;
 }
 
+const statusLabels = [
+  {
+    status: "approved",
+    label: "Активный",
+  },
+
+  {
+    status: "created",
+    label: "Не подтвержден",
+  },
+  {
+    status: "blocked",
+    label: "Заблокирован",
+  },
+];
+
 const columns: GridColDef[] = [
-  { field: "id", headerName: "ID", width: 30 },
-  { field: "surname", headerName: "Фамилия", width: 150 },
-  { field: "firstname", headerName: "Имя", width: 110, editable: true },
-  { field: "phone", headerName: "Номер телефона", width: 110 },
-  { field: "vk", headerName: "ВКонтакте", width: 110 },
-  { field: "tg", headerName: "Телеграм", width: 110 },
-  { field: "email", headerName: "Почта (Я. Диск)", width: 180 },
-  { field: "technic", headerName: "Техника", width: 90 },
-  { field: "portfolio", headerName: "Портфолио", width: 100 },
-  { field: "trainee", headerName: "Практикант", width: 60 },
-  { field: "status", headerName: "Статус фотографа", width: 150 },
-  { field: "description", headerName: "Статус пользователя", width: 150 },
-  { field: "score", headerName: "Уровень", width: 70 },
+  { field: "surname", headerName: "Фамилия", width: 196 },
+  { field: "firstname", headerName: "Имя", width: 196 },
+  { field: "middleName", headerName: "Отчество", width: 196 },
+  { field: "phone", headerName: "Телефон", width: 196 },
+  { field: "tg", headerName: "Telegram", width: 196 },
+  { field: "vk", headerName: "VK", width: 196 },
+  { field: "email", headerName: "Яндекс почта", width: 196 },
+  { field: "portfolio", headerName: "Портфолио", width: 196 },
+  {
+    field: "trainee",
+    headerName: "Практикант",
+    width: 196,
+    valueFormatter: (params) => {
+      return params.value ? "Да" : "Нет";
+    },
+  },
+  {
+    field: "status",
+    headerName: "Статус фотографа",
+    width: 196,
+    valueFormatter: (params) => {
+      return statusLabels.find((item) => item.status === params.value)?.label;
+    },
+  },
+  { field: "score", headerName: "Уровень", width: 196 },
 ];
 
 export default function AllPhotographersPage() {
@@ -57,6 +85,7 @@ export default function AllPhotographersPage() {
               id: e.id,
               surname: e.surname,
               firstname: e.firstname,
+              middleName: e.middleName,
               phone: e.phone,
               vk: e.contacts?.vk,
               tg: e.contacts?.tg,
@@ -106,10 +135,22 @@ export default function AllPhotographersPage() {
           </Box>
         </ModalCED>*/}
 
-        <div style={{ height: 600, width: "100%" }}>
+        <div style={{ height: "646px", width: "100%" }}>
           <DataGrid
             rows={photographers}
             columns={columns}
+            initialState={{
+              pagination: {
+                paginationModel: {
+                  pageSize: 10,
+                },
+              },
+              sorting: {
+                sortModel: [{ field: "surname", sort: "asc" }],
+              },
+            }}
+            pageSizeOptions={[]}
+            checkboxSelection
             slots={{
               toolbar: CustomTableToolbar,
             }}

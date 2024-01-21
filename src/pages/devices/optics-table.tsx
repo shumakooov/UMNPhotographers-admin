@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import DeviceController from "../../api/deviceController";
 import { Lens } from "../../types/device";
 import CustomTableToolbar from "../../components/custom-table-toolbar";
+import Loader from "../../components/ui/Loader";
 
 interface Optics {
   id: number;
@@ -23,23 +24,21 @@ interface Optics {
 }
 
 const columns: GridColDef[] = [
-  { field: "id", headerName: "ID" },
-
   {
     field: "manufacturer",
     headerName: "Производитель",
-    width: 200,
+    width: 196,
     editable: true,
   },
-  { field: "model", headerName: "Модель", width: 200, editable: true },
+  { field: "model", headerName: "Модель", width: 196, editable: true },
   {
     field: "focus",
     headerName: "Фокусное расстояние",
-    width: 200,
+    width: 196,
     editable: true,
   },
-  { field: "camera", headerName: "Камера", width: 200, editable: true },
-  { field: "rating", headerName: "Рейтинг", width: 200, editable: true },
+  { field: "camera", headerName: "Камера", width: 196, editable: true },
+  { field: "rating", headerName: "Рейтинг", width: 196, editable: true },
 ];
 
 const useFakeMutation = () => {
@@ -82,6 +81,7 @@ export default function OpticsTable() {
   const noButtonRef = React.useRef<HTMLButtonElement>(null);
   const [promiseArguments, setPromiseArguments] = React.useState<any>(null);
   const [rows, setRows] = useState<any>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     // @ts-ignore
@@ -94,6 +94,7 @@ export default function OpticsTable() {
         camera: item.camera.model.name,
       }));
       setRows(newValue);
+      setIsLoading(false);
     });
   }, []);
 
@@ -168,36 +169,38 @@ export default function OpticsTable() {
   };
 
   return (
-    <div>
-      <div style={{ height: 400, width: "100%" }}>
-        {renderConfirmDialog()}
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          processRowUpdate={processRowUpdate}
-          checkboxSelection
-          localeText={{
-            noRowsLabel: "Нет техники",
-            toolbarExport: "Экспорт",
-            toolbarExportCSV: "CSV",
-            toolbarFilters: "Фильтры",
-            toolbarColumns: "Столбцы",
-          }}
-          slots={{
-            toolbar: CustomTableToolbar,
-          }}
-          initialState={{
-            sorting: {
-              sortModel: [{ field: "rating", sort: "desc" }],
+    <>
+      {renderConfirmDialog()}
+      <DataGrid
+        rows={rows}
+        columns={columns}
+        processRowUpdate={processRowUpdate}
+        checkboxSelection
+        localeText={{
+          noRowsLabel: "Нет техники",
+        }}
+        loading={isLoading}
+        slots={{
+          toolbar: CustomTableToolbar,
+          loadIcon: Loader,
+        }}
+        initialState={{
+          pagination: {
+            paginationModel: {
+              pageSize: 10,
             },
-          }}
-        />
-        {!!snackbar && (
-          <Snackbar open onClose={handleCloseSnackbar} autoHideDuration={6000}>
-            <Alert {...snackbar} onClose={handleCloseSnackbar} />
-          </Snackbar>
-        )}
-      </div>
-    </div>
+          },
+          sorting: {
+            sortModel: [{ field: "manufacturer", sort: "asc" }],
+          },
+        }}
+        pageSizeOptions={[]}
+      />
+      {!!snackbar && (
+        <Snackbar open onClose={handleCloseSnackbar} autoHideDuration={6000}>
+          <Alert {...snackbar} onClose={handleCloseSnackbar} />
+        </Snackbar>
+      )}
+    </>
   );
 }

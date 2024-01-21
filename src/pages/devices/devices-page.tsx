@@ -2,37 +2,62 @@ import { useState, useEffect } from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import DeviceController from "../../api/deviceController";
 import CustomTableToolbar from "../../components/custom-table-toolbar";
+import Loader from "../../components/ui/Loader";
+
+const typeLabels = [
+  {
+    type: "camera",
+    label: "Камера",
+  },
+
+  {
+    type: "flash",
+    label: "Вспышка",
+  },
+  {
+    type: "lens",
+    label: "Отпика",
+  },
+  {
+    type: "memory",
+    label: "Карта памяти",
+  },
+  {
+    type: "battery",
+    label: "Аккумулятор",
+  },
+];
 
 const columns: GridColDef[] = [
   {
-    field: "id",
-    headerName: "ID",
-  },
-  {
     field: "manufacturer",
     headerName: "Производитель",
-    width: 200,
+    width: 196,
   },
   {
     field: "model",
     headerName: "Модель",
-    width: 200,
+    width: 196,
   },
 
   {
     field: "type",
     headerName: "Тип",
-    width: 200,
+    width: 196,
+    valueFormatter: (params) => {
+      return typeLabels.find((item) => item.type === params.value)?.label;
+    },
   },
   {
     field: "rating",
     headerName: "Рейтинг",
-    width: 200,
+    width: 196,
   },
 ];
 
 export default function DevicesPage() {
   const [rows, setRows] = useState([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const getData = async () => {
@@ -50,7 +75,10 @@ export default function DevicesPage() {
       );
     };
 
-    getData().then((res) => setRows(res));
+    getData().then((res) => {
+      setRows(res);
+      setIsLoading(false);
+    });
   }, []);
 
   return (
@@ -58,16 +86,25 @@ export default function DevicesPage() {
       columns={columns}
       rows={rows}
       checkboxSelection
-      style={rows.length === 0 ? { height: "80vh" } : {}}
+      style={rows.length === 0 ? { height: "646px" } : {}}
+      loading={isLoading}
+      initialState={{
+        pagination: {
+          paginationModel: {
+            pageSize: 10,
+          },
+        },
+        sorting: {
+          sortModel: [{ field: "manufacturer", sort: "asc" }],
+        },
+      }}
+      pageSizeOptions={[]}
       localeText={{
         noRowsLabel: "Нет техники",
-        toolbarExport: "Экспорт",
-        toolbarExportCSV: "CSV",
-        toolbarFilters: "Фильтры",
-        toolbarColumns: "Столбцы",
       }}
       slots={{
         toolbar: CustomTableToolbar,
+        loadIcon: Loader,
       }}
     />
   );

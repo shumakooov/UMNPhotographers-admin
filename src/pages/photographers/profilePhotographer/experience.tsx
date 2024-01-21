@@ -7,12 +7,12 @@ import WrapperWithActions from "../../../components/ui/wrapperWithActions/wrappe
 import "./index.css";
 
 const columns: GridColDef[] = [
-  { field: "event", headerName: "Мероприятие" },
-  { field: "complexity", headerName: "Сложность" },
-  { field: "quality", headerName: "Качество фото" },
-  { field: "punctuality", headerName: "Пунктуальность" },
-  { field: "total", headerName: "Общая оценка" },
-  { field: "comment", headerName: "Комментарий" },
+  { field: "event", headerName: "Мероприятие", width: 196 },
+  { field: "complexity", headerName: "Сложность", width: 196 },
+  { field: "quality", headerName: "Качество фото", width: 196 },
+  { field: "punctuality", headerName: "Пунктуальность", width: 196 },
+  { field: "total", headerName: "Общая оценка", width: 196 },
+  { field: "comment", headerName: "Комментарий", width: 196 },
 ];
 
 const rows: GridRowsProp = [

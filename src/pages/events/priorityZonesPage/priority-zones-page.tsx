@@ -45,14 +45,12 @@ export default function PriorityZonesPage() {
       dispatch(receivePhotographerPriority(eventId))
         .then(({ payload }: { payload: any }) => {
           // @ts-ignore
-          const resColumns = [...Array(payload.zones.length).keys()].map(
-            (index) => ({
-              field: `zone${index + 1}`,
-              headerName: `Зона ${index + 1}`,
-              width: 84,
-              cellClassName: cellColor,
-            }),
-          );
+          const resColumns = payload.zones.map(({ number }) => ({
+            field: `zone${number}`,
+            headerName: `Зона ${number}`,
+            width: 84,
+            cellClassName: cellColor,
+          }));
 
           setColumns([
             {
