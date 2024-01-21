@@ -124,7 +124,8 @@ export default function EventProfilePage() {
         const newValue = res[0].map((item) => {
           return {
             id: item.id,
-            number: res[1].find((zone) => zone.id === item.zoneId)?.number ?? 0,
+            number:
+              res[1].find((zone) => zone.id === item.zoneId)?.number ?? "-",
             photographer: `${item.surname} ${item.firstname} ${item.middleName}`,
           };
         });
@@ -268,6 +269,9 @@ export default function EventProfilePage() {
                 <DataGrid
                   columns={columnsPhotographers}
                   rows={rowsPhotographers}
+                  getRowClassName={(params) =>
+                    params.row.number !== "-" ? styles.blue : ""
+                  }
                   initialState={{
                     pagination: {
                       paginationModel: {

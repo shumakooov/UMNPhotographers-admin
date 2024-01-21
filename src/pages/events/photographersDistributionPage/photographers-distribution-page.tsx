@@ -16,6 +16,7 @@ import {
 import { useLocation } from "react-router-dom";
 import { Moment } from "moment";
 import { Event } from "../../../types/event";
+import { useParams } from "react-router-dom";
 
 export default function PhotographersDistributionPage() {
   const location = useLocation();
@@ -24,6 +25,7 @@ export default function PhotographersDistributionPage() {
   const [curDate, setCurDate] = React.useState<Moment>();
   const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
+  const { id: eventId } = useParams();
 
   useEffect(() => {
     const getDataLocation = () => {
@@ -37,9 +39,12 @@ export default function PhotographersDistributionPage() {
             dispatch(addSchedule(res.data.list));
           });
         axios
-          .get(`https://photographersekb.ru:8080/admin/schedule_part/all`, {
-            withCredentials: true,
-          })
+          .get(
+            `https://photographersekb.ru:8080/admin/schedule_part/all?eventId=${eventId}`,
+            {
+              withCredentials: true,
+            },
+          )
           .then((res) => {
             dispatch(addSchedulePart(res.data.list));
           });
