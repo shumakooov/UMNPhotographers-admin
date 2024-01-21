@@ -218,7 +218,7 @@ export default function AutoDistributionDialog() {
 
   return (
     <Box>
-      <IconButton onClick={changeVisibleModal}>
+      <IconButton onClick={changeVisibleModal} color="primary">
         <AlarmOnIcon />
       </IconButton>
       <Dialog

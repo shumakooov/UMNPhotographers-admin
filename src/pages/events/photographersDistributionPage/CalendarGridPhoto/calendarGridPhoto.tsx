@@ -27,6 +27,7 @@ import { SchedulePart } from "../../../../store/schedulePartSlice";
 import SaveAltIcon from "@mui/icons-material/SaveAlt";
 import ShareIcon from "@mui/icons-material/Share";
 import AlarmOnIcon from "@mui/icons-material/AlarmOn";
+import AutoDistributionDialog from "../../../../components/autoDistributiionModal/auto-distribution-dialog";
 
 export default function CalendarGridPhoto({ props }: any) {
   const time = [];
@@ -126,9 +127,7 @@ export default function CalendarGridPhoto({ props }: any) {
     <div className={styles.root}>
       <div className={styles.wrapperZones}>
         <div className={styles.actions}>
-          <IconButton aria-label="add location" color="primary">
-            <AlarmOnIcon />
-          </IconButton>
+          <AutoDistributionDialog />
           <IconButton aria-label="save" color="primary">
             <SaveAltIcon />
           </IconButton>
