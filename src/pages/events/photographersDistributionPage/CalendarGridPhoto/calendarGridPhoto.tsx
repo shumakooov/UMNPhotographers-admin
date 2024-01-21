@@ -5,7 +5,14 @@ import PlaceHeaderPhoto from "../PlaceHeaderPhoto/placeHeaderPhoto";
 import axios from "axios";
 import { HALF_HOUR_HEIGHT, HOUR_MARGIN_TOP } from "../globalsPhoto";
 import moment, { Moment } from "moment";
-import { Box, Button, MenuItem, Modal, TextField } from "@mui/material";
+import {
+  Box,
+  Button,
+  IconButton,
+  MenuItem,
+  Modal,
+  TextField,
+} from "@mui/material";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
@@ -17,6 +24,9 @@ import { Activity } from "../../../../store/activitySlice";
 import CreateTimelineDrawer from "../../../../components/createTimeLineDrawer/create-timeline-drawer";
 import { Schedule } from "../../../../store/scheduleSlice";
 import { SchedulePart } from "../../../../store/schedulePartSlice";
+import SaveAltIcon from "@mui/icons-material/SaveAlt";
+import ShareIcon from "@mui/icons-material/Share";
+import AlarmOnIcon from "@mui/icons-material/AlarmOn";
 
 export default function CalendarGridPhoto({ props }: any) {
   const time = [];
@@ -115,6 +125,32 @@ export default function CalendarGridPhoto({ props }: any) {
   return (
     <div className={styles.root}>
       <div className={styles.wrapperZones}>
+        <div className={styles.actions}>
+          <IconButton aria-label="add location" color="primary">
+            <AlarmOnIcon />
+          </IconButton>
+          <IconButton aria-label="save" color="primary">
+            <SaveAltIcon />
+          </IconButton>
+          <IconButton
+            aria-label="share"
+            color="primary"
+            sx={{
+              color: "#FFF",
+              backgroundColor: "#2196F3",
+              borderRadius: "4px",
+              "&:hover": {
+                color: "#FFF",
+                backgroundColor: "#2196F3",
+                opacity: 0.8,
+                transition: "opacity 0.3s",
+              },
+            }}
+          >
+            <ShareIcon />
+          </IconButton>
+        </div>
+
         <div className={styles.gridWrapper}>
           {time.map((i) => (
             <span
@@ -162,9 +198,6 @@ export default function CalendarGridPhoto({ props }: any) {
               );
             }
           })}
-
-          {/*Drawer*/}
-          <div>{/*<CreateTimelineDrawer />*/}</div>
 
           {/*Modal*/}
           {/*<div>*/}

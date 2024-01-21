@@ -1,14 +1,46 @@
 .wrapper {
     position: sticky;
-    top: 109px;
+    top: 139px;
+    background-color: rgba(181, 219, 250, 1);
     z-index: 10;
-    background-color: dimgray;
+    padding-bottom: 10px;
+}
+
+.container {
+    background: #fff;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.btnInfo {
+    padding: 0;
+    height: 40px;
+    right: 0px;
+    top: 0px;
+    color: rgba(2, 136, 209, 1);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
 }
 
 .zone {
     height: 25px;
 }
 
-.place {
-    height: 75px;
+.name {
+    height: 45px;
+}
+
+.modal {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    background-color: white;
+    padding: 20px;
 }

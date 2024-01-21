@@ -15,6 +15,14 @@ import { Activity } from "../../../../store/activitySlice";
 import { Location } from "../../../../store/locationSlice";
 import { useNavigate } from "react-router-dom";
 
+const colorsByPriority = {
+  "0": "#79747E",
+  "1": "#FFC800",
+  "2": "#FF3D00",
+  "3": "#FF0000",
+  null: "#79747E",
+};
+
 export default function PlaceGrid({ props }: any) {
   const [open, setOpen] = React.useState(false);
   const [locationIdForModal, setLocationIdForModal] = React.useState<number>();
@@ -262,26 +270,31 @@ export default function PlaceGrid({ props }: any) {
         className={styles.wrapper}
         style={{ height: 24 * HALF_HOUR_HEIGHT * 2 }}
       >
-        {Array.from({ length: COUNT_ROWS }, (_, index) => {
-          return (
-            <div
-              key={index}
-              style={{ height: HALF_HOUR_HEIGHT }}
-              className={styles.gridDiv}
-              onDrop={(e: any) => {
-                dropHandler(e, index);
-              }}
-              onDragOver={dragOverHandler}
-              onClick={(e) => props.handleOpenModal(e, props.locationId)}
-            ></div>
-          );
-        })}
+        <div className={styles.gridWrapper}>
+          {Array.from({ length: COUNT_ROWS }, (_, index) => {
+            return (
+              <div
+                key={index}
+                style={{ height: HALF_HOUR_HEIGHT }}
+                className={styles.gridDiv}
+                onDrop={(e: any) => {
+                  dropHandler(e, index);
+                }}
+                onDragOver={dragOverHandler}
+                onClick={(e) => props.handleOpenModal(e, props.locationId)}
+              ></div>
+            );
+          })}
+        </div>
 
         {/*<Event />*/}
         {props.tempActivitiesByLocation.map((act: Activity) => {
           let startTime = moment(act.startTime);
           let endTime = moment(act.endTime);
           let duration = moment.duration(endTime.diff(startTime));
+          let element = document.getElementById(act.id.toString());
+          let height =
+            element == null ? 30 : element.style.height.replace(/\D/g, "");
 
           const EVENT_TOP =
             startTime.hours() * HALF_HOUR_HEIGHT * 2 +
@@ -297,6 +310,11 @@ export default function PlaceGrid({ props }: any) {
                 style={{
                   top: EVENT_TOP,
                   height: EVENT_HEIGHT,
+                  // @ts-ignore
+                  borderColor: colorsByPriority[act.priority.toString()],
+                  boxShadow:
+                    // @ts-ignore
+                    `0px 1px 10px 0px ${colorsByPriority[act.priority.toString()]} inset`,
                 }}
                 onClick={(e) => {
                   handleOpen(e, act);
@@ -306,14 +324,54 @@ export default function PlaceGrid({ props }: any) {
                 onDragEnd={(e) => dragEndHandler(e, act)}
                 id={act.id.toString()}
               >
-                {act.name}
+                {
+                  // @ts-ignore
+                  Number(height) > 85 ? (
+                    <div className={styles.btnWrapper}>
+                      <div className={styles.btnName}>{act.name}</div>
+                      <div className={styles.btnTime}>
+                        {moment(act.startTime).format("HH:mm")} -{" "}
+                        {moment(act.endTime).format("HH:mm")}
+                      </div>
+                      <div className={styles.btnDescription}>
+                        {act.description}
+                      </div>
+                    </div>
+                  ) : (
+                    <div className={styles.btnWrapper}>
+                      <div className={styles.btnName}>{act.name}</div>
+                    </div>
+                  )
+                }
                 <div
                   draggable={true}
                   onDragStart={(e) => initial(e, act)}
                   onDragEnd={(e) => handleEndResize(e, act)}
                   onDrag={(e) => handleResizing(e, act)}
                   className={styles.resizer}
-                ></div>
+                >
+                  <div
+                    style={{
+                      // @ts-ignore
+                      background: colorsByPriority[act.priority.toString()],
+                    }}
+                    className={styles.resizeDots}
+                  ></div>
+                  <div
+                    style={{
+                      // @ts-ignore
+                      background: colorsByPriority[act.priority.toString()],
+                    }}
+                    className={styles.resizeDots}
+                  ></div>
+                  <div
+                    style={{
+                      // @ts-ignore
+                      background: colorsByPriority[act.priority.toString()],
+                    }}
+                    className={styles.resizeDots}
+                  ></div>
+                </div>
               </button>
             </>
           );

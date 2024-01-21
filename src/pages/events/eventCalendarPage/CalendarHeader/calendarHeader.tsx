@@ -52,7 +52,9 @@ export default function CalendarHeader({ props }: any) {
             </IconButton>
           </>
         ) : (
-          <p className={styles.eventDaysText}></p>
+          <p className={styles.eventDaysText}>
+            День {whichDay}. {tempDate.format("DD.MM.YYYY")}
+          </p>
         )}
       </div>
     </div>

@@ -19,6 +19,14 @@ import {
 } from "../../../../store/schedulePartSlice";
 import { addSchedule } from "../../../../store/scheduleSlice";
 
+const colorsByPriority = {
+  "0": "#79747E",
+  "1": "#FFC800",
+  "2": "#FF3D00",
+  "3": "#FF0000",
+  null: "#79747E",
+};
+
 export default function PlaceGridPhoto({ props }: any) {
   const [open, setOpen] = React.useState(false);
   const [locationIdForModal, setLocationIdForModal] = React.useState<number>();
@@ -218,6 +226,9 @@ export default function PlaceGridPhoto({ props }: any) {
             let startTime = moment(responseAct?.startTime);
             let endTime = moment(responseAct?.endTime);
             let duration = moment.duration(endTime.diff(startTime));
+            let element = document.getElementById(responseAct.id.toString());
+            let height =
+              element == null ? 30 : element.style.height.replace(/\D/g, "");
 
             const EVENT_TOP =
               startTime.hours() * HALF_HOUR_HEIGHT * 2 +
@@ -233,6 +244,12 @@ export default function PlaceGridPhoto({ props }: any) {
                   style={{
                     top: EVENT_TOP,
                     height: EVENT_HEIGHT,
+                    borderColor:
+                      // @ts-ignore
+                      colorsByPriority[responseAct.priority.toString()],
+                    boxShadow:
+                      // @ts-ignore
+                      `0px 1px 10px 0px ${colorsByPriority[responseAct.priority.toString()]} inset`,
                   }}
                   onClick={(e) => {
                     handleOpen(e, responseAct);
@@ -240,8 +257,27 @@ export default function PlaceGridPhoto({ props }: any) {
                   draggable={true}
                   onDragStart={(e) => dragStartHandler(e, responseAct)}
                   onDragEnd={(e) => dragEndHandler(e, responseAct)}
+                  id={responseAct.id.toString()}
                 >
-                  {responseAct?.name}
+                  {
+                    // @ts-ignore
+                    Number(height) > 85 ? (
+                      <div className={styles.btnWrapper}>
+                        <div className={styles.btnName}>{responseAct.name}</div>
+                        <div className={styles.btnTime}>
+                          {moment(responseAct.startTime).format("HH:mm")} -{" "}
+                          {moment(responseAct.endTime).format("HH:mm")}
+                        </div>
+                        <div className={styles.btnDescription}>
+                          {responseAct.description}
+                        </div>
+                      </div>
+                    ) : (
+                      <div className={styles.btnWrapper}>
+                        <div className={styles.btnName}>{responseAct.name}</div>
+                      </div>
+                    )
+                  }
                 </button>
               </>
             );

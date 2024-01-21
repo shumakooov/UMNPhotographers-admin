@@ -1,18 +1,36 @@
 .wrapper {
     position: sticky;
-    top: 109px;
-    background-color: dimgray;
+    top: 139px;
+    background-color: rgba(181, 219, 250, 1);
     z-index: 10;
+    padding-bottom: 10px;
+}
+
+.container {
+    background: #fff;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.btnInfo {
+    padding: 0;
+    height: 40px;
+    right: 0px;
+    top: 0px;
+    color: rgba(2, 136, 209, 1);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
 }
 
 .zone {
     height: 25px;
-    cursor: pointer;
 }
 
 .place {
     height: 25px;
-    cursor: pointer;
 }
 
 .modal {

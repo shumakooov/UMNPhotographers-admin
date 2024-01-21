@@ -3,19 +3,27 @@
     top: 64px;
     width: 100%;
     z-index: 10;
+    padding: 15px 0;
+    background-color: rgba(181, 219, 250, 1);
+    display: flex;
+    justify-content: center;
 }
 
 .eventDays {
-    background-color: #464646;
+    background-color: #ffffff;
     display: flex;
     justify-content: center;
     height: 45px;
+    border-radius: 10px;
+    box-shadow: 0 4px 5px -1px rgba(0, 0, 0, 0.14);
+    margin-left: 215px;
+    width: 80%;
 }
 
 .eventDaysText {
     width: 200px;
     margin: 0;
     text-align: center;
-    color: white;
+    color: black;
     align-self: center;
 }

@@ -5,7 +5,14 @@ import PlaceHeader from "../PlaceHeader/placeHeader";
 import axios from "axios";
 import { HALF_HOUR_HEIGHT, HOUR_MARGIN_TOP } from "../globals";
 import moment, { Moment } from "moment";
-import { Box, Button, MenuItem, Modal, TextField } from "@mui/material";
+import {
+  Box,
+  Button,
+  IconButton,
+  MenuItem,
+  Modal,
+  TextField,
+} from "@mui/material";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
@@ -15,6 +22,10 @@ import { useNavigate } from "react-router-dom";
 import { Location } from "../../../../store/locationSlice";
 import { Activity } from "../../../../store/activitySlice";
 import CreateTimelineDrawer from "../../../../components/createTimeLineDrawer/create-timeline-drawer";
+import AddLocationAltIcon from "@mui/icons-material/AddLocationAlt";
+import AddTaskIcon from "@mui/icons-material/AddTask";
+import SaveAltIcon from "@mui/icons-material/SaveAlt";
+import ShareIcon from "@mui/icons-material/Share";
 
 export default function CalendarGrid({ props }: any) {
   const time = [];
@@ -107,9 +118,48 @@ export default function CalendarGrid({ props }: any) {
     }
   };
 
+  //drawer
+  const [openDrawer, setOpenDrawer] = React.useState(false);
+  const toggleDrawer = (newOpen: boolean) => () => {
+    setOpenDrawer(newOpen);
+  };
+
   return (
     <div className={styles.root}>
       <div className={styles.wrapperZones}>
+        <div className={styles.actions}>
+          <IconButton
+            aria-label="add location"
+            color="primary"
+            onClick={toggleDrawer(true)}
+          >
+            <AddLocationAltIcon />
+          </IconButton>
+          <IconButton aria-label="add task" color="primary">
+            <AddTaskIcon />
+          </IconButton>
+          <IconButton aria-label="save" color="primary">
+            <SaveAltIcon />
+          </IconButton>
+          <IconButton
+            aria-label="share"
+            color="primary"
+            sx={{
+              color: "#FFF",
+              backgroundColor: "#2196F3",
+              borderRadius: "4px",
+              "&:hover": {
+                color: "#FFF",
+                backgroundColor: "#2196F3",
+                opacity: 0.8,
+                transition: "opacity 0.3s",
+              },
+            }}
+          >
+            <ShareIcon />
+          </IconButton>
+        </div>
+
         <div className={styles.gridWrapper}>
           {time.map((i) => (
             <span
@@ -138,6 +188,7 @@ export default function CalendarGrid({ props }: any) {
                       tempActivitiesByLocation: tempActivitiesByLocation,
                       zones: props.zones,
                     }}
+                    className={styles.header}
                   />
                   <PlaceGrid
                     props={{
@@ -156,7 +207,13 @@ export default function CalendarGrid({ props }: any) {
 
           {/*Drawer*/}
           <div>
-            <CreateTimelineDrawer props={{ zones: props.zones }} />
+            <CreateTimelineDrawer
+              props={{
+                zones: props.zones,
+                toggleDrawer: toggleDrawer,
+                openDrawer: openDrawer,
+              }}
+            />
           </div>
 
           {/*Modal*/}

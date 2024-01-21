@@ -1,4 +1,9 @@
 .createTimeLine {
     display: flex;
     flex-direction: column;
+    padding: 10px;
+}
+
+.textInput {
+    padding-bottom: 8px;
 }
