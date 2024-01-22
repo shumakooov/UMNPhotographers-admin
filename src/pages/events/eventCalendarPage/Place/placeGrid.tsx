@@ -294,14 +294,14 @@ export default function PlaceGrid({ props }: any) {
           let duration = moment.duration(endTime.diff(startTime));
           let element = document.getElementById(act.id.toString());
           let height =
-            element == null ? 30 : element.style.height.replace(/\D/g, "");
+            element == null ? 60 : element.style.height.replace(/\D/g, "");
 
           const EVENT_TOP =
             startTime.hours() * HALF_HOUR_HEIGHT * 2 +
             HOUR_MARGIN_TOP +
-            startTime.minutes();
+            startTime.minutes() * 2;
           const EVENT_HEIGHT =
-            duration.hours() * HALF_HOUR_HEIGHT * 2 + duration.minutes();
+            duration.hours() * HALF_HOUR_HEIGHT * 2 + duration.minutes() * 2;
 
           return (
             <>
@@ -328,7 +328,9 @@ export default function PlaceGrid({ props }: any) {
                   // @ts-ignore
                   Number(height) > 85 ? (
                     <div className={styles.btnWrapper}>
-                      <div className={styles.btnName}>{act.name}</div>
+                      <div className={styles.btnName}>
+                        <p>{act.name}</p>
+                      </div>
                       <div className={styles.btnTime}>
                         {moment(act.startTime).format("HH:mm")} -{" "}
                         {moment(act.endTime).format("HH:mm")}
@@ -339,7 +341,9 @@ export default function PlaceGrid({ props }: any) {
                     </div>
                   ) : (
                     <div className={styles.btnWrapper}>
-                      <div className={styles.btnName}>{act.name}</div>
+                      <div className={styles.btnName}>
+                        <p>{act.name}</p>
+                      </div>
                     </div>
                   )
                 }

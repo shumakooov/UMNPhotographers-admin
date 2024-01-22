@@ -171,10 +171,16 @@ export default function EventsPage() {
   };
 
   const columns: GridColDef[] = [
+    // {
+    //   field: "id",
+    //   headerName: "ID",
+    //   width: 196,
+    //   editable: true,
+    // },
     {
       field: "name",
       headerName: "Название мероприятия",
-      width: 196,
+      width: 276,
       editable: true,
     },
     {
@@ -206,7 +212,7 @@ export default function EventsPage() {
     {
       field: "address",
       headerName: "Место проведения",
-      width: 196,
+      width: 326,
       editable: true,
     },
     {
@@ -311,7 +317,7 @@ export default function EventsPage() {
       );
 
       if (response.status === 200) {
-        // navigate(0);
+        navigate(0);
       }
     }
   };
