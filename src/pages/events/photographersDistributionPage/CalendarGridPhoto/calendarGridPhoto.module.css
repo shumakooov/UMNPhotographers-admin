@@ -81,4 +81,6 @@
     padding: 6px;
     margin-right: 10px;
     margin-top: 80px;
+    position: sticky;
+    top: 140px;
 }
