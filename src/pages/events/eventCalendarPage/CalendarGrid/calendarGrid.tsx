@@ -38,7 +38,7 @@ export default function CalendarGrid({ props }: any) {
   const hourNow = moment().hour();
   const minutesNow = moment().minutes();
   const TIME_NOW_TOP =
-    hourNow * HALF_HOUR_HEIGHT * 2 + HOUR_MARGIN_TOP + minutesNow;
+    hourNow * HALF_HOUR_HEIGHT * 2 + HOUR_MARGIN_TOP + minutesNow * 2;
 
   //for modal start
   const [openModal, setOpenModal] = React.useState(false);
