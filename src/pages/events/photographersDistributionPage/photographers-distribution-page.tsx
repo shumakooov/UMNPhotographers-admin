@@ -40,7 +40,7 @@ export default function PhotographersDistributionPage() {
           });
         axios
           .get(
-            `https://photographersekb.ru:8080/admin/schedule_part/all?eventId=${eventId}`,
+            `https://photographersekb.ru:8080/admin/schedule_part/all?eventId=${eventId}&size=2000`,
             {
               withCredentials: true,
             },
@@ -72,6 +72,8 @@ export default function PhotographersDistributionPage() {
   const scheduleParts: SchedulePart[] = useSelector(
     (state: RootState) => state.schedulePart.schedulePart,
   );
+
+  console.log(scheduleParts);
 
   function handleDate(date: Moment) {
     setCurDate(date);

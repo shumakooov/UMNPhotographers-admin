@@ -170,6 +170,8 @@ export default function CalendarGridPhoto({ props }: any) {
                 schedulePart.photographerId === schedule.photographerId,
             );
 
+            // console.log(props.scheduleParts);
+
             if (tempSchedulePartsByPhotographer.length > 0) {
               return (
                 <div key={schedule.id} className={styles.timeLine}>
