@@ -86,6 +86,7 @@ export default function PhotographersDistributionPage() {
         props={{
           event: event,
           handleDate: handleDate,
+          curDate: curDate,
         }}
       ></CalendarHeaderPhoto>
       <CalendarGridPhoto

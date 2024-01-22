@@ -88,6 +88,7 @@ export default function EventCalendarPage() {
             (event: Event) => event.id === Number(activeEventId),
           ),
           handleDate: handleDate,
+          curDate: curDate,
         }}
       ></CalendarHeader>
       <CalendarGrid
