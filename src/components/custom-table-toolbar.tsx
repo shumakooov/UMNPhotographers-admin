@@ -8,8 +8,12 @@ import ViewColumnIcon from "@mui/icons-material/ViewColumn";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import SaveAltIcon from "@mui/icons-material/SaveAlt";
 import * as React from "react";
+import { PropsWithChildren } from "react";
 
-export default function CustomTableToolbar() {
+export default function CustomTableToolbar({
+  onlySave = false,
+  children,
+}: PropsWithChildren<{ onlySave?: boolean }>) {
   const apiRef = useGridApiContext();
 
   return (
@@ -17,38 +21,43 @@ export default function CustomTableToolbar() {
       style={{
         flexDirection: "column",
         position: "absolute",
-        left: "-58px",
+        left: "-60px",
         borderRadius: 10,
         backgroundColor: "#FFF",
+        padding: "8px",
       }}
       className="shadow-container"
     >
-      <GridToolbarColumnsButton
-        component={(props) => (
+      {!onlySave && (
+        <>
+          <GridToolbarColumnsButton
+            component={(props) => (
+              <IconButton
+                aria-label="share"
+                color="primary"
+                onClick={props.onClick}
+              >
+                <ViewColumnIcon fontSize="small" />
+              </IconButton>
+            )}
+          />
           <IconButton
-            aria-label="share"
+            aria-label="reset"
             color="primary"
-            onClick={props.onClick}
+            onClick={() => apiRef.current.showFilterPanel()}
           >
-            <ViewColumnIcon />
+            <FilterListIcon fontSize="small" />
           </IconButton>
-        )}
-      />
-
-      <IconButton
-        aria-label="reset"
-        color="primary"
-        onClick={() => apiRef.current.showFilterPanel()}
-      >
-        <FilterListIcon />
-      </IconButton>
+        </>
+      )}
       <IconButton
         aria-label="save"
         color="primary"
         onClick={() => apiRef.current.exportDataAsCsv()}
       >
-        <SaveAltIcon />
+        <SaveAltIcon fontSize="small" />
       </IconButton>
+      {children}
     </GridToolbarContainer>
   );
 }

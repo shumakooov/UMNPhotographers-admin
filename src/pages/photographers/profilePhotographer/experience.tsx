@@ -54,13 +54,13 @@ export default function Experience() {
       actions={
         <>
           <IconButton aria-label="share" color="primary">
-            <ViewColumnIcon />
+            <ViewColumnIcon fontSize="small" />
           </IconButton>
           <IconButton aria-label="reset" color="primary">
-            <FilterListIcon />
+            <FilterListIcon fontSize="small" />
           </IconButton>
           <IconButton aria-label="save" color="primary">
-            <SaveAltIcon />
+            <SaveAltIcon fontSize="small" />
           </IconButton>
         </>
       }

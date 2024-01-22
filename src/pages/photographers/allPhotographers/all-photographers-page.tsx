@@ -1,12 +1,10 @@
 import * as React from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import ModalCED from "../../../components/modalCED/modal-ced";
-import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import PhotographerController from "../../../api/photographerContoller";
 import CustomTableToolbar from "../../../components/custom-table-toolbar";
+import Loader from "../../../components/ui/Loader";
 
 interface Photographer {
   id: number;
@@ -73,6 +71,7 @@ export default function AllPhotographersPage() {
   const useHandleRowClick = (params: any) => {
     navigate(`/photographers/${params.id}`);
   };
+  const [isLoading, setIsLoadging] = useState<boolean>(true);
 
   const [photographers, setPhotographers] = useState<Photographer[]>([]);
 
@@ -98,7 +97,10 @@ export default function AllPhotographersPage() {
               score: e.score,
             }));
           })
-          .then((res) => setPhotographers(res));
+          .then((res) => {
+            setPhotographers(res);
+            setIsLoadging(false);
+          });
       } catch (e) {
         console.error(e);
       }
@@ -110,35 +112,15 @@ export default function AllPhotographersPage() {
   return (
     <div style={{ padding: "16px 120px" }}>
       <div className="shadow-container">
-        {/*        <ModalCED name={"Добавить фотографа"}>
-          <Box
-            component="form"
-            sx={{
-              "& .MuiTextField-root": { m: 1, width: "100%" },
-            }}
-            noValidate
-            autoComplete="off"
-          >
-            <TextField required id="outlined-required" label="Фамилия" />
-            <TextField required id="outlined-required" label="Имя" />
-            <TextField id="outlined-required" label="Номер телефона" />
-            <TextField id="outlined-required" label="Ссылка ТГ" />
-            <TextField id="outlined-required" label="Ссылка ВК" />
-            <TextField
-              required
-              id="outlined-required"
-              label="Почта от Я.Диска"
-            />
-            <TextField id="outlined-required" label="Практикант (да/нет)" />
-            <TextField id="outlined-required" label="Статус фотографа" />
-            <TextField id="outlined-required" label="Статус пользователя" />
-          </Box>
-        </ModalCED>*/}
-
         <div style={{ height: "646px", width: "100%" }}>
           <DataGrid
             rows={photographers}
             columns={columns}
+            loading={isLoading}
+            style={{
+              height: photographers.length === 0 ? "631px" : "100%",
+              borderRadius: "10px",
+            }}
             initialState={{
               pagination: {
                 paginationModel: {
@@ -153,6 +135,7 @@ export default function AllPhotographersPage() {
             checkboxSelection
             slots={{
               toolbar: CustomTableToolbar,
+              loadIcon: Loader,
             }}
             onRowClick={useHandleRowClick}
           />

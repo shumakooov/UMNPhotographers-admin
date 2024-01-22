@@ -59,8 +59,8 @@ export default function RatePhotographersPage() {
 
   useEffect(() => {
     if (eventId) {
-      PhotographerController.getEvaluationAll(eventId)
-        .then((res: Evaluation[]) => {
+      PhotographerController.getEvaluationAll(eventId).then(
+        (res: Evaluation[]) => {
           const newValue: EvaluationRow[] = res.map((item: Evaluation) => ({
             id: item.id,
             photographer: `${item.photographer.surname} ${item.photographer.firstname} ${item.photographer.middleName}`,
@@ -72,29 +72,44 @@ export default function RatePhotographersPage() {
           }));
 
           setRows(newValue);
-        })
-        .finally(() => setIsLoading(false));
+          setIsLoading(false);
+        },
+      );
     }
   }, []);
 
-  if (isLoading) {
-    return <Loader />;
-  }
-
   return (
-    <WrapperWithActions p="16px 120px">
-      <DataGrid
-        columns={columns}
-        rows={rows}
-        checkboxSelection
-        style={rows.length === 0 ? { height: "80vh" } : {}}
-        localeText={{
-          noRowsLabel: "Нет оценок",
-        }}
-        slots={{
-          toolbar: CustomTableToolbar,
-        }}
-      />
-    </WrapperWithActions>
+    <div style={{ padding: "16px 120px" }}>
+      <div
+        className="shadow-container"
+        style={{ height: "631px", width: "100%" }}
+      >
+        <DataGrid
+          columns={columns}
+          rows={rows}
+          checkboxSelection
+          loading={isLoading}
+          initialState={{
+            pagination: {
+              paginationModel: {
+                pageSize: 10,
+              },
+            },
+            sorting: {
+              sortModel: [{ field: "surname", sort: "asc" }],
+            },
+          }}
+          pageSizeOptions={[]}
+          style={{
+            height: rows.length === 0 ? "631px" : "100%",
+            borderRadius: "10px",
+          }}
+          slots={{
+            loadIcon: Loader,
+            toolbar: CustomTableToolbar,
+          }}
+        />
+      </div>
+    </div>
   );
 }

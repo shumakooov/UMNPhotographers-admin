@@ -172,10 +172,11 @@ export default function CamerasTable() {
         columns={columns}
         processRowUpdate={processRowUpdate}
         checkboxSelection
-        localeText={{
-          noRowsLabel: "Нет техники",
-        }}
         loading={isLoading}
+        style={{
+          height: rows.length === 0 ? "631px" : "100%",
+          borderRadius: "10px",
+        }}
         slots={{
           toolbar: CustomTableToolbar,
           loadIcon: Loader,

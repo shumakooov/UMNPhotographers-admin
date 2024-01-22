@@ -160,7 +160,7 @@ export default function EventProfilePage() {
       actions={
         <>
           <IconButton aria-label="share" color="primary">
-            <ShareIcon />
+            <ShareIcon fontSize="small" />
           </IconButton>
           <IconButton
             aria-label="save"
@@ -177,7 +177,7 @@ export default function EventProfilePage() {
             }}
             onClick={handleSave}
           >
-            <SaveIcon />
+            <SaveIcon fontSize="small" />
           </IconButton>
           <IconButton
             aria-label="delete user"
@@ -194,7 +194,7 @@ export default function EventProfilePage() {
             }}
             onClick={handleDelete}
           >
-            <DeleteForeverIcon />
+            <DeleteForeverIcon fontSize="small" />
           </IconButton>
         </>
       }

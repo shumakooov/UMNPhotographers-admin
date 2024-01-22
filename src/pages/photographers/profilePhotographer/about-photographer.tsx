@@ -130,10 +130,10 @@ export default function AboutPhotographer() {
       actions={
         <>
           <IconButton aria-label="share" color="primary">
-            <ShareIcon />
+            <ShareIcon fontSize="small" />
           </IconButton>
           <IconButton aria-label="reset" color="primary">
-            <SettingsBackupRestoreIcon />
+            <SettingsBackupRestoreIcon fontSize="small" />
           </IconButton>
           <IconButton
             aria-label="save"
@@ -150,7 +150,7 @@ export default function AboutPhotographer() {
             }}
             onClick={handleSave}
           >
-            <SaveIcon />
+            <SaveIcon fontSize="small" />
           </IconButton>
           <IconButton
             aria-label="delete user"
@@ -166,7 +166,7 @@ export default function AboutPhotographer() {
               },
             }}
           >
-            <DeleteForeverIcon />
+            <DeleteForeverIcon fontSize="small" />
           </IconButton>
         </>
       }
@@ -188,7 +188,7 @@ export default function AboutPhotographer() {
                 width: "100%",
               }}
               alt="The house from the offer."
-              src="/empty-avatar.jpg"
+              src={`https://photographersekb.ru:8080/admin/photographer/${photographerProfileInfo.id}/image`}
             />
           </Grid>
           <Grid item>

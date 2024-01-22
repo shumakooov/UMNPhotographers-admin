@@ -1,9 +1,7 @@
 import { useState, useEffect } from "react";
 import { IconButton } from "@mui/material";
 import { DataGrid, GridColDef, GridCellParams } from "@mui/x-data-grid";
-import SaveAltIcon from "@mui/icons-material/SaveAlt";
 import AutorenewIcon from "@mui/icons-material/Autorenew";
-import WrapperWithActions from "../../../components/ui/wrapperWithActions/wrapper-with-actions";
 import styles from "./priority-zones-page.module.css";
 import { useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -14,6 +12,7 @@ import {
 } from "../../../store/eventSlice";
 import { AppDispatch } from "../../../store/store";
 import Loader from "../../../components/ui/Loader";
+import CustomTableToolbar from "../../../components/custom-table-toolbar";
 
 const cellColor = (params: GridCellParams<any>): any => {
   if (params.value === 1) {
@@ -75,10 +74,6 @@ export default function PriorityZonesPage() {
   };
 
   const handleApprovedZone = (e: any) => {
-    // if (e.value === "✔") {
-    //   return;
-    // }
-
     if (e.field.includes("zone")) {
       dispatch(
         changeApprovedZone({
@@ -95,64 +90,64 @@ export default function PriorityZonesPage() {
     uploadData();
   }, []);
 
-  if (isLoading) {
-    return <Loader />;
-  }
-
   return (
-    <WrapperWithActions
-      actions={
-        <>
-          <IconButton aria-label="save" color="primary">
-            <SaveAltIcon />
-          </IconButton>
-          <IconButton
-            aria-label="delete user"
-            sx={{
-              color: "#FFF",
-              backgroundColor: "#2196F3",
-              borderRadius: "4px",
-              "&:hover": {
-                color: "#FFF",
-                backgroundColor: "#2196F3",
-                opacity: 0.8,
-                transition: "opacity 0.3s",
+    <div style={{ padding: "16px 120px" }}>
+      <div
+        className="shadow-container"
+        style={{ height: "631px", width: "100%" }}
+      >
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          initialState={{
+            pagination: {
+              paginationModel: {
+                pageSize: 10,
               },
-            }}
-            onClick={() => {
-              setIsLoading(true);
-              dispatch(resetPhotographerPriority()).then(() => {
-                uploadData();
-              });
-            }}
-          >
-            <AutorenewIcon />
-          </IconButton>
-        </>
-      }
-      p="16px 64px"
-    >
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        initialState={{
-          pagination: {
-            paginationModel: {
-              pageSize: 10,
             },
-          },
-          sorting: {
-            sortModel: [{ field: "id", sort: "asc" }],
-          },
-        }}
-        pageSizeOptions={[5]}
-        checkboxSelection
-        onCellClick={handleApprovedZone}
-        disableRowSelectionOnClick
-        getCellClassName={(params) =>
-          params.field === "firstname" ? styles.firstname : ""
-        }
-      />
-    </WrapperWithActions>
+            sorting: {
+              sortModel: [{ field: "id", sort: "asc" }],
+            },
+          }}
+          pageSizeOptions={[5]}
+          slots={{
+            loadIcon: Loader,
+            toolbar: () => (
+              <CustomTableToolbar>
+                <IconButton
+                  aria-label="delete user"
+                  sx={{
+                    color: "#FFF",
+                    backgroundColor: "#2196F3",
+                    borderRadius: "4px",
+                    "&:hover": {
+                      color: "#FFF",
+                      backgroundColor: "#2196F3",
+                      opacity: 0.8,
+                      transition: "opacity 0.3s",
+                    },
+                  }}
+                  onClick={() => {
+                    setIsLoading(true);
+                    dispatch(resetPhotographerPriority()).then(() => {
+                      uploadData();
+                    });
+                  }}
+                >
+                  <AutorenewIcon fontSize="small" />
+                </IconButton>
+              </CustomTableToolbar>
+            ),
+          }}
+          loading={isLoading}
+          checkboxSelection
+          onCellClick={handleApprovedZone}
+          disableRowSelectionOnClick
+          getCellClassName={(params) =>
+            params.field === "firstname" ? styles.firstname : ""
+          }
+        />
+      </div>
+    </div>
   );
 }

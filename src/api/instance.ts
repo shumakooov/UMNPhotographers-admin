@@ -10,9 +10,11 @@ instance.interceptors.response.use(
     return response;
   },
   (error) => {
-    if (error.response.status === 401) {
+    console.log(error);
+    if (error.response?.status === 401 || error.response?.status === 403) {
       document.cookie = "SESSION=; path=/;";
       window.location.reload();
+      return;
     } else {
       return Promise.reject(error);
     }

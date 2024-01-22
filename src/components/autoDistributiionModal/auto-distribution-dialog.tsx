@@ -271,7 +271,6 @@ export default function AutoDistributionDialog() {
                   onRowSelectionModelChange={handleSelectPhotographer}
                   rowSelectionModel={rowSelectionModel}
                   getRowClassName={rowColor}
-                  localeText={{ noRowsLabel: "Нет приоритетов на эту зону" }}
                   initialState={{
                     pagination: {
                       paginationModel: {

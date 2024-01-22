@@ -86,7 +86,10 @@ export default function DevicesPage() {
       columns={columns}
       rows={rows}
       checkboxSelection
-      style={rows.length === 0 ? { height: "646px" } : {}}
+      style={{
+        height: rows.length === 0 ? "631px" : "100%",
+        borderRadius: "10px",
+      }}
       loading={isLoading}
       initialState={{
         pagination: {
@@ -99,9 +102,6 @@ export default function DevicesPage() {
         },
       }}
       pageSizeOptions={[]}
-      localeText={{
-        noRowsLabel: "Нет техники",
-      }}
       slots={{
         toolbar: CustomTableToolbar,
         loadIcon: Loader,

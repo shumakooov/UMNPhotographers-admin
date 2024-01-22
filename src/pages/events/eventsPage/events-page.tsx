@@ -9,7 +9,6 @@ import {
   GridRowModes,
   GridRowModesModel,
 } from "@mui/x-data-grid";
-import * as React from "react";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -20,19 +19,16 @@ import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import SaveIcon from "@mui/icons-material/Save";
 import CancelIcon from "@mui/icons-material/Close";
 import EditIcon from "@mui/icons-material/Edit";
-import WrapperWithActions from "../../../components/ui/wrapperWithActions/wrapper-with-actions";
-import { IconButton, MenuItem } from "@mui/material";
-import ViewColumnIcon from "@mui/icons-material/ViewColumn";
-import FilterListIcon from "@mui/icons-material/FilterList";
-import SaveAltIcon from "@mui/icons-material/SaveAlt";
+import { MenuItem } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { MobileDateTimePicker } from "@mui/x-date-pickers/MobileDateTimePicker";
 import { DesktopDateTimePicker } from "@mui/x-date-pickers/DesktopDateTimePicker";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import styles from "./events-page.module.css";
-import moment, { Moment } from "moment";
 import { TIMEZONES } from "../../../timezones";
+import CustomTableToolbar from "../../../components/custom-table-toolbar";
+import { Moment } from "moment";
+import Loader from "../../../components/ui/Loader";
 
 const difficults = [
   { value: 1 },
@@ -87,21 +83,20 @@ interface Event {
 }
 
 export default function EventsPage() {
-  const [name, setName] = React.useState<string>("");
-  const [description, setDescription] = React.useState<string>("");
-  const [place, setPlace] = React.useState<string>("");
-  const [difficult, setDifficult] = React.useState<string>("");
-  const [timezone, setTimezone] = React.useState<string>("");
-  const [driveLink, setDriveLink] = React.useState<string>("");
-  const [photographersCount, setPhotographersCount] = React.useState<number>();
-  const [published, setPublished] = React.useState<boolean>();
-  const [startTime, setStartTime] = React.useState<Moment | null>();
-  const [endTime, setEndTime] = React.useState<Moment | null>();
+  const [name, setName] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
+  const [place, setPlace] = useState<string>("");
+  const [difficult, setDifficult] = useState<string>("");
+  const [timezone, setTimezone] = useState<string>("");
+  const [driveLink, setDriveLink] = useState<string>("");
+  const [photographersCount, setPhotographersCount] = useState<number>();
+  const [published, setPublished] = useState<boolean>();
+  const [startTime, setStartTime] = useState<Moment | null>();
+  const [endTime, setEndTime] = useState<Moment | null>();
+  const [isLoading, setIsLoadging] = useState<boolean>(true);
 
   const [events, setEvents] = useState<Event[]>([]);
-  const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>(
-    {},
-  );
+  const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
 
   const handleRowEditStop: GridEventListener<"rowEditStop"> = (
     params,
@@ -193,12 +188,20 @@ export default function EventsPage() {
       headerName: "Время начала",
       width: 196,
       editable: true,
+      valueFormatter: (params) => {
+        const date = new Date(params.value);
+        return date.toLocaleString();
+      },
     },
     {
       field: "endTime",
       headerName: "Время окончания",
       width: 196,
       editable: true,
+      valueFormatter: (params) => {
+        const date = new Date(params.value);
+        return date.toLocaleString();
+      },
     },
     {
       field: "address",
@@ -209,7 +212,7 @@ export default function EventsPage() {
     {
       field: "actions",
       type: "actions",
-      headerName: "Actions",
+      headerName: "Действия",
       width: 196,
       cellClassName: "actions",
       getActions: ({ id, row }) => {
@@ -261,25 +264,25 @@ export default function EventsPage() {
   useEffect(() => {
     const getData = async () => {
       try {
-        const eventsTemp: Event[] = [];
         await axios
           //TODO: захардкодил ссылку
           .get(`https://photographersekb.ru:8080/admin/event/all`, {
             withCredentials: true,
           })
-          .then((res) => {
-            res.data.list.map((e: any) =>
-              eventsTemp.push({
-                id: e.id,
-                address: e.address,
-                startTime: e.startTime,
-                endTime: e.endTime,
-                lvl: e.level,
-                name: e.name,
-              }),
-            );
+          .then((res) =>
+            res.data.list.map((e: any) => ({
+              id: e.id,
+              address: e.address,
+              startTime: e.startTime,
+              endTime: e.endTime,
+              lvl: e.level,
+              name: e.name,
+            })),
+          )
+          .then((res: Event[]) => {
+            setEvents(res);
+            setIsLoadging(false);
           });
-        setEvents(eventsTemp);
       } catch (e) {
         console.error(e);
       }
@@ -339,140 +342,149 @@ export default function EventsPage() {
   };
 
   return (
-    <WrapperWithActions
-      actions={
-        <>
-          <IconButton aria-label="share" color="primary">
-            <ViewColumnIcon />
-          </IconButton>
-          <IconButton aria-label="reset" color="primary">
-            <FilterListIcon />
-          </IconButton>
-          <IconButton aria-label="save" color="primary">
-            <SaveAltIcon />
-          </IconButton>
-          <ModalCED
-            name={"Добавить мероприятие"}
-            variant="iconbutton"
-            icon={<AddIcon />}
-            aria-label="add"
-            buttons={"saveOnly"}
-            onClickSave={handleCreateEvent}
-            sx={{
-              color: "#FFF",
-              backgroundColor: "#2196F3",
-              borderRadius: "4px",
-              "&:hover": {
-                color: "#FFF",
-                backgroundColor: "#2196F3",
-                opacity: 0.8,
-                transition: "opacity 0.3s",
-              },
-            }}
-          >
-            <Box
-              component="form"
-              sx={{
-                "& .MuiTextField-root": { m: 1, maxWidth: "100%" },
-              }}
-              noValidate
-              autoComplete="off"
-            >
-              <div className={styles.box_style}>
-                <TextField
-                  required
-                  id="outlined-required"
-                  label="Название мероприятия"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                />
-                <TextField
-                  id="outlined-multiline-static"
-                  label="Описание"
-                  multiline
-                  rows={5}
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                />
-                <TextField
-                  id="outlined-required"
-                  label="Место проведения"
-                  value={place}
-                  onChange={(e) => setPlace(e.target.value)}
-                />
-              </div>
-              <div className={styles.column_modal}>
-                <TextField
-                  id="outlined-select-currency"
-                  select
-                  label="Сложность"
-                  fullWidth
-                  value={difficult}
-                  onChange={(e) => setDifficult(e.target.value)}
-                >
-                  {difficults.map((value) => (
-                    <MenuItem key={value.value} value={value.value}>
-                      {value.value}
-                    </MenuItem>
-                  ))}
-                </TextField>
-                <TextField
-                  id="outlined-select-currency"
-                  select
-                  label="Часовой пояс"
-                  fullWidth
-                  value={timezone}
-                  onChange={(e) => setTimezone(e.target.value)}
-                >
-                  {TIMEZONES.map((value) => (
-                    <MenuItem key={value.offset} value={value.name}>
-                      {value.offset + " " + value.name}
-                    </MenuItem>
-                  ))}
-                </TextField>
-              </div>
-              <div>
-                <LocalizationProvider
-                  dateAdapter={AdapterMoment}
-                  adapterLocale="en-gb"
-                >
-                  <div className={styles.column_modal}>
-                    <DesktopDateTimePicker
-                      ampm={false}
-                      label={"Начало мероприятия"}
-                      value={startTime}
-                      onChange={(newValue) => setStartTime(newValue)}
-                    />
-                    <DesktopDateTimePicker
-                      ampm={false}
-                      label={"Конец мероприятия"}
-                      value={endTime}
-                      onChange={(newValue) => setEndTime(newValue)}
-                    />
-                  </div>
-                </LocalizationProvider>
-              </div>
-            </Box>
-          </ModalCED>
-        </>
-      }
-      p="16px 64px"
-    >
-      <div style={{ height: "646px", width: "100%" }}>
+    <div style={{ padding: "16px 120px" }}>
+      <div
+        className="shadow-container"
+        style={{ height: "631px", width: "100%" }}
+      >
         <DataGrid
           rows={events}
           columns={columns}
           onRowClick={useHandleRowClick}
           editMode="row"
           rowModesModel={rowModesModel}
+          loading={isLoading}
           onRowModesModelChange={handleRowModesModelChange}
           onRowEditStop={handleRowEditStop}
           processRowUpdate={processRowUpdate}
+          style={{
+            height: events.length === 0 ? "631px" : "100%",
+            borderRadius: "10px",
+          }}
+          checkboxSelection
+          initialState={{
+            pagination: {
+              paginationModel: {
+                pageSize: 10,
+              },
+            },
+          }}
+          pageSizeOptions={[]}
+          slots={{
+            loadIcon: Loader,
+            toolbar: () => (
+              <CustomTableToolbar>
+                <ModalCED
+                  name={"Добавить мероприятие"}
+                  variant="iconbutton"
+                  icon={<AddIcon fontSize="small" />}
+                  aria-label="add"
+                  buttons={"saveOnly"}
+                  onClickSave={handleCreateEvent}
+                  sx={{
+                    color: "#FFF",
+                    backgroundColor: "#2196F3",
+                    borderRadius: "4px",
+                    "&:hover": {
+                      color: "#FFF",
+                      backgroundColor: "#2196F3",
+                      opacity: 0.8,
+                      transition: "opacity 0.3s",
+                    },
+                  }}
+                >
+                  <Box
+                    component="form"
+                    sx={{
+                      "& .MuiTextField-root": { m: 1, maxWidth: "100%" },
+                    }}
+                    noValidate
+                    autoComplete="off"
+                  >
+                    <div className={styles.box_style}>
+                      <TextField
+                        required
+                        id="outlined-required"
+                        label="Название мероприятия"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                      />
+                      <TextField
+                        id="outlined-multiline-static"
+                        label="Описание"
+                        multiline
+                        rows={5}
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                      />
+                      <TextField
+                        id="outlined-required"
+                        label="Место проведения"
+                        value={place}
+                        onChange={(e) => setPlace(e.target.value)}
+                      />
+                    </div>
+                    <div className={styles.column_modal}>
+                      <TextField
+                        id="outlined-select-currency"
+                        select
+                        label="Сложность"
+                        fullWidth
+                        value={difficult}
+                        onChange={(e) => setDifficult(e.target.value)}
+                      >
+                        {difficults.map((value) => (
+                          <MenuItem key={value.value} value={value.value}>
+                            {value.value}
+                          </MenuItem>
+                        ))}
+                      </TextField>
+                      <TextField
+                        id="outlined-select-currency"
+                        select
+                        label="Часовой пояс"
+                        fullWidth
+                        value={timezone}
+                        onChange={(e) => setTimezone(e.target.value)}
+                      >
+                        {TIMEZONES.map((value) => (
+                          <MenuItem key={value.offset} value={value.name}>
+                            {value.offset + " " + value.name}
+                          </MenuItem>
+                        ))}
+                      </TextField>
+                    </div>
+                    <div>
+                      <LocalizationProvider
+                        dateAdapter={AdapterMoment}
+                        adapterLocale="en-gb"
+                      >
+                        <div className={styles.column_modal}>
+                          <DesktopDateTimePicker
+                            ampm={false}
+                            label={"Начало мероприятия"}
+                            value={startTime}
+                            onChange={(newValue) => setStartTime(newValue)}
+                          />
+                          <DesktopDateTimePicker
+                            ampm={false}
+                            label={"Конец мероприятия"}
+                            value={endTime}
+                            onChange={(newValue) => setEndTime(newValue)}
+                          />
+                        </div>
+                      </LocalizationProvider>
+                    </div>
+                  </Box>
+                </ModalCED>
+              </CustomTableToolbar>
+            ),
+          }}
           slotProps={{
             toolbar: { setEvents, setRowModesModel },
           }}
         />
       </div>
-    </WrapperWithActions>
+    </div>
   );
 }
