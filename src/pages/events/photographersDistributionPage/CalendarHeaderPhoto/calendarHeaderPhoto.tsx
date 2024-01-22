@@ -48,7 +48,7 @@ export default function CalendarHeaderPhoto({ props }: any) {
             <IconButton
               aria-label="delete"
               onClick={() => handleBackDate()}
-              disabled={whichDay === 1}
+              // disabled={whichDay === 1}
             >
               <ArrowBackIosNewIcon />
             </IconButton>
@@ -58,10 +58,10 @@ export default function CalendarHeaderPhoto({ props }: any) {
             <IconButton
               aria-label="delete"
               onClick={() => handleForwardDate()}
-              /*disabled={
-                new Date(props.curDate?.toISOString()).toLocaleDateString() ===
-                new Date(props.events.endTime).toLocaleDateString()
-              }*/
+              // disabled={
+              //   new Date(props.curDate?.toISOString()).toLocaleDateString() ===
+              //   new Date(props.events.endTime).toLocaleDateString()
+              // }
             >
               <ArrowForwardIosIcon />
             </IconButton>
