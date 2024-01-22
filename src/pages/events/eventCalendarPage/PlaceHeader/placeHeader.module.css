@@ -31,6 +31,10 @@
 
 .place {
     height: 25px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
 }
 
 .modal {
