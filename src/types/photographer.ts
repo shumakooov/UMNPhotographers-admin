@@ -54,7 +54,7 @@ export type Evaluation = {
 export type EvaluationRow = {
   id: number;
   photographer: string;
-  zone: number;
+  zone: number | null | string;
   quality: number;
   punctuality: number;
   judgment: number;

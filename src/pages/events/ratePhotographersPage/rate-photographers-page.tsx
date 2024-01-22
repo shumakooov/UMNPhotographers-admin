@@ -64,7 +64,7 @@ export default function RatePhotographersPage() {
           const newValue: EvaluationRow[] = res.map((item: Evaluation) => ({
             id: item.id,
             photographer: `${item.photographer.surname} ${item.photographer.firstname} ${item.photographer.middleName}`,
-            zone: item.zone.number,
+            zone: item.zone?.number === null ? "-" : item.zone?.number,
             quality: item.quality,
             punctuality: item.punctuality,
             judgment: item.judgment,
