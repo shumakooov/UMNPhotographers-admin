@@ -210,7 +210,7 @@ export default function PlaceGridPhoto({ props }: any) {
                 dropHandler(e, index);
               }}
               onDragOver={dragOverHandler}
-              onClick={(e) => props.handleOpenModal(e, props.locationId)}
+              // onClick={(e) => props.handleOpenModal(e, props.locationId)}
             ></div>
           );
         })}
@@ -233,9 +233,9 @@ export default function PlaceGridPhoto({ props }: any) {
             const EVENT_TOP =
               startTime.hours() * HALF_HOUR_HEIGHT * 2 +
               HOUR_MARGIN_TOP +
-              startTime.minutes();
+              startTime.minutes() * 2;
             const EVENT_HEIGHT =
-              duration.hours() * HALF_HOUR_HEIGHT * 2 + duration.minutes();
+              duration.hours() * HALF_HOUR_HEIGHT * 2 + duration.minutes() * 2;
 
             return (
               <>

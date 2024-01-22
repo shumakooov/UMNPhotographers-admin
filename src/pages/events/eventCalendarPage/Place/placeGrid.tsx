@@ -159,7 +159,7 @@ export default function PlaceGrid({ props }: any) {
           Number(height.replace(/\D/g, "")) / (HALF_HOUR_HEIGHT * 2),
         minute:
           moment(act.startTime).minutes() +
-          (Number(height.replace(/\D/g, "")) % (HALF_HOUR_HEIGHT * 2)),
+          ((Number(height.replace(/\D/g, "")) % (HALF_HOUR_HEIGHT * 2)) % 60),
       })
       .diff(moment(act.startTime));
 
